@@ -22,12 +22,18 @@ class Crossword extends React.Component {
 
     this.clickHandler = this.clickHandler.bind(this);
     this.keyDownHandler = this.keyDownHandler.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
-  fillCell({ cells, row, column, index, number, id, direction }) {
+  reset() {
+    localStorage.removeItem('kryzz');
+    window.location.reload();
+  }
+
+  fillCell({ cells, row, column, index, number, id, direction, text }) {
     cells[row][column] = {
       ...cells[row][column],
-      text: '',
+      text: text,
       number: index === 0 ? number : cells[row][column] && cells[row][column].number,
       [direction]: id,
     };
@@ -37,13 +43,15 @@ class Crossword extends React.Component {
 
     const cells = this.state.cells;
 
+    const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
+
     entries.forEach(({id, direction, position, length, number, separatorLocations}) => {
       if (direction === 'across') {
         const row = position.y;
-        Array(length).fill().map((_, i) => position.x + i).map((column, index) => this.fillCell({cells, row, column, index, number, id, direction}));
+        Array(length).fill().map((_, i) => position.x + i).map((column, index) => this.fillCell({cells, row, column, index, number, id, direction, text: data && data[row][column]}));
       } else {
         const column = position.x;
-        Array(length).fill().map((_, i) => position.y + i).map((row, index) => this.fillCell({cells, row, column, index, number, id, direction}));
+        Array(length).fill().map((_, i) => position.y + i).map((row, index) => this.fillCell({cells, row, column, index, number, id, direction, text: data && data[row][column]}));
       }
       Object.entries(separatorLocations).forEach(([separator, locations]) => {
         if (locations && locations.length) {
@@ -224,6 +232,9 @@ class Crossword extends React.Component {
       this.moveToNext();
     }
 
+    const entries = this.state.cells.map(row => row.map((cell, column) => cell && cell.text));
+    localStorage.setItem('kryzz', JSON.stringify(entries));
+
   }
 
   moveToPrevious() {
@@ -303,6 +314,7 @@ class Crossword extends React.Component {
             </div>
           </div>
         </div>
+        <button onClick={this.reset}>Reset</button>
       </div>
     );
   }

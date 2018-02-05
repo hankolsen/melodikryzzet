@@ -399,7 +399,7 @@ const entries = [
     length: 2,
     group: ['25-down'],
     position: {
-      x: 9,
+      x: 10,
       y: 8
     },
     separatorLocations: {
