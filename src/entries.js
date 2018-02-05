@@ -94,7 +94,7 @@ const entries = [
       y: 4
     },
     separatorLocations: {
-      ',': []
+      'arrowDown': [2]
     }
   },
   {
@@ -108,7 +108,7 @@ const entries = [
       y: 4
     },
     separatorLocations: {
-      ',': []
+      'arrowDown': [5]
     }
   },
   {
@@ -263,7 +263,7 @@ const entries = [
       y: 0
     },
     separatorLocations: {
-      ',': []
+      'arrowRight': [8]
     }
   },
   {
@@ -333,7 +333,7 @@ const entries = [
       y: 4
     },
     separatorLocations: {
-      ',': []
+      'arrowRight': [2]
     }
   },
   {
@@ -389,7 +389,7 @@ const entries = [
       y: 7
     },
     separatorLocations: {
-      ',': []
+      'arrowRight': [3]
     }
   },
   {

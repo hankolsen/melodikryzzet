@@ -45,9 +45,11 @@ class Crossword extends React.Component {
         const column = position.x;
         Array(length).fill().map((_, i) => position.y + i).map((row, index) => this.fillCell({cells, row, column, index, number, id, direction}));
       }
-      if (separatorLocations[','].length) {
-        this.separators.push({ direction, position, separatorLocations});
-      }
+      Object.entries(separatorLocations).forEach(([separator, locations]) => {
+        if (locations && locations.length) {
+          this.separators.push({ direction, position, separator, locations, id })
+        }
+      })
     });
 
     ['click', 'touchstart'].forEach(eventListener => {
@@ -276,13 +278,19 @@ class Crossword extends React.Component {
                         clickHandler={this.clickHandler}
                       />))
               }
-              { this.separators.map(({ direction, position, separatorLocations }) =>
-                <Separator key={`${position}-${direction}`}
+              { this.separators.map(({ direction, position, separator, locations, id }) =>
+                <Separator key={`${id}-${separator}`}
                   direction= {direction}
                   position={position}
-                  separatorLocations={separatorLocations}
+                  separator={separator}
+                  locations={locations}
                   cellWidth={this.cellWidth} />
                 )}
+                <defs>
+                  <marker id="arrow" markerWidth="6" markerHeight="8" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,4 L7,2 z" fill="#000" />
+                  </marker>
+                </defs>
             </svg>
             <div className="crossword__hidden-input-wrapper" style={{width: 100/this.boardWidth + '%', height: 100/this.boardWidth + '%', top: this.state.top + '%', left: this.state.left + '%'}}>
               <input

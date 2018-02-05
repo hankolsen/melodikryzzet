@@ -1,23 +1,22 @@
 import React from 'react';
+import Line from './Line';
+import ArrowRight from './ArrowRight';
+import ArrowDown from './ArrowDown';
 
 const Separator = (props) => {
-  const { cellWidth, direction, position, separatorLocations } = props;
-  let [x1, x2, y1, y2] = [0, 0, cellWidth / 2, cellWidth / 2];
-  let width = 11;
-  let height = 4;
-  if (direction === 'across') {
-    x1 = position.x + separatorLocations[','][0] * cellWidth;
-    x2 = x1 + width;
-    y2 = y1;
-  } else {
-    x1 = cellWidth / 2 + 1;
-    x2 = x1;
-    y1 = position.y - 1 + separatorLocations[','][0] *cellWidth;
-    y2 = y1 + width;
+  const { cellWidth, direction, position, separator, locations } = props;
+
+  switch (separator) {
+    case ',':
+      return <Line position={position} locations={locations} cellWidth={cellWidth} direction={direction} />;
+    case 'arrowRight':
+      return <ArrowRight position={position} locations={locations} cellWidth={cellWidth} />
+    case 'arrowDown':
+      return <ArrowDown position={position} locations={locations} cellWidth={cellWidth} />
+    default:
+      return null;
   }
-  return (
-    <line x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth={height} stroke="black" />
-  )
+
 }
 
 export default Separator
