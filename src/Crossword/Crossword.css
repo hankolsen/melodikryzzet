@@ -1,13 +1,39 @@
 
+.forceFont {
+  font-family: 'Indie Flower', cursive;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+}
+.crossword {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  margin: 0 auto;
+  margin-top: 0.75rem;
+}
 
 .crossword-container {
   display: flex;
   justify-content: center;
+  padding-top: 3.25rem;
+  padding-bottom: 3.25rem;
 }
 
 .crossword-board {
-  width: 30.0625rem;
-  height: 30.0625rem;
+  width: 100%;
+  position: relative;
+}
+
+@media (min-width: 46.25em) {
+  .crossword-board {
+      width: 30.0625rem;
+  }
+}
+
+.crossword__grid {
+  display: block;
 }
 
 .crossword__cell {
@@ -23,11 +49,12 @@
 }
 
 .crossword__cell-number, .crossword__cell-text {
-  fill: #000000;
-  font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+  fill: #222222;
 }
 .crossword__cell-text {
-  font-size: 1.03125rem;
+  font-size: 1.5rem;
+  font-family: 'Indie Flower', cursive;
+  font-weight: bold;
   display: inline-block;
   opacity: 1;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -36,7 +63,26 @@
 }
 
 .crossword__cell-number {
+  font-family: "Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
   font-size: 0.625rem;
   user-select: none;
   cursor: pointer;
+}
+
+.crossword__hidden-input-wrapper {
+  position: absolute;
+}
+
+.crossword__hidden-input {
+  border: 0;
+  padding: 0;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: transparent;
+  font-size: 1.5rem;
+  font-family: Georgia,serif;
+  font-weight: 800;
+  text-anchor: middle;
 }

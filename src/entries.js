@@ -234,7 +234,8 @@ const entries = [
       y: 0
     },
     separatorLocations: {
-      ',': []
+      ',': [],
+      'arrowRight': [3]
     }
   },
   {
