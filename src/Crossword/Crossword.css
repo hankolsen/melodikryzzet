@@ -1,0 +1,42 @@
+
+
+.crossword-container {
+  display: flex;
+  justify-content: center;
+}
+
+.crossword-board {
+  width: 30.0625rem;
+  height: 30.0625rem;
+}
+
+.crossword__cell {
+  cursor: pointer;
+  fill: #ffffff;
+}
+
+.crossword__cell.crossword__cell--highlighted {
+  fill: #4bc6df;
+}
+.crossword__cell.crossword__cell--selected {
+  fill:#cdeff6;
+}
+
+.crossword__cell-number, .crossword__cell-text {
+  fill: #000000;
+  font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+}
+.crossword__cell-text {
+  font-size: 1.03125rem;
+  display: inline-block;
+  opacity: 1;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-transition: opacity .15s ease-in;
+  transition: opacity .15s ease-in;
+}
+
+.crossword__cell-number {
+  font-size: 0.625rem;
+  user-select: none;
+  cursor: pointer;
+}
