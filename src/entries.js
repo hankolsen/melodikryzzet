@@ -101,7 +101,7 @@ const entries = [
     id: '15-across',
     number: 15,
     direction: 'across',
-    length: 8,
+    length: 7,
     group: ['15-across'],
     position: {
       x: 6,
