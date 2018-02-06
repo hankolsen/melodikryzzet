@@ -1,9 +1,10 @@
 import React from 'react';
 import './Crossword.css';
-import Cell from '../Cell/Cell.js';
-import Separator from '../Separator/Separator.js';
 import crosswordData from '../crossword-data';
 import { CELL_HEIGHT, CELL_WIDTH } from '../config';
+import Separators from '../Separators/Separators';
+import Cells from '../Cells/Cells';
+import CellInput from '../Cells/CellInput';
 
 class Crossword extends React.Component {
   constructor(props) {
@@ -21,6 +22,8 @@ class Crossword extends React.Component {
 
     this.clickHandler = this.clickHandler.bind(this);
     this.keyDownHandler = this.keyDownHandler.bind(this);
+    this.keyUpHandler = this.keyUpHandler.bind(this);
+    this.inputClickHandler = this.inputClickHandler.bind(this);
   }
 
   static reset() {
@@ -58,16 +61,14 @@ class Crossword extends React.Component {
       })
     });
 
-    ['click', 'touchstart'].forEach(eventListener => {
-      this.cellInput.addEventListener(eventListener, () => {
-        let { direction, currentCell } = this.state;
-        direction = this.toggleDirection(direction);
-        direction = this.highlightCurrentSelection({ direction, currentCell });
-        this.setState({ direction });
-      });
-    });
-
     this.setState({ cells });
+  }
+
+  inputClickHandler() {
+    let { direction, currentCell } = this.state;
+    direction = this.toggleDirection(direction);
+    direction = this.highlightCurrentSelection({ direction, currentCell });
+    this.setState({ direction });
   }
 
   highlightCurrentSelection({ direction, currentCell }) {
@@ -263,6 +264,9 @@ class Crossword extends React.Component {
 
     const rectWidth = CELL_WIDTH * this.boardWidth + this.boardWidth + 1;
     const rectHeight = CELL_HEIGHT * this.boardHeight + this.boardHeight + 1;
+    const inputWidth = `${100 / this.boardWidth}%`;
+    const inputHeight = `${100 / this.boardWidth}%`;
+    const { top, left } = this.state;
 
     return (
       <div className="crossword">
@@ -270,42 +274,15 @@ class Crossword extends React.Component {
           <div className="crossword-board">
             <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`}>
               <rect x="0" y="0" width={rectWidth} height={rectHeight} className="crossword__grid-background" />
-              { this.state.cells
-                  .map((row, y) => row
-                    .map((cell, x) => cell &&
-                      <Cell
-                        key={`${y + 1}-${x + 1}`}
-                        row={y}
-                        column={x}
-                        number={cell.number}
-                        letter={cell.text}
-                        highlighted={cell.highlighted}
-                        selected={cell.selected}
-                        clickHandler={this.clickHandler}
-                      />))
-              }
-              { this.separators.map(({ direction, position, separator, locations, id }) =>
-                <Separator key={`${id}-${separator}`}
-                  direction= {direction}
-                  position={position}
-                  separator={separator}
-                  locations={locations} />
-                )}
-                <defs>
-                  <marker id="arrow" markerWidth="6" markerHeight="8" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
-                    <path d="M0,0 L0,4 L7,2 z" fill="#000" />
-                  </marker>
-                </defs>
+              <Cells cells={this.state.cells} clickHandler={this.clickHandler}/>
+              <Separators separators={this.separators}/>
             </svg>
-            <div className="crossword__hidden-input-wrapper" style={{width: 100/this.boardWidth + '%', height: 100/this.boardWidth + '%', top: this.state.top + '%', left: this.state.left + '%'}}>
-              <input
-                type="text" maxLength="1" value="" autoComplete="off" spellCheck="false" autoCorrect="off"
-                className="crossword__hidden-input"
-                onKeyDown={(e) => this.keyDownHandler(e)}
-                onKeyUp={(e) => this.keyUpHandler(e)}
-                ref={(input) => { this.cellInput = input; }}
-              />
-            </div>
+            <CellInput
+              top={top} left={left} width={inputWidth} height={inputHeight}
+              keyDownHandler={this.keyDownHandler}
+              keyUpHandler={this.keyUpHandler}
+              clickHandler={this.inputClickHandler}
+              ref={(input) => { this.cellInput = input; }} />
           </div>
         </div>
         <button onClick={Crossword.reset}>Reset</button>
