@@ -2,15 +2,14 @@ import React from 'react';
 import './Crossword.css';
 import Cell from '../Cell/Cell.js';
 import Separator from '../Separator/Separator.js';
-import entries from '../entries';
+import crosswordData from '../crossword-data';
+import { CELL_HEIGHT, CELL_WIDTH } from '../config';
 
 class Crossword extends React.Component {
   constructor(props) {
     super(props);
-    this.cellWidth = 31;
-    this.cellHeight = 31;
-    this.boardWidth = 11;
-    this.boardHeight = 10;
+    this.boardWidth = crosswordData.size.width;
+    this.boardHeight = crosswordData.size.height;
     this.separators = [];
 
     this.state = {
@@ -22,10 +21,9 @@ class Crossword extends React.Component {
 
     this.clickHandler = this.clickHandler.bind(this);
     this.keyDownHandler = this.keyDownHandler.bind(this);
-    this.reset = this.reset.bind(this);
   }
 
-  reset() {
+  static reset() {
     localStorage.removeItem('kryzz');
     window.location.reload();
   }
@@ -45,7 +43,7 @@ class Crossword extends React.Component {
 
     const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
 
-    entries.forEach(({id, direction, position, length, number, separatorLocations}) => {
+    crosswordData.entries.forEach(({id, direction, position, length, number, separatorLocations}) => {
       if (direction === 'across') {
         const row = position.y;
         Array(length).fill().map((_, i) => position.x + i).map((column, index) => this.fillCell({cells, row, column, index, number, id, direction, text: data && data[row][column]}));
@@ -61,7 +59,7 @@ class Crossword extends React.Component {
     });
 
     ['click', 'touchstart'].forEach(eventListener => {
-      this.cellInput.addEventListener(eventListener, (e) => {
+      this.cellInput.addEventListener(eventListener, () => {
         let { direction, currentCell } = this.state;
         direction = this.toggleDirection(direction);
         direction = this.highlightCurrentSelection({ direction, currentCell });
@@ -120,7 +118,7 @@ class Crossword extends React.Component {
     const cells = Object.assign([], this.state.cells);
     const currentCell = cells[row][column];
     if (currentCell.number && !currentCell.highlighted) {
-      const regexp = new RegExp(new RegExp(`${currentCell.number}-`))
+      const regexp = new RegExp(new RegExp(`${currentCell.number}-`));
       const [across, down] = [currentCell.across, currentCell.down].map(dir => dir && dir.match(regexp)) || [];
       if (direction === 'down' && !down) {
         direction = 'across'
@@ -141,9 +139,8 @@ class Crossword extends React.Component {
   };
 
   getInputPosition(row, column) {
-    let { top, left } = this.state;
-    top = row / this.boardHeight * 100 - row / this.boardHeight / 10;
-    left = column / this.boardWidth * 100;
+    const top = row / this.boardHeight * 100 - row / this.boardHeight / 10;
+    const left = column / this.boardWidth * 100;
     return { left, top };
   }
 
@@ -264,8 +261,8 @@ class Crossword extends React.Component {
 
   render () {
 
-    const rectWidth = this.cellWidth * this.boardWidth + this.boardWidth + 1;
-    const rectHeight = this.cellHeight * this.boardHeight + this.boardHeight + 1;
+    const rectWidth = CELL_WIDTH * this.boardWidth + this.boardWidth + 1;
+    const rectHeight = CELL_HEIGHT * this.boardHeight + this.boardHeight + 1;
 
     return (
       <div className="crossword">
@@ -283,8 +280,6 @@ class Crossword extends React.Component {
                         number={cell.number}
                         letter={cell.text}
                         highlighted={cell.highlighted}
-                        width={this.cellWidth}
-                        height={this.cellHeight}
                         selected={cell.selected}
                         clickHandler={this.clickHandler}
                       />))
@@ -294,8 +289,7 @@ class Crossword extends React.Component {
                   direction= {direction}
                   position={position}
                   separator={separator}
-                  locations={locations}
-                  cellWidth={this.cellWidth} />
+                  locations={locations} />
                 )}
                 <defs>
                   <marker id="arrow" markerWidth="6" markerHeight="8" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -314,7 +308,7 @@ class Crossword extends React.Component {
             </div>
           </div>
         </div>
-        <button onClick={this.reset}>Reset</button>
+        <button onClick={Crossword.reset}>Reset</button>
       </div>
     );
   }

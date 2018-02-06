@@ -4,19 +4,19 @@ import ArrowRight from './ArrowRight';
 import ArrowDown from './ArrowDown';
 
 const Separator = (props) => {
-  const { cellWidth, direction, position, separator, locations } = props;
+  const { direction, position, separator, locations } = props;
 
   switch (separator) {
     case ',':
-      return <Line position={position} locations={locations} cellWidth={cellWidth} direction={direction} />;
+      return <Line position={position} locations={locations} direction={direction} />;
     case 'arrowRight':
-      return <ArrowRight position={position} locations={locations} cellWidth={cellWidth} />
+      return <ArrowRight position={position} locations={locations} />;
     case 'arrowDown':
-      return <ArrowDown position={position} locations={locations} cellWidth={cellWidth} />
+      return <ArrowDown position={position} locations={locations} />;
     default:
       return null;
   }
 
-}
+};
 
 export default Separator
