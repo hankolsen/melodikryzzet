@@ -1,16 +1,12 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import Crossword from './Crossword/Crossword';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Crossword />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div className="App">
+    <Crossword />
+  </div>
+);
+
 
 export default App;

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
 import './Crossword.css';
 import crosswordData from '../crossword-data';
@@ -7,15 +8,64 @@ import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
 
 class Crossword extends React.Component {
+
+
+  static dehighlightAll(cells) {
+    cells.forEach(row => row.forEach((cell) => {
+      if (cell) {
+        cell.highlighted = false;
+      }
+    }));
+  }
+
+  static deselectAll(cells) {
+    cells.forEach(row => row.forEach((cell) => {
+      if (cell) {
+        cell.selected = false;
+      }
+    }));
+  }
+
+  static fillCell({ cells, row, column, index, number, id, direction, text }) {
+    cells[row][column] = {
+      ...cells[row][column],
+      text,
+      number: index === 0 ? number : cells[row][column] && cells[row][column].number,
+      [direction]: id,
+    };
+  }
+
+
+  static isIgnorableKey(key) {
+    return key === 'Tab' || (!Crossword.isValidKey(key) && key !== 'Backspace');
+  }
+
+  static isValidKey(key) {
+    return key.match(/^[a-zåäö]{1}$/i);
+  }
+
+  static reset() {
+    localStorage.removeItem('kryzz');
+    window.location.reload();
+  }
+
+  static toggleDirection(direction) {
+    return direction === 'across' ? 'down' : 'across';
+  }
+
+
   constructor(props) {
     super(props);
     this.boardWidth = crosswordData.size.width;
     this.boardHeight = crosswordData.size.height;
     this.separators = [];
+    const cells = Array(this.boardHeight)
+      .fill()
+      .map(() => Array(this.boardWidth).fill());
 
     this.state = {
       direction: 'across',
-      cells: Array(this.boardHeight).fill().map(_ => Array(this.boardWidth).fill()),
+      cells,
       top: -100,
       left: -100,
     };
@@ -26,109 +76,63 @@ class Crossword extends React.Component {
     this.inputClickHandler = this.inputClickHandler.bind(this);
   }
 
-  static reset() {
-    localStorage.removeItem('kryzz');
-    window.location.reload();
-  }
-
-  fillCell({ cells, row, column, index, number, id, direction, text }) {
-    cells[row][column] = {
-      ...cells[row][column],
-      text: text,
-      number: index === 0 ? number : cells[row][column] && cells[row][column].number,
-      [direction]: id,
-    };
-  }
-
   componentDidMount() {
+    this.createBoard();
+  }
 
-    const cells = this.state.cells;
+
+  getInputPosition(row, column) {
+    const top = ((row / this.boardHeight) * 100) - (row / this.boardHeight / 10);
+    const left = (column / this.boardWidth) * 100;
+    return { left, top };
+  }
+
+  createBoard() {
+    const { cells } = this.state;
 
     const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
 
-    crosswordData.entries.forEach(({id, direction, position, length, number, separatorLocations}) => {
+    crosswordData.entries.forEach(({ id, direction, position, length, number, separatorLocations }) => {
       if (direction === 'across') {
         const row = position.y;
-        Array(length).fill().map((_, i) => position.x + i).map((column, index) => this.fillCell({cells, row, column, index, number, id, direction, text: data && data[row][column]}));
+        Array(length)
+          .fill()
+          .map((_, i) => position.x + i)
+          .map((column, index) =>
+            Crossword.fillCell({ cells, row, column, index, number, id, direction, text: data && data[row][column] }));
       } else {
         const column = position.x;
-        Array(length).fill().map((_, i) => position.y + i).map((row, index) => this.fillCell({cells, row, column, index, number, id, direction, text: data && data[row][column]}));
+        Array(length)
+          .fill()
+          .map((_, i) => position.y + i)
+          .map((row, index) =>
+            Crossword.fillCell({ cells, row, column, index, number, id, direction, text: data && data[row][column] }));
       }
       Object.entries(separatorLocations).forEach(([separator, locations]) => {
         if (locations && locations.length) {
-          this.separators.push({ direction, position, separator, locations, id })
+          this.separators.push({ direction, position, separator, locations, id });
         }
-      })
+      });
     });
 
     this.setState({ cells });
   }
 
-  inputClickHandler() {
-    let { direction, currentCell } = this.state;
-    direction = this.toggleDirection(direction);
-    direction = this.highlightCurrentSelection({ direction, currentCell });
-    this.setState({ direction });
-  }
-
-  highlightCurrentSelection({ direction, currentCell }) {
-    const { cells } = this.state;
-    let id = currentCell[direction];
-    this.cellInput.focus();
-    this.deselectAll(cells);
-    this.dehighlightAll(cells);
-    currentCell.selected = true;
-    if (!id) {
-      direction = this.toggleDirection(direction);
-      id = currentCell[direction];
-    }
-    if (id) {
-      if (direction === 'across') {
-        cells.map(row => row.filter(cell => cell && cell[direction] === id)).filter(arr => arr.length)[0].forEach(cell => {
-          cell.highlighted = true;
-        });
-      } else {
-          cells.map(row => row.filter(cell => cell && cell[direction] === id)).filter(arr => arr.length).forEach(arr => arr[0].highlighted = true);
-      }
-    }
-    return direction;
-  }
-
-  toggleDirection(direction) {
-    return direction === 'across' ? 'down': 'across';
-  }
-
-  deselectAll(cells) {
-    cells.forEach(row => row.forEach(cell => {
-      if (cell) {
-        cell.selected = false;
-      }
-    }));
-  }
-
-  dehighlightAll(cells) {
-    cells.forEach(row => row.forEach(cell => {
-      if (cell) {
-        cell.highlighted = false;
-      }
-    }));
-  }
-
   clickHandler(event, row, column) {
-    let direction = this.state.direction;
+    let { direction } = this.state;
     const cells = Object.assign([], this.state.cells);
     const currentCell = cells[row][column];
     if (currentCell.number && !currentCell.highlighted) {
       const regexp = new RegExp(new RegExp(`${currentCell.number}-`));
       const [across, down] = [currentCell.across, currentCell.down].map(dir => dir && dir.match(regexp)) || [];
       if (direction === 'down' && !down) {
-        direction = 'across'
+        direction = 'across';
       } else if (direction === 'across' && !across) {
         direction = 'down';
       }
     }
     if (currentCell.selected) {
-      direction = this.toggleDirection(direction);
+      direction = Crossword.toggleDirection(direction);
     }
     direction = this.highlightCurrentSelection({ direction, currentCell });
 
@@ -137,20 +141,43 @@ class Crossword extends React.Component {
     this.cellInput.focus();
 
     this.setState({ cells, direction, top, left, currentCell, row, column });
-  };
-
-  getInputPosition(row, column) {
-    const top = row / this.boardHeight * 100 - row / this.boardHeight / 10;
-    const left = column / this.boardWidth * 100;
-    return { left, top };
   }
 
-  isValidKey(key) {
-     return key.match(/^[a-zåäö]{1}$/i);
+  highlightCurrentSelection({ direction, currentCell }) {
+    const { cells } = this.state;
+    let id = currentCell[direction];
+    this.cellInput.focus();
+    Crossword.deselectAll(cells);
+    Crossword.dehighlightAll(cells);
+    currentCell.selected = true;
+    if (!id) {
+      direction = Crossword.toggleDirection(direction);
+      id = currentCell[direction];
+    }
+    if (id) {
+      if (direction === 'across') {
+        cells
+          .map(row => row.filter(cell => cell && cell[direction] === id))
+          .filter(arr => arr.length)[0].forEach((cell) => {
+            cell.highlighted = true;
+          });
+      } else {
+        cells
+          .map(row => row.filter(cell => cell && cell[direction] === id))
+          .filter(arr => arr.length).forEach((arr) => {
+            arr[0].highlighted = true;
+          });
+      }
+    }
+    return direction;
   }
 
-  isIgnorableKey(key) {
-     return key === 'Tab' || (!this.isValidKey(key) && key !== 'Backspace');
+  inputClickHandler() {
+    let { direction } = this.state;
+    const { currentCell } = this.state;
+    direction = Crossword.toggleDirection(direction);
+    direction = this.highlightCurrentSelection({ direction, currentCell });
+    this.setState({ direction });
   }
 
   keyUpHandler() {
@@ -190,15 +217,15 @@ class Crossword extends React.Component {
 
     if (arrow) {
       if (direction === 'across' && (arrow === 'Up' || arrow === 'Down')) {
-        direction = this.toggleDirection(direction);
+        direction = Crossword.toggleDirection(direction);
         direction = this.highlightCurrentSelection({ direction, currentCell });
-        this.setState({direction}, () => {
+        this.setState({ direction }, () => {
           this.handleArrowMove({ arrow, direction });
         });
       } else if (direction === 'down' && (arrow === 'Left' || arrow === 'Right')) {
-        direction = this.toggleDirection(direction);
+        direction = Crossword.toggleDirection(direction);
         direction = this.highlightCurrentSelection({ direction, currentCell });
-        this.setState({direction}, () => {
+        this.setState({ direction }, () => {
           this.handleArrowMove({ arrow, direction });
         });
       } else {
@@ -206,7 +233,7 @@ class Crossword extends React.Component {
       }
     }
 
-    if (this.isIgnorableKey(key)) {
+    if (Crossword.isIgnorableKey(key)) {
       event.preventDefault();
       return;
     }
@@ -220,17 +247,17 @@ class Crossword extends React.Component {
     if (key === 'Backspace') {
       if (currentCell.text) {
         currentCell.text = '';
-        this.setState({currentCell});
+        this.setState({ currentCell });
       } else {
         this.moveToPrevious();
       }
     } else {
       currentCell.text = event.key.toUpperCase();
-      this.setState({currentCell});
+      this.setState({ currentCell });
       this.moveToNext();
     }
 
-    const entries = this.state.cells.map(row => row.map((cell, column) => cell && cell.text));
+    const entries = this.state.cells.map(row => row.map(cell => cell && cell.text));
     localStorage.setItem('kryzz', JSON.stringify(entries));
 
   }
@@ -239,6 +266,7 @@ class Crossword extends React.Component {
     this.moveToNext(-1);
   }
 
+
   moveToNext(dir = 1) {
     const { direction, cells } = this.state;
     let { currentCell, row, column } = this.state;
@@ -246,24 +274,25 @@ class Crossword extends React.Component {
       column += dir;
     } else {
       row += dir;
-      row = Math.max(0, Math.min(row, this.boardHeight - 1))
+      row = Math.max(0, Math.min(row, this.boardHeight - 1));
     }
 
     currentCell = cells[row][column];
     if (currentCell) {
-      this.deselectAll(cells);
+      Crossword.deselectAll(cells);
       currentCell.selected = true;
       const { left, top } = this.getInputPosition(row, column);
-      this.setState({row, column, currentCell, cells, top, left});
+      this.setState({ row, column, currentCell, cells, top, left });
       this.cellInput.focus();
     }
 
   }
 
-  render () {
 
-    const rectWidth = CELL_WIDTH * this.boardWidth + this.boardWidth + 1;
-    const rectHeight = CELL_HEIGHT * this.boardHeight + this.boardHeight + 1;
+  render() {
+
+    const rectWidth = (CELL_WIDTH * this.boardWidth) + this.boardWidth + 1;
+    const rectHeight = (CELL_HEIGHT * this.boardHeight) + this.boardHeight + 1;
     const inputWidth = `${100 / this.boardWidth}%`;
     const inputHeight = `${100 / this.boardWidth}%`;
     const { top, left } = this.state;
@@ -274,15 +303,19 @@ class Crossword extends React.Component {
           <div className="crossword-board">
             <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`}>
               <rect x="0" y="0" width={rectWidth} height={rectHeight} className="crossword__grid-background" />
-              <Cells cells={this.state.cells} clickHandler={this.clickHandler}/>
-              <Separators separators={this.separators}/>
+              <Cells cells={this.state.cells} clickHandler={this.clickHandler} />
+              <Separators separators={this.separators} />
             </svg>
             <CellInput
-              top={top} left={left} width={inputWidth} height={inputHeight}
+              top={top}
+              left={left}
+              width={inputWidth}
+              height={inputHeight}
               keyDownHandler={this.keyDownHandler}
               keyUpHandler={this.keyUpHandler}
               clickHandler={this.inputClickHandler}
-              ref={(input) => { this.cellInput = input; }} />
+              ref={(input) => { this.cellInput = input; }}
+            />
           </div>
         </div>
         <button onClick={Crossword.reset}>Reset</button>

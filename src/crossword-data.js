@@ -1,3 +1,4 @@
+/* eslint-disable */
 const crosswordData = {
   size: {
     width: 11,
