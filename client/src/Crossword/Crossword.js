@@ -306,7 +306,7 @@ class Crossword extends React.Component {
       <div className="crossword">
         <div className="crossword-container">
           <div className={`crossword-board ${isLoading ? 'hidden' : ''}`}>
-            <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`}>
+            <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`} fill="#222222">
               <rect x="0" y="0" width={rectWidth} height={rectHeight} className="crossword__grid-background" />
               { cells && <Cells cells={cells} clickHandler={this.clickHandler} /> }
               <Separators separators={this.separators} />
