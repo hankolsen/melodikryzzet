@@ -85,8 +85,8 @@ class Crossword extends React.Component {
       .then(({ crosswordData }) => {
         this.boardWidth = crosswordData.size.width;
         this.boardHeight = crosswordData.size.height;
-        const cells = Array(this.boardHeight)
-          .fill()
+
+        const cells = Array(this.boardHeight).fill()
           .map(() => Array(this.boardWidth).fill());
 
         const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
