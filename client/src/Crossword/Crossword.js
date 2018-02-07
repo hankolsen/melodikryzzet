@@ -84,7 +84,7 @@ class Crossword extends React.Component {
 
   createBoard() {
 
-    fetch('/api/crossword')
+    fetch(process.env.REACT_APP_API_URL)
       .then(response => response.json())
       .then(({ crosswordData }) => {
         this.boardWidth = crosswordData.size.width;
