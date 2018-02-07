@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import './Crossword.css';
-import crosswordData from '../crossword-data';
 import { CELL_HEIGHT, CELL_WIDTH } from '../config';
 import Separators from '../Separators/Separators';
 import Cells from '../Cells/Cells';
@@ -56,16 +55,12 @@ class Crossword extends React.Component {
 
   constructor(props) {
     super(props);
-    this.boardWidth = crosswordData.size.width;
-    this.boardHeight = crosswordData.size.height;
+
     this.separators = [];
-    const cells = Array(this.boardHeight)
-      .fill()
-      .map(() => Array(this.boardWidth).fill());
 
     this.state = {
+      isLoading: true,
       direction: 'across',
-      cells,
       top: -100,
       left: -100,
     };
@@ -88,34 +83,44 @@ class Crossword extends React.Component {
   }
 
   createBoard() {
-    const { cells } = this.state;
 
-    const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
+    fetch('/api/crossword')
+      .then(response => response.json())
+      .then(({ crosswordData }) => {
+        this.boardWidth = crosswordData.size.width;
+        this.boardHeight = crosswordData.size.height;
+        const cells = Array(this.boardHeight)
+          .fill()
+          .map(() => Array(this.boardWidth).fill());
 
-    crosswordData.entries.forEach(({ id, direction, position, length, number, separatorLocations }) => {
-      if (direction === 'across') {
-        const row = position.y;
-        Array(length)
-          .fill()
-          .map((_, i) => position.x + i)
-          .map((column, index) =>
-            Crossword.fillCell({ cells, row, column, index, number, id, direction, text: data && data[row][column] }));
-      } else {
-        const column = position.x;
-        Array(length)
-          .fill()
-          .map((_, i) => position.y + i)
-          .map((row, index) =>
-            Crossword.fillCell({ cells, row, column, index, number, id, direction, text: data && data[row][column] }));
-      }
-      Object.entries(separatorLocations).forEach(([separator, locations]) => {
-        if (locations && locations.length) {
-          this.separators.push({ direction, position, separator, locations, id });
-        }
+        const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
+
+        crosswordData.entries.forEach(({ id, direction, position, length, number, separatorLocations }) => {
+          if (direction === 'across') {
+            const row = position.y;
+            Array(length)
+              .fill()
+              .map((_, i) => position.x + i)
+              .map((column, index) =>
+                Crossword.fillCell({ cells, row, column, index, number, id, direction, text: data && data[row][column] }));
+          } else {
+            const column = position.x;
+            Array(length)
+              .fill()
+              .map((_, i) => position.y + i)
+              .map((row, index) =>
+                Crossword.fillCell({ cells, row, column, index, number, id, direction, text: data && data[row][column] }));
+          }
+          Object.entries(separatorLocations).forEach(([separator, locations]) => {
+            if (locations && locations.length) {
+              this.separators.push({ direction, position, separator, locations, id });
+            }
+          });
+        });
+
+        const isLoading = false;
+        this.setState({ cells, isLoading });
       });
-    });
-
-    this.setState({ cells });
   }
 
   clickHandler(event, row, column) {
@@ -291,19 +296,19 @@ class Crossword extends React.Component {
 
   render() {
 
-    const rectWidth = (CELL_WIDTH * this.boardWidth) + this.boardWidth + 1;
-    const rectHeight = (CELL_HEIGHT * this.boardHeight) + this.boardHeight + 1;
+    const rectWidth = (CELL_WIDTH * this.boardWidth) + this.boardWidth + 1 || 0;
+    const rectHeight = (CELL_HEIGHT * this.boardHeight) + this.boardHeight + 1 || 0;
     const inputWidth = `${100 / this.boardWidth}%`;
     const inputHeight = `${100 / this.boardWidth}%`;
-    const { top, left } = this.state;
+    const { cells, top, left, isLoading } = this.state;
 
     return (
       <div className="crossword">
         <div className="crossword-container">
-          <div className="crossword-board">
+          <div className={`crossword-board ${isLoading ? 'hidden' : ''}`}>
             <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`}>
               <rect x="0" y="0" width={rectWidth} height={rectHeight} className="crossword__grid-background" />
-              <Cells cells={this.state.cells} clickHandler={this.clickHandler} />
+              { cells && <Cells cells={cells} clickHandler={this.clickHandler} /> }
               <Separators separators={this.separators} />
             </svg>
             <CellInput
@@ -317,8 +322,9 @@ class Crossword extends React.Component {
               ref={(input) => { this.cellInput = input; }}
             />
           </div>
+          <div className={`loading-message ${isLoading ? '' : 'hidden'}`}>Loading&hellip;</div>
         </div>
-        <button onClick={Crossword.reset}>Reset</button>
+        <button onClick={Crossword.reset} className={isLoading ? 'hidden' : ''}>Reset</button>
       </div>
     );
   }

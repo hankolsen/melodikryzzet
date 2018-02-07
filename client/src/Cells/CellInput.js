@@ -41,8 +41,8 @@ CellInput.propTypes = {
   keyDownHandler: PropTypes.func.isRequired,
   keyUpHandler: PropTypes.func.isRequired,
   left: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
   top: PropTypes.number.isRequired,
 };
 

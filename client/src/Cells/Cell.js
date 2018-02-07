@@ -18,14 +18,19 @@ Cell.defaultProps = {
   letter: '',
 };
 
+Cell.defaultProps = {
+  highlighted: false,
+  selected: false,
+};
+
 Cell.propTypes = {
   row: PropTypes.number.isRequired,
   column: PropTypes.number.isRequired,
-  number: PropTypes.string,
+  number: PropTypes.number,
   letter: PropTypes.string,
   clickHandler: PropTypes.func.isRequired,
-  highlighted: PropTypes.bool.isRequired,
-  selected: PropTypes.bool.isRequired,
+  highlighted: PropTypes.bool,
+  selected: PropTypes.bool,
 };
 
 export default Cell;
