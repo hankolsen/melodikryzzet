@@ -314,7 +314,7 @@ class Crossword extends React.Component {
     return (
       <div className="crossword">
         <div className="crossword-container">
-          <div className={`crossword-board ${isLoading ? 'hidden' : ''}`}>
+          <div className="crossword-board">
             <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`} fill="#222222">
               <rect x="0" y="0" width={rectWidth} height={rectHeight} className="crossword__grid-background" />
               { cells && <Cells cells={cells} clickHandler={this.clickHandler} /> }

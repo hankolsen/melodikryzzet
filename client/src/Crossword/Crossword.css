@@ -26,6 +26,8 @@
 
 .crossword-board {
   width: 100%;
+  /* Set a fixed height for the loading animation to stey fixed and not jump around in height */
+  height: 450px;
   position: relative;
   overflow: hidden;
 }
