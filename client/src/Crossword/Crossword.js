@@ -43,11 +43,6 @@ class Crossword extends React.Component {
     return key.match(/^[a-zåäö]{1}$/i);
   }
 
-  static reset() {
-    localStorage.removeItem('kryzz');
-    window.location.reload();
-  }
-
   static toggleDirection(direction) {
     return direction === 'across' ? 'down' : 'across';
   }
@@ -69,6 +64,7 @@ class Crossword extends React.Component {
     this.keyDownHandler = this.keyDownHandler.bind(this);
     this.keyUpHandler = this.keyUpHandler.bind(this);
     this.inputClickHandler = this.inputClickHandler.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   componentDidMount() {
@@ -89,8 +85,8 @@ class Crossword extends React.Component {
       .then(({ crosswordData }) => {
         this.boardWidth = crosswordData.size.width;
         this.boardHeight = crosswordData.size.height;
-        const cells = Array(this.boardHeight)
-          .fill()
+
+        const cells = Array(this.boardHeight).fill()
           .map(() => Array(this.boardWidth).fill());
 
         const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
@@ -118,9 +114,22 @@ class Crossword extends React.Component {
           });
         });
 
-        const isLoading = false;
-        this.setState({ cells, isLoading });
+        this.setState({ cells });
+
+        setTimeout(() => this.setState({ isLoading: false }), 400);
       });
+  }
+
+  reset() {
+    localStorage.removeItem('kryzz');
+    const { cells } = this.state;
+    cells.map(row =>
+      row.forEach((column) => {
+        if (column) {
+          column.text = '';
+        }
+      }));
+    this.setState({ cells });
   }
 
   clickHandler(event, row, column) {
@@ -306,7 +315,7 @@ class Crossword extends React.Component {
       <div className="crossword">
         <div className="crossword-container">
           <div className={`crossword-board ${isLoading ? 'hidden' : ''}`}>
-            <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`}>
+            <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`} fill="#222222">
               <rect x="0" y="0" width={rectWidth} height={rectHeight} className="crossword__grid-background" />
               { cells && <Cells cells={cells} clickHandler={this.clickHandler} /> }
               <Separators separators={this.separators} />
@@ -321,10 +330,12 @@ class Crossword extends React.Component {
               clickHandler={this.inputClickHandler}
               ref={(input) => { this.cellInput = input; }}
             />
+            <div className={`loading ${isLoading ? '' : 'hide'}`}>
+              <h1 className="loading-title">loading</h1>
+            </div>
           </div>
-          <div className={`loading-message ${isLoading ? '' : 'hidden'}`}>Loading&hellip;</div>
         </div>
-        <button onClick={Crossword.reset} className={isLoading ? 'hidden' : ''}>Reset</button>
+        <button onClick={this.reset} className={isLoading ? 'hidden' : ''}>Reset</button>
       </div>
     );
   }
