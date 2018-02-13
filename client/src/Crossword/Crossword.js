@@ -5,6 +5,7 @@ import { CELL_HEIGHT, CELL_WIDTH } from '../config';
 import Separators from '../Separators/Separators';
 import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
+import createCrossword from "./CrosswordCreator";
 
 class Crossword extends React.Component {
 
@@ -25,15 +26,6 @@ class Crossword extends React.Component {
     }));
   }
 
-  static fillCell({ cells, row, column, index, number, id, direction, text }) {
-    cells[row][column] = {
-      ...cells[row][column],
-      text,
-      number: index === 0 ? number : cells[row][column] && cells[row][column].number,
-      [direction]: id,
-    };
-  }
-
 
   static isIgnorableKey(key) {
     return key === 'Tab' || (!Crossword.isValidKey(key) && key !== 'Backspace');
@@ -52,6 +44,8 @@ class Crossword extends React.Component {
     super(props);
 
     this.separators = [];
+    this.boardWidth = 0;
+    this.boardHeight = 0;
 
     this.state = {
       isLoading: true,
@@ -68,7 +62,15 @@ class Crossword extends React.Component {
   }
 
   componentDidMount() {
-    this.createBoard();
+    createCrossword()
+      .then(({ cells, separators, boardWidth, boardHeight }) => {
+        this.separators = separators;
+        this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;
+        this.setState({cells});
+
+        setTimeout(() => this.setState({isLoading: false}), 400);
+      });
   }
 
 
@@ -77,48 +79,6 @@ class Crossword extends React.Component {
     const top = ((row * CELL_HEIGHT) + 2) / boardHeight * 100;
     const left = (column / this.boardWidth) * 100;
     return { left, top };
-  }
-
-  createBoard() {
-
-    fetch(process.env.REACT_APP_API_URL)
-      .then(response => response.json())
-      .then(({ crosswordData }) => {
-        this.boardWidth = crosswordData.size.width;
-        this.boardHeight = crosswordData.size.height;
-
-        const cells = Array(this.boardHeight).fill()
-          .map(() => Array(this.boardWidth).fill());
-
-        const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
-
-        crosswordData.entries.forEach(({ id, direction, position, length, number, separatorLocations }) => {
-          if (direction === 'across') {
-            const row = position.y;
-            Array(length)
-              .fill()
-              .map((_, i) => position.x + i)
-              .map((column, index) =>
-                Crossword.fillCell({ cells, row, column, index, number, id, direction, text: data && data[row][column] }));
-          } else {
-            const column = position.x;
-            Array(length)
-              .fill()
-              .map((_, i) => position.y + i)
-              .map((row, index) =>
-                Crossword.fillCell({ cells, row, column, index, number, id, direction, text: data && data[row][column] }));
-          }
-          Object.entries(separatorLocations).forEach(([separator, locations]) => {
-            if (locations && locations.length) {
-              this.separators.push({ direction, position, separator, locations, id });
-            }
-          });
-        });
-
-        this.setState({ cells });
-
-        setTimeout(() => this.setState({ isLoading: false }), 400);
-      });
   }
 
   reset() {
