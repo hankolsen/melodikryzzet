@@ -73,7 +73,8 @@ class Crossword extends React.Component {
 
 
   getInputPosition(row, column) {
-    const top = ((row / this.boardHeight) * 100) - (row / this.boardHeight / 10);
+    const boardHeight = this.getBoardDimensions().height;
+    const top = ((row * CELL_HEIGHT) + 2) / boardHeight * 100;
     const left = (column / this.boardWidth) * 100;
     return { left, top };
   }
@@ -302,11 +303,17 @@ class Crossword extends React.Component {
 
   }
 
+  getBoardDimensions() {
+    const width = (CELL_WIDTH * this.boardWidth) + this.boardWidth + 1 || 0;
+    const height = (CELL_HEIGHT * this.boardHeight) + this.boardHeight + 1 || 0;
+    return { width, height };
+  }
+
 
   render() {
 
-    const rectWidth = (CELL_WIDTH * this.boardWidth) + this.boardWidth + 1 || 0;
-    const rectHeight = (CELL_HEIGHT * this.boardHeight) + this.boardHeight + 1 || 0;
+    const rectWidth = this.getBoardDimensions().width;
+    const rectHeight = this.getBoardDimensions().height;
     const inputWidth = `${100 / this.boardWidth}%`;
     const inputHeight = `${100 / this.boardWidth}%`;
     const { cells, top, left, isLoading } = this.state;
