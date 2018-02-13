@@ -1,5 +1,25 @@
 import {CELL_HEIGHT, CELL_WIDTH} from "../config";
 
+let boardHeight;
+let boardWidth;
+let numberOfColumns;
+
+const dehighlightAll = (cells) => {
+  cells.forEach(row => row.forEach((cell) => {
+    if (cell) {
+      cell.highlighted = false;
+    }
+  }));
+};
+
+const deselectAll = (cells) => {
+  cells.forEach(row => row.forEach((cell) => {
+    if (cell) {
+      cell.selected = false;
+    }
+  }));
+};
+
 const fillCell = ({cells, row, column, index, number, id, direction, text}) => {
   cells[row][column] = {
     ...cells[row][column],
@@ -13,7 +33,7 @@ const createCrossword = () => new Promise((resolve, reject) =>
   fetch(process.env.REACT_APP_API_URL)
     .then(response => response.json())
     .then(({crosswordData}) => {
-      const numberOfColumns = crosswordData.size.width;
+      numberOfColumns = crosswordData.size.width;
       const numberOfRows = crosswordData.size.height;
       let separators = [];
 
@@ -45,10 +65,48 @@ const createCrossword = () => new Promise((resolve, reject) =>
         });
       });
 
-      const boardWidth  = (CELL_WIDTH * numberOfColumns) + numberOfColumns + 1 || 0;
-      const boardHeight = (CELL_HEIGHT * numberOfRows) + numberOfRows + 1 || 0;
+      boardWidth  = (CELL_WIDTH * numberOfColumns) + numberOfColumns + 1 || 0;
+      boardHeight = (CELL_HEIGHT * numberOfRows) + numberOfRows + 1 || 0;
       resolve({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight });
   })
 );
 
-export default createCrossword;
+const getInputPosition = ({ row, column }) => {
+  const top = ((row * CELL_HEIGHT) + 2) / boardHeight * 100;
+  const left = (column / numberOfColumns) * 100;
+  return { left, top };
+};
+
+const highlightCurrentSelection = ({ cells, cellInput, direction, currentCell }) => {
+  let id = currentCell[direction];
+  cellInput.focus();
+  deselectAll(cells);
+  dehighlightAll(cells);
+  currentCell.selected = true;
+  if (!id) {
+    direction = toggleDirection(direction);
+    id = currentCell[direction];
+  }
+  if (id) {
+    if (direction === 'across') {
+      cells
+        .map(row => row.filter(cell => cell && cell[direction] === id))
+        .filter(arr => arr.length)[0].forEach((cell) => {
+        cell.highlighted = true;
+      });
+    } else {
+      cells
+        .map(row => row.filter(cell => cell && cell[direction] === id))
+        .filter(arr => arr.length).forEach((arr) => {
+        arr[0].highlighted = true;
+      });
+    }
+  }
+  return direction;
+};
+
+const toggleDirection = (direction) => {
+  return direction === 'across' ? 'down' : 'across';
+};
+
+export { createCrossword, deselectAll, getInputPosition, highlightCurrentSelection, toggleDirection };
