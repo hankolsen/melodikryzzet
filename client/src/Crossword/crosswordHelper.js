@@ -65,9 +65,11 @@ const createCrossword = () => new Promise((resolve, reject) =>
         });
       });
 
+      const inputWidth = 100 / numberOfColumns;
+      const inputHeight = 100 / numberOfRows;
       boardWidth  = (CELL_WIDTH * numberOfColumns) + numberOfColumns + 1 || 0;
       boardHeight = (CELL_HEIGHT * numberOfRows) + numberOfRows + 1 || 0;
-      resolve({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight });
+      resolve({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
   })
 );
 

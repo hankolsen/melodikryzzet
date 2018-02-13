@@ -23,8 +23,8 @@ class Crossword extends React.Component {
     this.separators = [];
     this.numberOfColumns = 0;
     this.numberOfRows = 0;
-    this.inputWidth = '0%';
-    this.inputHeight = '0%';
+    this.inputWidth = 0;
+    this.inputHeight = 0;
     this.boardWidth = 0;
     this.boardHeight = 0;
 
@@ -44,11 +44,9 @@ class Crossword extends React.Component {
 
   componentDidMount() {
     createCrossword()
-      .then(({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight }) => {
+      .then(({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight }) => {
 
-        Object.assign(this, { separators, numberOfColumns, numberOfRows, boardWidth, boardHeight });
-        this.inputWidth = `${100 / numberOfColumns}%`;
-        this.inputHeight = `${100 / numberOfRows}%`;
+        Object.assign(this, { separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
 
         this.setState({cells});
         setTimeout(() => this.setState({isLoading: false}), 400);
