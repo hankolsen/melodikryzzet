@@ -1,3 +1,5 @@
+import {CELL_HEIGHT, CELL_WIDTH} from "../config";
+
 const fillCell = ({cells, row, column, index, number, id, direction, text}) => {
   cells[row][column] = {
     ...cells[row][column],
@@ -11,12 +13,12 @@ const createCrossword = () => new Promise((resolve, reject) =>
   fetch(process.env.REACT_APP_API_URL)
     .then(response => response.json())
     .then(({crosswordData}) => {
-      const boardWidth = crosswordData.size.width;
-      const boardHeight = crosswordData.size.height;
+      const numberOfColumns = crosswordData.size.width;
+      const numberOfRows = crosswordData.size.height;
       let separators = [];
 
-      const cells = Array(boardHeight).fill()
-        .map(() => Array(boardWidth).fill());
+      const cells = Array(numberOfRows).fill()
+        .map(() => Array(numberOfColumns).fill());
 
       const data = JSON.parse(localStorage.getItem('kryzz') || 'null');
 
@@ -43,7 +45,9 @@ const createCrossword = () => new Promise((resolve, reject) =>
         });
       });
 
-      resolve({ cells, separators, boardWidth, boardHeight });
+      const boardWidth  = (CELL_WIDTH * numberOfColumns) + numberOfColumns + 1 || 0;
+      const boardHeight = (CELL_HEIGHT * numberOfRows) + numberOfRows + 1 || 0;
+      resolve({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight });
   })
 );
 

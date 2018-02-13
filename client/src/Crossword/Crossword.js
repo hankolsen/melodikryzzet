@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import './Crossword.css';
-import { CELL_HEIGHT, CELL_WIDTH } from '../config';
+import { CELL_HEIGHT } from '../config';
 import Separators from '../Separators/Separators';
 import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
@@ -26,7 +26,6 @@ class Crossword extends React.Component {
     }));
   }
 
-
   static isIgnorableKey(key) {
     return key === 'Tab' || (!Crossword.isValidKey(key) && key !== 'Backspace');
   }
@@ -44,6 +43,10 @@ class Crossword extends React.Component {
     super(props);
 
     this.separators = [];
+    this.numberOfColumns = 0;
+    this.numberOfRows = 0;
+    this.inputWidth = '0%';
+    this.inputHeight = '0%';
     this.boardWidth = 0;
     this.boardHeight = 0;
 
@@ -63,10 +66,10 @@ class Crossword extends React.Component {
 
   componentDidMount() {
     createCrossword()
-      .then(({ cells, separators, boardWidth, boardHeight }) => {
-        this.separators = separators;
-        this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;
+      .then(({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight }) => {
+        Object.assign(this, { separators, numberOfColumns, numberOfRows, boardWidth, boardHeight });
+        this.inputWidth = `${100 / numberOfColumns}%`;
+        this.inputHeight = `${100 / numberOfRows}%`;
         this.setState({cells});
 
         setTimeout(() => this.setState({isLoading: false}), 400);
@@ -75,9 +78,8 @@ class Crossword extends React.Component {
 
 
   getInputPosition(row, column) {
-    const boardHeight = this.getBoardDimensions().height;
-    const top = ((row * CELL_HEIGHT) + 2) / boardHeight * 100;
-    const left = (column / this.boardWidth) * 100;
+    const top = ((row * CELL_HEIGHT) + 2) / this.boardHeight * 100;
+    const left = (column / this.numberOfColumns) * 100;
     return { left, top };
   }
 
@@ -249,7 +251,7 @@ class Crossword extends React.Component {
       column += dir;
     } else {
       row += dir;
-      row = Math.max(0, Math.min(row, this.boardHeight - 1));
+      row = Math.max(0, Math.min(row, this.numberOfRows - 1));
     }
 
     currentCell = cells[row][column];
@@ -263,35 +265,24 @@ class Crossword extends React.Component {
 
   }
 
-  getBoardDimensions() {
-    const width = (CELL_WIDTH * this.boardWidth) + this.boardWidth + 1 || 0;
-    const height = (CELL_HEIGHT * this.boardHeight) + this.boardHeight + 1 || 0;
-    return { width, height };
-  }
-
-
   render() {
 
-    const rectWidth = this.getBoardDimensions().width;
-    const rectHeight = this.getBoardDimensions().height;
-    const inputWidth = `${100 / this.boardWidth}%`;
-    const inputHeight = `${100 / this.boardWidth}%`;
     const { cells, top, left, isLoading } = this.state;
 
     return (
       <div className="crossword">
         <div className="crossword-container">
           <div className="crossword-board">
-            <svg className="crossword__grid" viewBox={`0 0 ${rectWidth} ${rectHeight}`} fill="#222222">
-              <rect x="0" y="0" width={rectWidth} height={rectHeight} className="crossword__grid-background" />
+            <svg className="crossword__grid" viewBox={`0 0 ${this.boardWidth} ${this.boardHeight}`} fill="#222222">
+              <rect x="0" y="0" width={this.boardWidth} height={this.boardHeight} className="crossword__grid-background" />
               { cells && <Cells cells={cells} clickHandler={this.clickHandler} /> }
               <Separators separators={this.separators} />
             </svg>
             <CellInput
               top={top}
               left={left}
-              width={inputWidth}
-              height={inputHeight}
+              width={this.inputWidth}
+              height={this.inputHeight}
               keyDownHandler={this.keyDownHandler}
               keyUpHandler={this.keyUpHandler}
               clickHandler={this.inputClickHandler}
