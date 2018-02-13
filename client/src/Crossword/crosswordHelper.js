@@ -20,6 +20,15 @@ const deselectAll = (cells) => {
   }));
 };
 
+const emptyAll = (cells) => {
+  cells.map(row =>
+    row.forEach((column) => {
+      if (column) {
+        column.text = '';
+      }
+    }));
+};
+
 const fillCell = ({cells, row, column, index, number, id, direction, text}) => {
   cells[row][column] = {
     ...cells[row][column],
@@ -79,6 +88,11 @@ const getInputPosition = ({ row, column }) => {
   return { left, top };
 };
 
+const isValidKey = key => key.match(/^[a-zåäö]{1}$/i) || key === 'Backspace';
+
+const isIgnorableKey = key => key === 'Tab' || !isValidKey(key);
+
+
 const highlightCurrentSelection = ({ cells, cellInput, direction, currentCell }) => {
   let id = currentCell[direction];
   cellInput.focus();
@@ -111,4 +125,4 @@ const toggleDirection = (direction) => {
   return direction === 'across' ? 'down' : 'across';
 };
 
-export { createCrossword, deselectAll, getInputPosition, highlightCurrentSelection, toggleDirection };
+export { createCrossword, deselectAll, emptyAll, getInputPosition, highlightCurrentSelection, isIgnorableKey, toggleDirection };

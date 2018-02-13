@@ -4,18 +4,9 @@ import './Crossword.css';
 import Separators from '../Separators/Separators';
 import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
-import { createCrossword, deselectAll, getInputPosition, highlightCurrentSelection, toggleDirection } from "./crosswordHelper";
+import { createCrossword, deselectAll, emptyAll, getInputPosition, highlightCurrentSelection, isIgnorableKey, toggleDirection } from "./crosswordHelper";
 
 class Crossword extends React.Component {
-
-  static isIgnorableKey(key) {
-    return key === 'Tab' || (!Crossword.isValidKey(key) && key !== 'Backspace');
-  }
-
-  static isValidKey(key) {
-    return key.match(/^[a-zåäö]{1}$/i);
-  }
-
 
   constructor(props) {
     super(props);
@@ -56,12 +47,7 @@ class Crossword extends React.Component {
   reset() {
     localStorage.removeItem('kryzz');
     const { cells } = this.state;
-    cells.map(row =>
-      row.forEach((column) => {
-        if (column) {
-          column.text = '';
-        }
-      }));
+    emptyAll(cells);
     this.setState({ cells });
   }
 
@@ -70,12 +56,10 @@ class Crossword extends React.Component {
     const cells = Object.assign([], this.state.cells);
     const currentCell = cells[row][column];
     if (currentCell.number && !currentCell.highlighted) {
-      const regexp = new RegExp(new RegExp(`${currentCell.number}-`));
+      const regexp = new RegExp(`${currentCell.number}-`);
       const [across, down] = [currentCell.across, currentCell.down].map(dir => dir && dir.match(regexp)) || [];
-      if (direction === 'down' && !down) {
-        direction = 'across';
-      } else if (direction === 'across' && !across) {
-        direction = 'down';
+      if ((direction === 'down' && !down) || (direction === 'across' && !across)) {
+        direction = toggleDirection(direction);
       }
     }
     if (currentCell.selected) {
@@ -111,20 +95,19 @@ class Crossword extends React.Component {
   }
 
   keyDownHandler(event) {
-    if (event.key === 'Shift') {
+    const { key } = event;
+
+    if (key === 'Shift' || event.metaKey) {
       return;
     }
+
     // Prevent auto repeat
     if (this.down) {
       return;
     }
+
     this.down = true;
 
-    const { key } = event;
-
-    if (event.metaKey) {
-      return;
-    }
 
     // Is it an arrow key?
     const [, arrow] = key.match(/Arrow(\w+)$/) || [];
@@ -133,13 +116,8 @@ class Crossword extends React.Component {
     const { cells, currentCell } = this.state;
 
     if (arrow) {
-      if (direction === 'across' && (arrow === 'Up' || arrow === 'Down')) {
-        direction = toggleDirection(direction);
-        direction = highlightCurrentSelection({ cells, direction, currentCell, cellInput: this.cellInput });
-        this.setState({ direction }, () => {
-          this.handleArrowMove({ arrow, direction });
-        });
-      } else if (direction === 'down' && (arrow === 'Left' || arrow === 'Right')) {
+      if ((direction === 'across' && (arrow === 'Up' || arrow === 'Down')) ||
+          (direction === 'down' && (arrow === 'Left' || arrow === 'Right'))) {
         direction = toggleDirection(direction);
         direction = highlightCurrentSelection({ cells, direction, currentCell, cellInput: this.cellInput });
         this.setState({ direction }, () => {
@@ -150,16 +128,10 @@ class Crossword extends React.Component {
       }
     }
 
-    if (Crossword.isIgnorableKey(key)) {
+    if (isIgnorableKey(key)) {
       event.preventDefault();
       return;
     }
-
-    // Ignore Shift key press, all non alfa characters, unless it is tab or backspace
-    if ((!key.match(/^[a-zåäö]{1}$/i) && key !== 'Tab' && key !== 'Backspace' && !arrow)) {
-      return;
-    }
-
 
     if (key === 'Backspace') {
       if (currentCell.text) {
@@ -169,7 +141,7 @@ class Crossword extends React.Component {
         this.moveToPrevious();
       }
     } else {
-      currentCell.text = event.key.toUpperCase();
+      currentCell.text = key.toUpperCase();
       this.setState({ currentCell });
       this.moveToNext();
     }
@@ -189,6 +161,7 @@ class Crossword extends React.Component {
     let { currentCell, row, column } = this.state;
     if (direction === 'across') {
       column += dir;
+      column = Math.max(0, Math.min(column, this.numberOfColumns - 1));
     } else {
       row += dir;
       row = Math.max(0, Math.min(row, this.numberOfRows - 1));
