@@ -22,8 +22,8 @@ class Crossword extends React.Component {
     this.state = {
       isLoading: true,
       direction: 'across',
-      top: -100,
-      left: -100,
+      top: 0,
+      left: 0,
     };
 
     this.clickHandler = this.clickHandler.bind(this);
@@ -67,16 +67,16 @@ class Crossword extends React.Component {
     }
     direction = highlightCurrentSelection({ cells, direction, currentCell, cellInput: this.cellInput });
 
-    const { left, top } = getInputPosition({ row, column} );
-
-    this.setState({ cells, direction, top, left, currentCell, row, column });
+    this.setState({ cells, direction, currentCell, row, column });
   }
 
 
   inputClickHandler() {
     let { direction } = this.state;
     const { cells, currentCell } = this.state;
-    direction = toggleDirection(direction);
+    if (currentCell) {
+      direction = toggleDirection(direction);
+    }
     direction = highlightCurrentSelection({ cells, direction, currentCell, cellInput: this.cellInput });
     this.setState({ direction });
   }
@@ -113,7 +113,7 @@ class Crossword extends React.Component {
     const [, arrow] = key.match(/Arrow(\w+)$/) || [];
 
     let { direction } = this.state;
-    const { cells, currentCell } = this.state;
+    const { cells, currentCell = cells[0][0] } = this.state;
 
     if (arrow) {
       if ((direction === 'across' && (arrow === 'Up' || arrow === 'Down')) ||
@@ -158,7 +158,7 @@ class Crossword extends React.Component {
 
   moveToNext(dir = 1) {
     const { direction, cells } = this.state;
-    let { currentCell, row, column } = this.state;
+    let { currentCell = cells[0][0], row = 0, column = 0} = this.state;
     if (direction === 'across') {
       column += dir;
       column = Math.max(0, Math.min(column, this.numberOfColumns - 1));
@@ -171,8 +171,7 @@ class Crossword extends React.Component {
     if (currentCell) {
       deselectAll(cells);
       currentCell.selected = true;
-      const { left, top } = getInputPosition({ row, column });
-      this.setState({ row, column, currentCell, cells, top, left });
+      this.setState({ row, column, currentCell, cells });
       this.cellInput.focus();
     }
 
@@ -180,7 +179,8 @@ class Crossword extends React.Component {
 
   render() {
 
-    const { cells, top, left, isLoading } = this.state;
+    const { cells, row, column, isLoading } = this.state;
+    const { left, top } = getInputPosition({ row, column });
 
     return (
       <div className="crossword">

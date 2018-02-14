@@ -83,8 +83,9 @@ const createCrossword = () => new Promise((resolve, reject) =>
 );
 
 const getInputPosition = ({ row, column }) => {
-  const top = ((row * CELL_HEIGHT) + 2) / boardHeight * 100;
-  const left = (column / numberOfColumns) * 100;
+  let top = ((row * CELL_HEIGHT) + 2) / boardHeight * 100 || 0;
+  let left = (column / numberOfColumns) * 100 || 0;
+
   return { left, top };
 };
 
@@ -93,7 +94,7 @@ const isValidKey = key => key.match(/^[a-zåäö]{1}$/i) || key === 'Backspace';
 const isIgnorableKey = key => key === 'Tab' || !isValidKey(key);
 
 
-const highlightCurrentSelection = ({ cells, cellInput, direction, currentCell }) => {
+const highlightCurrentSelection = ({ cells, cellInput, direction, currentCell = cells[0][0] }) => {
   let id = currentCell[direction];
   cellInput.focus();
   deselectAll(cells);
