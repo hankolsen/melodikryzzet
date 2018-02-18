@@ -18,7 +18,7 @@ class CellInput extends React.Component {
     const { keyDownHandler, keyUpHandler, width, height, top, left } = this.props;
 
     return (
-      <div className="crossword__hidden-input-wrapper" style={{ width:`${width}%`, height: `${height}%`, top: `${top}%`, left: `${left}%` }}>
+      <div className="crossword__hidden-input-wrapper" style={{ width: `${width}%`, height: `${height}%`, top: `${top}%`, left: `${left}%` }}>
         <input
           type="text"
           aria-label="letter"
