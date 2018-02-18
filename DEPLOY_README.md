@@ -12,7 +12,7 @@ Install netlify: _`npm install netlify-cli -g`_
 
 `cd server`
 
-`heroku create`
+`heroku create` or if an app already exists `heroku git:remote -a EXISTING_APP_NAME`
 
 `git subtree push --prefix server heroku master`
 
