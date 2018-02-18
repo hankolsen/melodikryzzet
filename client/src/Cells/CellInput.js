@@ -6,7 +6,7 @@ class CellInput extends React.Component {
   componentDidMount() {
     const { clickHandler } = this.props;
     ['click', 'touchstart'].forEach((eventListener) => {
-      this.cellInput.addEventListener(eventListener, clickHandler);
+      this.cellInput.addEventListener(eventListener, clickHandler, { passive: true });
     });
   }
 
@@ -21,6 +21,7 @@ class CellInput extends React.Component {
       <div className="crossword__hidden-input-wrapper" style={{ width:`${width}%`, height: `${height}%`, top: `${top}%`, left: `${left}%` }}>
         <input
           type="text"
+          aria-label="letter"
           maxLength="1"
           value=""
           autoComplete="off"
