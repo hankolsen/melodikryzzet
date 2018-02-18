@@ -91,7 +91,7 @@ const createCrossword = () => new Promise((resolve, reject) =>
             }
           });
 
-        Object.entries(separatorLocations).forEach(([separator, locations]) => {
+        (Object.entries(separatorLocations || {})).forEach(([separator, locations]) => {
           if (locations && locations.length) {
             separators.push({ direction, position, separator, locations, id });
           }
