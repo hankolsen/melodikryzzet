@@ -2,15 +2,6 @@
   display: none;
 }
 
-.forceFont {
-  font-family: 'Indie Flower', cursive;
-  visibility: hidden;
-  width: 0;
-  height: 0;
-  padding: 0;
-  margin: 0;
-}
-
 /* TODO: Create board width/height depending on device orientation and dimensions */
 
 .crossword {
@@ -29,6 +20,10 @@
   width: 100%;
 }
 
+.crossword-container.crossword-container--loading {
+  height: 100vw;
+}
+
 .crossword-board {
   width: 100%;
   position: relative;
@@ -38,6 +33,10 @@
   .crossword-container,
   .crossword-board {
       width: 30.0625rem;
+  }
+
+  .crossword-container.crossword-container--loading {
+    height: 30.0625rem;
   }
 }
 
