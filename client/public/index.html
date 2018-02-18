@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
-      .forceFont { color: #fff;}
       h1 {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         text-align: center;
@@ -12,7 +11,7 @@
         letter-spacing: 0.1em;
       }
     </style>
-    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <meta name="description" content="The app for participating in Hank's Melodikryzz events">
     <!--
       manifest.json provides metadata used when your web app is added to the
@@ -45,7 +44,6 @@
     <h1>Melodikryzzet</h1>
     <div id="root"></div>
     <!-- Force loading of remote font file -->
-    <p class="forceFont">A</p>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
