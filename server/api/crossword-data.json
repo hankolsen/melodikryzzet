@@ -107,7 +107,7 @@
        "id": "13-across",
        "number": 13,
        "direction": "across",
-       "length": 2,
+       "length": 3,
        "group": [
           "13-across"
         ],
@@ -115,6 +115,9 @@
          "x": 0,
          "y": 4
         },
+        "turns": [
+          2
+        ],
        "separatorLocations": {
           "arrowDown": [
             2
@@ -133,6 +136,9 @@
          "x": 6,
          "y": 4
         },
+        "turns": [
+          5
+        ],
        "separatorLocations": {
           "arrowDown": [
             5
@@ -273,7 +279,7 @@
        "id": "2-down",
        "number": 2,
        "direction": "down",
-       "length": 3,
+       "length": 4,
        "group": [
           "1-down"
         ],
@@ -281,6 +287,9 @@
          "x": 3,
          "y": 0
         },
+        "turns": [
+          3
+        ],
        "separatorLocations": {
           ",": [],
           "arrowRight": [
@@ -308,7 +317,7 @@
        "id": "4-down",
        "number": 4,
        "direction": "down",
-       "length": 8,
+       "length": 9,
        "group": [
           "4-down"
         ],
@@ -316,6 +325,9 @@
          "x": 7,
          "y": 0
         },
+        "turns": [
+          8
+        ],
        "separatorLocations": {
           "arrowRight": [
             8
@@ -390,7 +402,7 @@
        "id": "15-down",
        "number": 15,
        "direction": "down",
-       "length": 2,
+       "length": 4,
        "group": [
           "15-down"
         ],
@@ -398,6 +410,9 @@
          "x": 6,
          "y": 4
         },
+        "turns": [
+          2
+        ],
        "separatorLocations": {
           "arrowRight": [
             2
@@ -456,7 +471,7 @@
        "id": "23-down",
        "number": 23,
        "direction": "down",
-       "length": 3,
+       "length": 5,
        "group": [
           "23-down"
         ],
@@ -464,6 +479,9 @@
          "x": 8,
          "y": 7
         },
+        "turns": [
+          3
+        ],
        "separatorLocations": {
           "arrowRight": [
             3

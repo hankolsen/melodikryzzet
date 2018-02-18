@@ -1,10 +1,15 @@
 /* eslint-disable no-param-reassign */
+/* TODO: Fix json data so turns and arrows don't have to be duplicated */
 import React from 'react';
 import './Crossword.css';
 import Separators from '../Separators/Separators';
 import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
-import { createCrossword, deselectAll, emptyAll, getInputPosition, highlightCurrentSelection, isIgnorableKey, toggleDirection } from "./crosswordHelper";
+import {
+  cellContainsOtherDirection, createCrossword, cellIsStartingWord,
+  deselectAll, emptyAll, getCurrentId,
+  getInputPosition, highlightId, isIgnorableKey, toggleDirection,
+} from './crosswordHelper';
 
 class Crossword extends React.Component {
 
@@ -22,8 +27,6 @@ class Crossword extends React.Component {
     this.state = {
       isLoading: true,
       direction: 'across',
-      top: 0,
-      left: 0,
     };
 
     this.clickHandler = this.clickHandler.bind(this);
@@ -39,8 +42,8 @@ class Crossword extends React.Component {
 
         Object.assign(this, { separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
 
-        this.setState({cells});
-        setTimeout(() => this.setState({isLoading: false}), 400);
+        this.setState({ cells });
+        setTimeout(() => this.setState({ isLoading: false }), 400);
       });
   }
 
@@ -51,34 +54,63 @@ class Crossword extends React.Component {
     this.setState({ cells });
   }
 
+  highlightCurrentSelection({ direction }) {
+    const { cells, currentCell, selection } = this.state;
+    return new Promise((resolve) => {
+      const id = getCurrentId({ currentCell, direction, selection });
+      this.cellInput.focus();
+      if (id) {
+        highlightId({ cells, direction, id, currentCell });
+      }
+      this.setState({ direction, selection: id }, () => resolve({ direction }));
+    });
+  }
+
+
   clickHandler(event, row, column) {
     let { direction } = this.state;
-    const cells = Object.assign([], this.state.cells);
+    const { cells } = this.state;
     const currentCell = cells[row][column];
-    if (currentCell.number && !currentCell.highlighted) {
-      const regexp = new RegExp(`${currentCell.number}-`);
-      const [across, down] = [currentCell.across, currentCell.down].map(dir => dir && dir.match(regexp)) || [];
-      if ((direction === 'down' && !down) || (direction === 'across' && !across)) {
-        direction = toggleDirection(direction);
-      }
-    }
-    if (currentCell.selected) {
+    if (currentCell.number &&
+        !currentCell.highlighted &&
+        !cellIsStartingWord({ cell: currentCell, direction }) &&
+        cellContainsOtherDirection({ currentCell, direction }) &&
+        cellIsStartingWord({ cell: currentCell, direction: toggleDirection(direction) })) {
       direction = toggleDirection(direction);
     }
-    direction = highlightCurrentSelection({ cells, direction, currentCell, cellInput: this.cellInput });
-
-    this.setState({ cells, direction, currentCell, row, column });
+    if (!currentCell[direction] || currentCell.selected) {
+      direction = toggleDirection(direction);
+    }
+    this.setState({ currentCell }, () => {
+      this.highlightCurrentSelection({ direction })
+        .then(({ direction }) => {
+          this.setState({ cells, direction, currentCell });
+        });
+    });
   }
 
 
   inputClickHandler() {
-    let { direction } = this.state;
-    const { cells, currentCell } = this.state;
+    let { direction, currentCell } = this.state;
+    const { cells, selection } = this.state;
+
     if (currentCell) {
-      direction = toggleDirection(direction);
+      if (cellContainsOtherDirection({ currentCell, direction })) {
+        direction = toggleDirection(direction);
+        this.highlightCurrentSelection({ direction });
+      } else if (currentCell[direction].length > 1) {
+        const currentIndex = currentCell[direction].indexOf(selection);
+        const nextIndex = (currentIndex + 1) % currentCell[direction].length;
+        const newId = currentCell[direction][nextIndex];
+        highlightId({ cells, direction, id: newId, currentCell });
+        this.setState({ cells, selection: newId });
+      }
+    } else {
+      currentCell = cells[0][0]; // eslint-disable-line prefer-destructuring
+      this.setState({ currentCell }, () => {
+        this.highlightCurrentSelection({ direction });
+      });
     }
-    direction = highlightCurrentSelection({ cells, direction, currentCell, cellInput: this.cellInput });
-    this.setState({ direction });
   }
 
   keyUpHandler() {
@@ -86,10 +118,10 @@ class Crossword extends React.Component {
     this.down = false;
   }
 
-  handleArrowMove({ arrow, direction }) {
-    if ((direction === 'down' && arrow === 'Up') || (direction === 'across' && arrow === 'Left')) {
+  handleArrowMove({ arrow }) {
+    if (arrow === 'Up' || arrow === 'Left') {
       this.moveToPrevious();
-    } if ((direction === 'down' && arrow === 'Down') || (direction === 'across' && arrow === 'Right')) {
+    } if (arrow === 'Down' || arrow === 'Right') {
       this.moveToNext();
     }
   }
@@ -113,16 +145,16 @@ class Crossword extends React.Component {
     const [, arrow] = key.match(/Arrow(\w+)$/) || [];
 
     let { direction } = this.state;
-    const { cells, currentCell = cells[0][0] } = this.state;
+    const { currentCell } = this.state;
 
     if (arrow) {
-      if ((direction === 'across' && (arrow === 'Up' || arrow === 'Down')) ||
-          (direction === 'down' && (arrow === 'Left' || arrow === 'Right'))) {
+      if ((direction === 'across' && (arrow === 'Up' || arrow === 'Down') && currentCell.down) ||
+          (direction === 'down' && (arrow === 'Left' || arrow === 'Right') && currentCell.across)) {
         direction = toggleDirection(direction);
-        direction = highlightCurrentSelection({ cells, direction, currentCell, cellInput: this.cellInput });
-        this.setState({ direction }, () => {
-          this.handleArrowMove({ arrow, direction });
-        });
+        this.highlightCurrentSelection({ direction })
+          .then(({ direction }) => {
+            this.handleArrowMove({ arrow, direction });
+          });
       } else {
         this.handleArrowMove({ arrow, direction });
       }
@@ -151,27 +183,35 @@ class Crossword extends React.Component {
 
   }
 
+
   moveToPrevious() {
     this.moveToNext(-1);
   }
 
 
   moveToNext(dir = 1) {
-    const { direction, cells } = this.state;
-    let { currentCell = cells[0][0], row = 0, column = 0} = this.state;
-    if (direction === 'across') {
-      column += dir;
-      column = Math.max(0, Math.min(column, this.numberOfColumns - 1));
-    } else {
-      row += dir;
-      row = Math.max(0, Math.min(row, this.numberOfRows - 1));
+    const { direction, cells, selection } = this.state;
+    const array = [];
+
+    cells
+      .map(row =>
+        row.forEach((cell) => {
+          if (cell && cell[direction] && cell[direction].includes(selection)) {
+            array.push(cell);
+          }
+        }));
+
+    let nextCell;
+    const currentIndex = array.findIndex(cell => cell.selected);
+    if (currentIndex > -1 && currentIndex < array.length) {
+      const nextIndex = currentIndex + dir;
+      nextCell = array[nextIndex];
     }
 
-    currentCell = cells[row][column];
-    if (currentCell) {
+    if (nextCell) {
       deselectAll(cells);
-      currentCell.selected = true;
-      this.setState({ row, column, currentCell, cells });
+      nextCell.selected = true;
+      this.setState({ currentCell: nextCell, cells });
       this.cellInput.focus();
     }
 
@@ -179,8 +219,8 @@ class Crossword extends React.Component {
 
   render() {
 
-    const { cells, row, column, isLoading } = this.state;
-    const { left, top } = getInputPosition({ row, column });
+    const { cells, currentCell = {}, isLoading } = this.state;
+    const { left, top } = getInputPosition(currentCell);
 
     return (
       <div className="crossword">
@@ -201,9 +241,9 @@ class Crossword extends React.Component {
               clickHandler={this.inputClickHandler}
               ref={(input) => { this.cellInput = input; }}
             />
-            <div className={`loading ${isLoading ? '' : 'hide'}`}>
-              <h1 className="loading-title">loading</h1>
-            </div>
+          </div>
+          <div className={`loading ${isLoading ? '' : 'hide'}`}>
+            <h1 className="loading-title">loading</h1>
           </div>
         </div>
         <button onClick={this.reset} className={isLoading ? 'hidden' : ''}>Reset</button>

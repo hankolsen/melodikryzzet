@@ -10,29 +10,32 @@
   padding: 0;
   margin: 0;
 }
+
+/* TODO: Create board width/height depending on device orientation and dimensions */
+
 .crossword {
-  padding-left: 0.625rem;
-  padding-right: 0.625rem;
-  margin: 0 auto;
-  margin-top: 0.75rem;
+  padding: 3.25rem 0.625rem;
+  margin: 0.75rem auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .crossword-container {
   display: flex;
   justify-content: center;
-  padding-top: 3.25rem;
-  padding-bottom: 3.25rem;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
 .crossword-board {
   width: 100%;
-  /* Set a fixed height for the loading animation to stey fixed and not jump around in height */
-  height: 450px;
   position: relative;
-  overflow: hidden;
 }
 
 @media (min-width: 46.25em) {
+  .crossword-container,
   .crossword-board {
       width: 30.0625rem;
   }
@@ -122,6 +125,7 @@
 }
 
 button {
+  margin-top: 2rem;
   border: none;
   height: 36px;
   min-width: 88px;
