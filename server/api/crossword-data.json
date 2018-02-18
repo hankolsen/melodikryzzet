@@ -102,12 +102,7 @@
         },
         "turns": [
           2
-        ],
-       "separatorLocations": {
-          "arrowDown": [
-            2
-          ]
-        }
+        ]
       },
       {
        "id": "15-across",
@@ -123,12 +118,7 @@
         },
         "turns": [
           5
-        ],
-       "separatorLocations": {
-          "arrowDown": [
-            5
-          ]
-        }
+        ]
       },
       {
        "id": "16-across",
@@ -253,12 +243,7 @@
         },
         "turns": [
           3
-        ],
-       "separatorLocations": {
-          "arrowRight": [
-            3
-          ]
-        }
+        ]
       },
       {
        "id": "3-down",
@@ -287,12 +272,7 @@
         },
         "turns": [
           8
-        ],
-       "separatorLocations": {
-          "arrowRight": [
-            8
-          ]
-        }
+        ]
       },
       {
        "id": "5-down",
@@ -360,12 +340,7 @@
         },
         "turns": [
           2
-        ],
-       "separatorLocations": {
-          "arrowRight": [
-            2
-          ]
-        }
+        ]
       },
       {
        "id": "20-down",
@@ -420,12 +395,7 @@
         },
         "turns": [
           3
-        ],
-       "separatorLocations": {
-          "arrowRight": [
-            3
-          ]
-        }
+        ]
       },
       {
        "id": "25-down",

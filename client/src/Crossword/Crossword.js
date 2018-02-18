@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* TODO: Fix json data so turns and arrows don't have to be duplicated */
 import React from 'react';
 import './Crossword.css';
 import Separators from '../Separators/Separators';

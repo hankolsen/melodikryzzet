@@ -81,6 +81,10 @@ const createCrossword = () => new Promise((resolve, reject) =>
 
             if (turns && turns.length && turns[turnIndex] - 1 === i) {
               walkingDirection = toggleDirection(walkingDirection);
+              const separator = `arrow-${walkingDirection}`;
+              const locations = [turns[turnIndex]];
+              // TODO: Make ArrowDown and ArrowAcross handle multi-turning words
+              separators.push({ direction, position, separator, locations, id });
               turnIndex += 1;
             }
 

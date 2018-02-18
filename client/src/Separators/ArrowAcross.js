@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { CELL_WIDTH } from '../config';
 
-const ArrowRight = (props) => {
+const ArrowAcross = (props) => {
   const { position, locations } = props;
   const lineLength = 7;
   const strokeWidth = 1;
@@ -27,7 +27,7 @@ const ArrowRight = (props) => {
   );
 };
 
-ArrowRight.propTypes = {
+ArrowAcross.propTypes = {
   position: PropTypes.shape({
     x: PropTypes.number,
     y: PropTypes.number,
@@ -35,4 +35,4 @@ ArrowRight.propTypes = {
   locations: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
-export default ArrowRight;
+export default ArrowAcross;
