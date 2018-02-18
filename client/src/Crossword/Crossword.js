@@ -36,10 +36,12 @@ class Crossword extends React.Component {
   }
 
   componentDidMount() {
-    createCrossword()
-      .then(({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight }) => {
+    const { match } = this.props;
+    this.crosswordId = match.params.id;
+    createCrossword(this.crosswordId)
+      .then(({ name, cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight }) => {
 
-        Object.assign(this, { separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
+        Object.assign(this, { name, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
 
         this.setState({ cells });
         setTimeout(() => this.setState({ isLoading: false }), 400);
@@ -47,7 +49,7 @@ class Crossword extends React.Component {
   }
 
   reset() {
-    localStorage.removeItem('kryzz');
+    localStorage.removeItem(`kryzz-${this.crosswordId}`);
     const { cells } = this.state;
     emptyAll(cells);
     this.setState({ cells });
@@ -178,7 +180,7 @@ class Crossword extends React.Component {
     }
 
     const entries = this.state.cells.map(row => row.map(cell => cell && cell.text));
-    localStorage.setItem('kryzz', JSON.stringify(entries));
+    localStorage.setItem(`kryzz-${this.crosswordId}`, JSON.stringify(entries));
 
   }
 
@@ -225,6 +227,7 @@ class Crossword extends React.Component {
       <div className="crossword">
         <div className={`crossword-container ${isLoading ? 'crossword-container--loading' : ''}`}>
           <div className="crossword-board">
+            <h3>{this.name}</h3>
             <svg className="crossword__grid" viewBox={`0 0 ${this.boardWidth} ${this.boardHeight}`} fill="#222222">
               <rect x="0" y="0" width={this.boardWidth} height={this.boardHeight} className="crossword__grid-background" />
               { cells && <Cells cells={cells} clickHandler={this.clickHandler} /> }

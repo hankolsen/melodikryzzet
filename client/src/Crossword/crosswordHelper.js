@@ -54,8 +54,8 @@ const fillCell = ({ cells, row, column, index, number, id, direction, text, hasT
   }
 };
 
-const createCrossword = () => new Promise((resolve, reject) =>
-  fetch(process.env.REACT_APP_API_URL)
+const createCrossword = crosswordId => new Promise((resolve, reject) =>
+  fetch(`${process.env.REACT_APP_API_URL}/${crosswordId}`)
     .then(response => response.json())
     .then(({ crosswordData }) => {
       numberOfColumns = crosswordData.size.width;
@@ -65,7 +65,7 @@ const createCrossword = () => new Promise((resolve, reject) =>
       const cells = Array(numberOfRows).fill()
         .map(() => Array(numberOfColumns).fill());
 
-      const userData = JSON.parse(localStorage.getItem('kryzz') || 'null');
+      const userData = JSON.parse(localStorage.getItem(`kryzz-${crosswordId}`) || 'null');
 
       crosswordData.entries.forEach(({ id, direction, position, length, number, separatorLocations, turns }) => {
         let column = position.x;
@@ -106,7 +106,8 @@ const createCrossword = () => new Promise((resolve, reject) =>
       const inputHeight = 100 / numberOfRows;
       boardWidth = (CELL_WIDTH * numberOfColumns) + numberOfColumns + 1 || 0;
       boardHeight = (CELL_HEIGHT * numberOfRows) + numberOfRows + 1 || 0;
-      resolve({ cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
+      const { name } = crosswordData;
+      resolve({ name, cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
     })
     .catch(e => reject(e)));
 

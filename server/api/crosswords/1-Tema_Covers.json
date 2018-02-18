@@ -1,5 +1,7 @@
 {
   "crosswordData": {
+    "id": "1",
+    "name": "Tema Covers",
     "size": {
      "width": 11,
      "height": 10

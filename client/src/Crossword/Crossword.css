@@ -5,8 +5,8 @@
 /* TODO: Create board width/height depending on device orientation and dimensions */
 
 .crossword {
-  padding: 3.25rem 0.625rem;
-  margin: 0.75rem auto 0;
+  padding: 1.25rem 0.625rem;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,6 +38,14 @@
   .crossword-container.crossword-container--loading {
     height: 30.0625rem;
   }
+}
+
+h3 {
+  margin-top: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.1em;
+  color: #222;
 }
 
 .crossword__grid {

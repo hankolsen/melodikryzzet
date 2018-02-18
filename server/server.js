@@ -10,10 +10,26 @@ app.all('*', (req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+const CROSSWORDS_PATH = './api/crosswords/';
 
-app.get('/api/crossword', (req, res) => {
-  fs.readFile('./api/crossword-data.json', { encoding: 'utf-8' }, (err, data) => {
-    res.json(JSON.parse(data));
+app.get('/api/crosswords', (req, res) => {
+  fs.readdir(CROSSWORDS_PATH, (err, files) => {
+    const crosswords = files.map((file) => {
+      const [id, fileName] = file.split('-');
+      let [name] = fileName.split('.');
+      name = name.replace('_', ' ');
+      return { name, id };
+    });
+    res.json({ crosswords });
+  });
+});
+
+app.get('/api/crosswords/:id', (req, res) => {
+  fs.readdir(CROSSWORDS_PATH, (err, files) => {
+    const fileName = files.find(file => file.startsWith(`${req.params.id}-`));
+    fs.readFile(`${CROSSWORDS_PATH}${fileName}`, { encoding: 'utf-8' }, (error, data) => {
+      res.json(JSON.parse(data));
+    });
   });
 });
 
