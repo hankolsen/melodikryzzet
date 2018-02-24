@@ -8,7 +8,7 @@ const ListItem = (props) => {
   return (
     <div className="list__list-item">
       <div className="list-item__button-wrapper">
-        <Link className="list-item__button" to={`/crossword/${id}`} key={id} />
+        <Link className="list-item__button" to={`/crossword/${id}`} key={id}>{name}</Link>
         <div className="list-item__inner">{name}</div>
       </div>
     </div>

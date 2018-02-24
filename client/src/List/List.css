@@ -52,8 +52,11 @@
   display: block;
   width: 100%;
   align-items: inherit;
-  color: rgba(0, 0, 0, 0.87);
-  transition: box-shadow .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1)
+  transition: box-shadow .4s cubic-bezier(.25,.8,.25,1),background-color .4s cubic-bezier(.25,.8,.25,1);
+
+  /* Lighthouse accessibility */
+  color: transparent;
+  user-select: none;
 }
 
 .list-item__button:hover {
