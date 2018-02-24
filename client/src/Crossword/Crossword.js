@@ -8,7 +8,7 @@ import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
 import {
   cellContainsOtherDirection, createCrossword, cellIsStartingWord,
-  deselectAll, dehighlightAll, emptyAll, getCurrentId,
+  deselectAll, emptyAll, getCurrentId,
   getInputPosition, highlightId, isIgnorableKey, toggleDirection,
 } from './crosswordHelper';
 
