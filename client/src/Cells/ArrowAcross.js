@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { CELL_WIDTH } from '../config';
 
 const ArrowAcross = (props) => {
-  const { position, locations } = props;
+  const { row, column } = props;
   const lineLength = 7;
   const strokeWidth = 1;
 
-  const vx1 = (position.x * (CELL_WIDTH + 1)) + 5;
+  const vx1 = (column * (CELL_WIDTH + 1)) + 5;
   const vx2 = vx1;
-  const vy1 = ((position.y + locations[0]) * (CELL_WIDTH + 1)) - 10;
+  const vy1 = ((row + 1) * (CELL_WIDTH + 1)) - 10;
   const vy2 = vy1 + lineLength;
 
   const hx1 = vx1;
@@ -28,11 +28,8 @@ const ArrowAcross = (props) => {
 };
 
 ArrowAcross.propTypes = {
-  position: PropTypes.shape({
-    x: PropTypes.number,
-    y: PropTypes.number,
-  }).isRequired,
-  locations: PropTypes.arrayOf(PropTypes.number).isRequired,
+  row: PropTypes.number.isRequired,
+  column: PropTypes.number.isRequired,
 };
 
 export default ArrowAcross;

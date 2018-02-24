@@ -44,7 +44,7 @@ const fillCell = ({ cells, row, column, index, number, id, direction, text, hasT
   };
 
   if (cells[row][column] && cells[row][column][direction]) {
-    if (hasTurn && index >= hasTurn) {
+    if (hasTurn && index >= hasTurn[0]) {
       cells[row][column][direction] = [...cells[row][column][direction], id];
     } else {
       cells[row][column][direction] = [id, ...cells[row][column][direction]];
@@ -81,10 +81,7 @@ const createCrossword = crosswordId => new Promise((resolve, reject) =>
 
             if (turns && turns.length && turns[turnIndex] - 1 === i) {
               walkingDirection = toggleDirection(walkingDirection);
-              const separator = `arrow-${walkingDirection}`;
-              const locations = [turns[turnIndex]];
-              // TODO: Make ArrowDown and ArrowAcross handle multi-turning words
-              separators.push({ direction, position, separator, locations, id });
+              cells[row][column].arrow = walkingDirection;
               turnIndex += 1;
             }
 

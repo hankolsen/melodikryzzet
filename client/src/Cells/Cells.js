@@ -11,6 +11,7 @@ const Cells = ({ cells, clickHandler }) => cells.map((row, y) =>
       letter={cell.text}
       highlighted={cell.highlighted}
       selected={cell.selected}
+      arrow={cell.arrow}
       clickHandler={clickHandler}
     />)); // eslint-disable-line indent
 

@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import './Crossword.css';
 import Separators from '../Separators/Separators';
 import Cells from '../Cells/Cells';
@@ -84,8 +86,8 @@ class Crossword extends React.Component {
     }
     this.setState({ currentCell }, () => {
       this.highlightCurrentSelection({ direction })
-        .then(({ direction }) => {
-          this.setState({ cells, direction, currentCell });
+        .then(({ direction: newDirection }) => {
+          this.setState({ cells, direction: newDirection, currentCell });
         });
     });
   }
@@ -153,8 +155,8 @@ class Crossword extends React.Component {
           (direction === 'down' && (arrow === 'Left' || arrow === 'Right') && currentCell.across)) {
         direction = toggleDirection(direction);
         this.highlightCurrentSelection({ direction })
-          .then(({ direction }) => {
-            this.handleArrowMove({ arrow, direction });
+          .then(({ direction: newDirection }) => {
+            this.handleArrowMove({ arrow, direction: newDirection });
           });
       } else {
         this.handleArrowMove({ arrow, direction });
@@ -255,5 +257,14 @@ class Crossword extends React.Component {
     );
   }
 }
+
+Crossword.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+};
+
 
 export default Crossword;

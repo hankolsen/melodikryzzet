@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Line from './Line';
-import ArrowAcross from './ArrowAcross';
-import ArrowDown from './ArrowDown';
 
 const Separator = (props) => {
 
@@ -13,10 +11,6 @@ const Separator = (props) => {
   switch (separator) {
     case ',':
       return <Line position={position} locations={locations} direction={direction} />;
-    case 'arrow-across':
-      return <ArrowAcross position={position} locations={locations} />;
-    case 'arrow-down':
-      return <ArrowDown position={position} locations={locations} />;
     default:
       return null;
   }

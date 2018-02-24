@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { CELL_WIDTH } from '../config';
 
 const ArrowDown = (props) => {
-  const { position, locations } = props;
+  const { row, column } = props;
   const lineLength = 7;
   const strokeWidth = 1;
 
-  const hx1 = ((position.x + locations[0]) * (CELL_WIDTH + 1)) - 3;
+  const hx1 = ((column + 1) * (CELL_WIDTH + 1)) - 3;
   const hx2 = hx1 - lineLength;
-  const hy1 = (position.y * (CELL_WIDTH + 1)) + 4;
+  const hy1 = (row * (CELL_WIDTH + 1)) + 4;
   const hy2 = hy1;
 
   const vx1 = hx1;
@@ -27,11 +27,8 @@ const ArrowDown = (props) => {
 };
 
 ArrowDown.propTypes = {
-  position: PropTypes.shape({
-    x: PropTypes.number,
-    y: PropTypes.number,
-  }).isRequired,
-  locations: PropTypes.arrayOf(PropTypes.number).isRequired,
+  row: PropTypes.number.isRequired,
+  column: PropTypes.number.isRequired,
 };
 
 export default ArrowDown;
