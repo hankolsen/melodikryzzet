@@ -225,9 +225,9 @@ class Crossword extends React.Component {
 
     return (
       <div className="crossword">
+        <h3>{this.name}</h3>
         <div className={`crossword-container ${isLoading ? 'crossword-container--loading' : ''}`}>
           <div className="crossword-board">
-            <h3>{this.name}</h3>
             <svg className="crossword__grid" viewBox={`0 0 ${this.boardWidth} ${this.boardHeight}`} fill="#222222">
               <rect x="0" y="0" width={this.boardWidth} height={this.boardHeight} className="crossword__grid-background" />
               { cells && <Cells cells={cells} clickHandler={this.clickHandler} /> }

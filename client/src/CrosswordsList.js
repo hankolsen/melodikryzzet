@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import List from './List/List';
 
 class CrosswordsList extends React.Component {
 
@@ -24,7 +24,7 @@ class CrosswordsList extends React.Component {
     return (
       <div>
         <h1>Choose crossword</h1>
-        { crosswords.map(({ name, id }) => <Link to={`/crossword/${id}`} key={id}>{name}</Link>) }
+        { crosswords && crosswords.length && <List crosswords={crosswords} /> }
       </div>
     );
   }
