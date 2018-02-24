@@ -122,10 +122,21 @@ class Crossword extends React.Component {
   }
 
   handleArrowMove({ arrow }) {
-    if (arrow === 'Up' || arrow === 'Left') {
-      this.moveToPrevious();
-    } if (arrow === 'Down' || arrow === 'Right') {
-      this.moveToNext();
+    const { cells, currentCell } = this.state;
+    const { row, column } = currentCell;
+
+    /* eslint-disable no-shadow */
+    const moves = {
+      Left: (cells, row, column) => cells[row][column - 1],
+      Right: (cells, row, column) => cells[row][column + 1],
+      Up: (cells, row, column) => cells[row - 1] && cells[row - 1][column],
+      Down: (cells, row, column) => cells[row + 1] && cells[row + 1][column],
+    };
+    /* eslint-enable no-shadow */
+
+    const newCell = moves[arrow](cells, row, column);
+    if (newCell) {
+      this.moveTo(newCell);
     }
   }
 
@@ -147,21 +158,12 @@ class Crossword extends React.Component {
     // Is it an arrow key?
     const [, arrow] = key.match(/Arrow(\w+)$/) || [];
 
-    let { direction } = this.state;
-    const { currentCell } = this.state;
 
     if (arrow) {
-      if ((direction === 'across' && (arrow === 'Up' || arrow === 'Down') && currentCell.down) ||
-          (direction === 'down' && (arrow === 'Left' || arrow === 'Right') && currentCell.across)) {
-        direction = toggleDirection(direction);
-        this.highlightCurrentSelection({ direction })
-          .then(({ direction: newDirection }) => {
-            this.handleArrowMove({ arrow, direction: newDirection });
-          });
-      } else {
-        this.handleArrowMove({ arrow, direction });
-      }
+      this.handleArrowMove({ arrow });
     }
+
+    const { currentCell } = this.state;
 
     if (isIgnorableKey(key)) {
       event.preventDefault();
@@ -186,6 +188,20 @@ class Crossword extends React.Component {
 
   }
 
+  moveTo(nextCell) {
+    const { cells } = this.state;
+    let { direction, selection } = this.state;
+    if (!nextCell[direction] || !nextCell[direction].includes(selection)) {
+      direction = toggleDirection(direction);
+      if (!nextCell[direction] || !nextCell[direction].length) {
+        direction = toggleDirection(direction);
+      }
+      selection = [nextCell[direction]];
+    }
+    highlightId({ cells, direction, id: selection, currentCell: nextCell });
+    this.setState({ cells, selection, currentCell: nextCell, direction });
+    this.cellInput.focus();
+  }
 
   moveToPrevious() {
     this.moveToNext(-1);
