@@ -8,7 +8,7 @@ import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
 import {
   cellContainsOtherDirection, createCrossword, cellIsStartingWord,
-  deselectAll, emptyAll, getCurrentId,
+  deselectAll, dehighlightAll, emptyAll, getCurrentId,
   getInputPosition, highlightId, isIgnorableKey, toggleDirection,
 } from './crosswordHelper';
 
@@ -196,7 +196,7 @@ class Crossword extends React.Component {
       if (!nextCell[direction] || !nextCell[direction].length) {
         direction = toggleDirection(direction);
       }
-      selection = [nextCell[direction]];
+      [selection] = nextCell[direction];
     }
     highlightId({ cells, direction, id: selection, currentCell: nextCell });
     this.setState({ cells, selection, currentCell: nextCell, direction });
