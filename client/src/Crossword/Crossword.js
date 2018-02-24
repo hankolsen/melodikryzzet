@@ -110,7 +110,10 @@ class Crossword extends React.Component {
       }
     } else {
       currentCell = cells[0][0]; // eslint-disable-line prefer-destructuring
-      this.setState({ currentCell }, () => {
+      if (!currentCell[direction]) {
+        direction = toggleDirection(direction);
+      }
+      this.setState({ currentCell, direction }, () => {
         this.highlightCurrentSelection({ direction });
       });
     }
