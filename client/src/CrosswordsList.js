@@ -21,12 +21,15 @@ class CrosswordsList extends React.Component {
 
   render() {
     const { crosswords } = this.state;
-    return (
-      <div>
-        <h1>Choose crossword</h1>
-        { crosswords && crosswords.length && <List crosswords={crosswords} /> }
-      </div>
-    );
+    if (crosswords && crosswords.length) {
+      return (
+        <div>
+          <h1>Choose crossword</h1>
+          { <List crosswords={crosswords} /> }
+        </div>
+      );
+    }
+    return null;
   }
 
 }
