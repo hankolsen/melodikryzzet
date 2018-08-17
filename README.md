@@ -1,4 +1,4 @@
-# crossword-react
+# Melodikryzzet
 A React app for creating and sharing crossword puzzles.
 
 The inspiration for the project came from the idea of creating my own version of Melodikrysset (https://sverigesradio.se/melodikrysset), a Swedish radio show that has been running for at least 50 years.
