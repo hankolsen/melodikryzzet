@@ -1,5 +1,5 @@
 {
-  "name": "crossword-server",
+  "name": "melodikryzzet",
   "version": "1.0.0",
   "scripts": {
     "client": "cd client && yarn start",
