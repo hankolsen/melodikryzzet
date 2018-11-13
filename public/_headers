@@ -8,4 +8,4 @@
   # Don't load any resource type not explicitly enabled
   # Disable plugins like Flash or Silverlight
   # Load images, scripts, stylesheets and fonts from self
-  Content-Security-Policy: default-src 'none'; connect-src 'self' https://melodikryzzet.se; object-src 'none'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;
+  Content-Security-Policy: default-src 'none'; connect-src 'self'; object-src 'none'; img-src 'self'; script-src 'self' 'sha256-hKoGg+dY0Uv/CirC7wfqUjoaaJO9zGbZS3h3yO/ikx0='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;
