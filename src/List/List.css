@@ -5,6 +5,64 @@
   margin: 0 auto;
 }
 
+.skeleton {
+  --height: 300px;
+  height: var(--height);
+  margin-top: 83px;
+
+  --title-height: 40px;
+  --title-color: rgba(158,158,158,0.2);
+
+  background:
+    /* Animatiion */
+    linear-gradient(
+      100deg,
+      rgba(255,255,255, 0) 0,
+      rgba(255,255,255, .5) 50%,
+      rgba(255,255,255, 0) 100%
+    ) no-repeat,
+    /* layer N: row */
+    /* grey fields representing the name of a crossword */
+    linear-gradient(var(--title-color) var(--title-height), transparent 0) no-repeat,
+    linear-gradient(var(--title-color) var(--title-height), transparent 0) no-repeat,
+    linear-gradient(var(--title-color) var(--title-height), transparent 0) no-repeat,
+    linear-gradient(var(--title-color) var(--title-height), transparent 0) no-repeat,
+    /* layer 0: box bg */
+    /* white rectangle that covers whole element */
+    linear-gradient(white 100%, transparent 0) no-repeat;
+
+  background-size:
+    300px var(--height),       /* animation */
+    200px var(--title-height), /* row */
+    250px var(--title-height), /* row */
+    300px var(--title-height), /* row */
+    280px var(--title-height), /* row */
+    100% 100%;                 /* box bg */
+
+  background-position:
+    -100% 0, /* Animation */
+    0 0,     /* row */
+    0 80px,  /* row */
+    0 160px, /* row */
+    0 240px, /* row */
+    0 0;     /* box bg */
+
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  to {
+    background-position:
+      250% 0,
+      0 0,
+      0 80px,
+      0 160px,
+      0 240px,
+      0 0;
+  }
+}
+
+
 @media (min-width: 46.25em) {
   .list {
     width: 30rem;
