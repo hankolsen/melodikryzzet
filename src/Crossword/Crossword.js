@@ -45,8 +45,7 @@ class Crossword extends React.Component {
 
         Object.assign(this, { name, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
 
-        this.setState({ cells });
-        setTimeout(() => this.setState({ isLoading: false }), 400);
+        this.setState({ cells, isLoading: false });
       });
   }
 
@@ -246,7 +245,7 @@ class Crossword extends React.Component {
 
     return (
       <div className="crossword">
-        <h3>{this.name}</h3>
+        <h3>{this.name}&nbsp;</h3>
         <div className={`crossword-container ${isLoading ? 'crossword-container--loading' : ''}`}>
           <div className="crossword-board">
             <svg className="crossword__grid" viewBox={`0 0 ${this.boardWidth} ${this.boardHeight}`} fill="#222222">

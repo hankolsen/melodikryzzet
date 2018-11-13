@@ -55,11 +55,11 @@ const fillCell = ({ cells, row, column, index, number, id, direction, text, hasT
 };
 
 const createCrossword = crosswordId => new Promise((resolve, reject) =>
-  fetch(`${process.env.REACT_APP_API_URL}/${crosswordId}`)
+  fetch(`/.netlify/functions/crosswords/${crosswordId}`)
     .then(response => response.json())
-    .then(({ crosswordData }) => {
-      numberOfColumns = crosswordData.size.width;
-      numberOfRows = crosswordData.size.height;
+    .then(({ crossword }) => {
+      numberOfColumns = crossword.size.width;
+      numberOfRows = crossword.size.height;
       const separators = [];
 
       const cells = Array(numberOfRows).fill()
@@ -67,7 +67,7 @@ const createCrossword = crosswordId => new Promise((resolve, reject) =>
 
       const userData = JSON.parse(localStorage.getItem(`kryzz-${crosswordId}`) || 'null');
 
-      crosswordData.entries.forEach(({ id, direction, position, length, number, separatorLocations, turns }) => {
+      crossword.entries.forEach(({ id, direction, position, length, number, separatorLocations, turns }) => {
         let column = position.x;
         let row = position.y;
         let walkingDirection = direction;
@@ -103,7 +103,8 @@ const createCrossword = crosswordId => new Promise((resolve, reject) =>
       const inputHeight = 100 / numberOfRows;
       boardWidth = (CELL_WIDTH * numberOfColumns) + numberOfColumns + 1 || 0;
       boardHeight = (CELL_HEIGHT * numberOfRows) + numberOfRows + 1 || 0;
-      const { name } = crosswordData;
+      const { name } = crossword;
+      // eslint-disable-next-line max-len
       resolve({ name, cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
     })
     .catch(e => reject(e)));
@@ -155,4 +156,15 @@ const cellContainsOtherDirection = ({ currentCell, direction }) =>
   (direction === 'across' && currentCell.down) || (direction === 'down' && currentCell.across);
 
 
-export { createCrossword, cellContainsOtherDirection, cellIsStartingWord, deselectAll, emptyAll, getInputPosition, getCurrentId, highlightId, isIgnorableKey, toggleDirection };
+export {
+  createCrossword,
+  cellContainsOtherDirection,
+  cellIsStartingWord,
+  deselectAll,
+  emptyAll,
+  getInputPosition,
+  getCurrentId,
+  highlightId,
+  isIgnorableKey,
+  toggleDirection,
+};

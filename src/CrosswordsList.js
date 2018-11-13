@@ -12,11 +12,17 @@ class CrosswordsList extends React.Component {
   }
 
   componentDidMount() {
-    fetch(process.env.REACT_APP_API_URL)
-      .then(response => response.json())
+    fetch('/.netlify/functions/crosswords')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        return response.json();
+      })
       .then(({ crosswords }) => {
         this.setState({ crosswords });
-      });
+      })
+      .catch(error => console.log(`Error ${error}`));
   }
 
   render() {
