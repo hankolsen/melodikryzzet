@@ -67,12 +67,19 @@ const createCrossword = crosswordId => new Promise((resolve, reject) =>
 
       const userData = JSON.parse(localStorage.getItem(`kryzz-${crosswordId}`) || 'null');
 
-      crossword.entries.forEach(({ id, direction, position, length, number, separatorLocations, turns }) => {
+      crossword.entries.sort((a, b) => (a.position.y - b.position.y) || (a.position.x - b.position.x));
+
+      let number = 1;
+      const numbers = {};
+      crossword.entries.forEach(({ id, direction, position, length, separatorLocations, turns }) => {
         let column = position.x;
         let row = position.y;
         let walkingDirection = direction;
         let turnIndex = 0;
-
+        if (numbers[`${column},${row}`]) {
+          number = numbers[`${column},${row}`];
+        }
+        numbers[`${column},${row}`] = number;
         Array(length)
           .fill()
           .forEach((_, i) => {
@@ -97,6 +104,7 @@ const createCrossword = crosswordId => new Promise((resolve, reject) =>
             separators.push({ direction, position, separator, locations, id });
           }
         });
+        number += 1;
       });
 
       const inputWidth = 100 / numberOfColumns;
