@@ -23,7 +23,7 @@ class CellInput extends React.Component {
           type="text"
           aria-label="letter"
           maxLength="1"
-          value=""
+          defaultValue=""
           autoComplete="off"
           spellCheck="false"
           autoCorrect="off"
