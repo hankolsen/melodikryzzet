@@ -71,7 +71,7 @@ const createCrossword = crosswordId => new Promise((resolve, reject) =>
 
       let number = 1;
       const numbers = {};
-      crossword.entries.forEach(({ id, direction, position, length, separatorLocations, turns }) => {
+      crossword.entries.forEach(({ direction, position, length, separatorLocations, turns }) => {
         let column = position.x;
         let row = position.y;
         let walkingDirection = direction;
@@ -79,6 +79,7 @@ const createCrossword = crosswordId => new Promise((resolve, reject) =>
         if (numbers[`${column},${row}`]) {
           number = numbers[`${column},${row}`];
         }
+        const id = `${number}-${direction}`;
         numbers[`${column},${row}`] = number;
         Array(length)
           .fill()
