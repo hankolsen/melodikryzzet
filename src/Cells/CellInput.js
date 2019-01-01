@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 
 class CellInput extends React.Component {
 
-  componentDidMount() {
-    const { clickHandler } = this.props;
-    ['click', 'touchstart'].forEach((eventListener) => {
-      this.cellInput.addEventListener(eventListener, clickHandler, { passive: true });
-    });
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.state = { value: '' };
+  }
+
+  onChange() {
+    this.setState({ value: '' });
   }
 
   focus() {
@@ -15,21 +18,23 @@ class CellInput extends React.Component {
   }
 
   render() {
-    const { keyDownHandler, keyUpHandler, width, height, top, left } = this.props;
-
+    const { clickHandler, keyDownHandler, keyUpHandler, width, height, top, left } = this.props;
     return (
       <div className="crossword__hidden-input-wrapper" style={{ width: `${width}%`, height: `${height}%`, top: `${top}%`, left: `${left}%` }}>
         <input
           type="text"
           aria-label="letter"
           maxLength="1"
-          defaultValue=""
+          value={this.state.value}
+          onChange={this.onChange}
           autoComplete="off"
           spellCheck="false"
           autoCorrect="off"
           className="crossword__hidden-input"
           onKeyDown={keyDownHandler}
           onKeyUp={keyUpHandler}
+          onClick={clickHandler}
+          onTouchStart={clickHandler}
           ref={(input) => { this.cellInput = input; }}
         />
       </div>
