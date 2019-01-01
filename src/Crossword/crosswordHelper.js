@@ -157,8 +157,8 @@ const highlightId = ({ cells, direction, id, currentCell }) => {
       }));
 };
 
-const cellIsStartingWord = ({ cell }) =>
-  cell && cell.number;
+const cellIsStartingWord = ({ cell, direction }) =>
+  cell && cell[direction] && cell[direction].find(id => id.startsWith(cell.number));
 
 
 const cellContainsOtherDirection = ({ currentCell, direction }) =>
