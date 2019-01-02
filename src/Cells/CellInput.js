@@ -9,13 +9,6 @@ class CellInput extends React.Component {
     this.state = { value: '' };
   }
 
-  componentDidMount() {
-    const { clickHandler } = this.props;
-    ['click', 'touchstart'].forEach((eventListener) => {
-      this.cellInput.addEventListener(eventListener, clickHandler, { passive: true });
-    });
-  }
-
   onChange() {
     this.setState({ value: '' });
   }
@@ -25,7 +18,7 @@ class CellInput extends React.Component {
   }
 
   render() {
-    const { keyDownHandler, keyUpHandler, width, height, top, left } = this.props;
+    const { clickHandler, keyDownHandler, keyUpHandler, width, height, top, left } = this.props;
     return (
       <div className="crossword__hidden-input-wrapper" style={{ width: `${width}%`, height: `${height}%`, top: `${top}%`, left: `${left}%` }}>
         <input
@@ -40,6 +33,7 @@ class CellInput extends React.Component {
           className="crossword__hidden-input"
           onKeyDown={keyDownHandler}
           onKeyUp={keyUpHandler}
+          onClick={clickHandler}
           ref={(input) => { this.cellInput = input; }}
         />
       </div>
