@@ -9,7 +9,7 @@ import CellInput from '../Cells/CellInput';
 import {
   cellContainsOtherDirection, createCrossword, cellIsStartingWord,
   deselectAll, emptyAll, getCurrentId,
-  getInputPosition, highlightId, isIgnorableKey, toggleDirection,
+  getInputPosition, highlightId, isIgnorableKey, isValidKey, toggleDirection,
 } from './crosswordHelper';
 
 class Crossword extends React.Component {
@@ -31,7 +31,7 @@ class Crossword extends React.Component {
     };
 
     this.clickHandler = this.clickHandler.bind(this);
-    this.keyDownHandler = this.keyDownHandler.bind(this);
+    this.inputHandler = this.inputHandler.bind(this);
     this.keyUpHandler = this.keyUpHandler.bind(this);
     this.inputClickHandler = this.inputClickHandler.bind(this);
     this.reset = this.reset.bind(this);
@@ -118,10 +118,6 @@ class Crossword extends React.Component {
     }
   }
 
-  keyUpHandler() {
-    // Prevent auto repeat
-    this.down = false;
-  }
 
   handleArrowMove({ arrow }) {
     const { cells, currentCell } = this.state;
@@ -142,19 +138,22 @@ class Crossword extends React.Component {
     }
   }
 
-  keyDownHandler(event) {
+  inputHandler(event) {
+    const { currentCell } = this.state;
+    const key = event.target.value;
+    if (isValidKey(key)) {
+      currentCell.text = key.toUpperCase();
+      this.setState({ currentCell });
+      this.moveToNext();
+    }
+  }
+
+  keyUpHandler(event) {
     const { key } = event;
 
     if (key === 'Shift' || event.metaKey) {
       return;
     }
-
-    // Prevent auto repeat
-    if (this.down) {
-      return;
-    }
-
-    this.down = true;
 
 
     // Is it an arrow key?
@@ -165,7 +164,6 @@ class Crossword extends React.Component {
       this.handleArrowMove({ arrow });
     }
 
-    const { currentCell } = this.state;
 
     if (isIgnorableKey(key)) {
       event.preventDefault();
@@ -173,16 +171,13 @@ class Crossword extends React.Component {
     }
 
     if (key === 'Backspace') {
+      const { currentCell } = this.state;
       if (currentCell.text) {
         currentCell.text = '';
         this.setState({ currentCell });
       } else {
         this.moveToPrevious();
       }
-    } else {
-      currentCell.text = key.toUpperCase();
-      this.setState({ currentCell });
-      this.moveToNext();
     }
 
     const entries = this.state.cells.map(row => row.map(cell => cell && cell.text));
@@ -258,7 +253,7 @@ class Crossword extends React.Component {
               left={left}
               width={this.inputWidth}
               height={this.inputHeight}
-              keyDownHandler={this.keyDownHandler}
+              inputHandler={this.inputHandler}
               keyUpHandler={this.keyUpHandler}
               clickHandler={this.inputClickHandler}
               ref={(input) => { this.cellInput = input; }}

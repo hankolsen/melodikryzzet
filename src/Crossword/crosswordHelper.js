@@ -175,5 +175,6 @@ export {
   getCurrentId,
   highlightId,
   isIgnorableKey,
+  isValidKey,
   toggleDirection,
 };

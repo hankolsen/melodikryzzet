@@ -18,7 +18,7 @@ class CellInput extends React.Component {
   }
 
   render() {
-    const { clickHandler, keyDownHandler, keyUpHandler, width, height, top, left } = this.props;
+    const { clickHandler, inputHandler, keyUpHandler, width, height, top, left } = this.props;
     return (
       <div className="crossword__hidden-input-wrapper" style={{ width: `${width}%`, height: `${height}%`, top: `${top}%`, left: `${left}%` }}>
         <input
@@ -31,8 +31,8 @@ class CellInput extends React.Component {
           spellCheck="false"
           autoCorrect="off"
           className="crossword__hidden-input"
-          onKeyDown={keyDownHandler}
           onKeyUp={keyUpHandler}
+          onInput={inputHandler}
           onClick={clickHandler}
           ref={(input) => { this.cellInput = input; }}
         />
@@ -43,7 +43,7 @@ class CellInput extends React.Component {
 
 CellInput.propTypes = {
   clickHandler: PropTypes.func.isRequired,
-  keyDownHandler: PropTypes.func.isRequired,
+  inputHandler: PropTypes.func.isRequired,
   keyUpHandler: PropTypes.func.isRequired,
   left: PropTypes.number.isRequired,
   width: PropTypes.number.isRequired,
