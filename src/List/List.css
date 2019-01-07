@@ -24,6 +24,7 @@
   position: relative;
   overflow: hidden;
   transition: all .4s cubic-bezier(.25,.8,.25,1);
+  box-shadow: 0 1px 5px -3px rgba(0,0,0.05);
 }
 
 @media (min-width: 25em) {
@@ -74,7 +75,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  opacity: .3;
+  opacity: .22;
 }
 
 .list-item__button {
