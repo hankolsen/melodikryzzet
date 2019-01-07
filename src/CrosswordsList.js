@@ -1,5 +1,6 @@
 import React from 'react';
 import List from './List/List';
+import LoadingIndicator from './LoadingIndicator/LoadingIndicator';
 
 class CrosswordsList extends React.Component {
 
@@ -35,7 +36,14 @@ class CrosswordsList extends React.Component {
         </div>
       );
     }
-    return (<div className="list skeleton" />);
+    return (
+      <div>
+        <h1>Loading crosswords</h1>
+        <div className="list" >
+          <LoadingIndicator />
+        </div>
+      </div>
+    );
   }
 
 }

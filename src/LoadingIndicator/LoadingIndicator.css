@@ -1,0 +1,64 @@
+.loadingindicator__wrapper {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#background {
+  width: 100%;
+  height: 100%;
+  fill: #222;
+}
+
+.square {
+  width: 80px;
+  height: 80px;
+  fill: #fff;
+}
+
+.square__inverse {
+  fill: #222;
+}
+
+#rect-11 {
+  animation: square 3s ease 1s infinite;
+}
+
+#rect-24 {
+  animation: square 3s ease .7s infinite;
+}
+
+#rect-23 {
+  animation: square-inverse 3.6s ease .9s infinite;
+}
+
+#rect-32 {
+  animation: square-inverse 3s ease-out 2.5s infinite;
+}
+
+#rect-43 {
+  animation: square-inverse 2.75s ease-out 1.3s infinite;
+}
+
+@keyframes square {
+  0% {
+    opacity: 1;
+  }
+  15% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+}
+
+@keyframes square-inverse {
+  45% {
+    fill: #fff;
+  }
+  75% {
+    fill: #fff;
+  }
+  100% {
+    fill: #222;
+  }
+}

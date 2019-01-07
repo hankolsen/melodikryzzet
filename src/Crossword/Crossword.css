@@ -20,10 +20,6 @@
   width: 100%;
 }
 
-.crossword-container.crossword-container--loading {
-  height: 100vw;
-}
-
 .crossword-board {
   width: 100%;
   position: relative;
@@ -33,10 +29,6 @@
   .crossword-container,
   .crossword-board {
       width: 30.0625rem;
-  }
-
-  .crossword-container.crossword-container--loading {
-    height: 30.0625rem;
   }
 }
 
@@ -101,37 +93,6 @@ h3 {
   font-family: Georgia,serif;
   font-weight: 800;
   text-anchor: middle;
-}
-
-.loading {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background: #222;
-  transition: .75s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loading.hide {
-  transform: translateY(calc(100% + 10px));
-}
-
-.loading-title {
-  text-align: center;
-  text-transform: uppercase;
-  font-size: 5em;
-  letter-spacing: .085em;
-  font-family: 'Fjalla One', 'Helvetica Neue', Arial, sans-serif;
-  color: #fff;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 button {
