@@ -50,22 +50,6 @@
   transform: scale(1.02);
 }
 
-.list-item__button-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  flex: 1 1 auto;
-  cursor: pointer;
-  min-height: 36px;
-  min-width: 88px;
-  line-height: 36px;
-  vertical-align: middle;
-  box-sizing: border-box;
-  position: relative;
-}
-
 .list__list-item:before {
   content: " ";
   background: url('/button-bg.jpg') no-repeat center;
