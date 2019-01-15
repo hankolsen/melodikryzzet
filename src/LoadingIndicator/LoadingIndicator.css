@@ -1,6 +1,12 @@
 .loadingindicator__wrapper {
-  margin-left: auto;
-  margin-right: auto;
+  margin: 3% auto; /* 3% is the same as the crossword list items has */
+  display: flex;
+
+  /* Don't let the image overflow on narrow devices */
+  max-width: 100%;
+
+  /* Safari doesn't center the loading indicator without width: 100% */
+  width: 100%;
 }
 
 #background {

@@ -39,9 +39,7 @@ class CrosswordsList extends React.Component {
     return (
       <div>
         <h1>Loading crosswords</h1>
-        <div className="list" >
-          <LoadingIndicator />
-        </div>
+        <LoadingIndicator />
       </div>
     );
   }
