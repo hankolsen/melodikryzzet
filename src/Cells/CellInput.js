@@ -19,13 +19,14 @@ class CellInput extends React.Component {
 
   render() {
     const { clickHandler, inputHandler, keyUpHandler, width, height, top, left } = this.props;
+    const { value } = this.state;
     return (
       <div className="crossword__hidden-input-wrapper" style={{ width: `${width}%`, height: `${height}%`, top: `${top}%`, left: `${left}%` }}>
         <input
           type="text"
           aria-label="letter"
           maxLength="1"
-          value={this.state.value}
+          value={value}
           onChange={this.onChange}
           autoComplete="off"
           spellCheck="false"

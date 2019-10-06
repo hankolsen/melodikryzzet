@@ -8,7 +8,7 @@ import ArrowAcross from './ArrowAcross';
 import ArrowDown from './ArrowDown';
 
 const Cell = ({ row, number = '', column, letter = '', arrow = '', clickHandler, highlighted, selected }) => (
-  <g onClick={e => clickHandler(e, row, column)}>
+  <g onClick={(e) => clickHandler(e, row, column)}>
     <CellRectangle column={column} row={row} selected={selected} highlighted={highlighted} />
     { number ? <CellLabel column={column} row={row} number={number} /> : null }
     { arrow && arrow === 'across' ? <ArrowAcross column={column} row={row} /> : null }
