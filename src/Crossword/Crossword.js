@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './Crossword.css';
+import { Redirect } from 'react-router-dom';
 import Separators from '../Separators/Separators';
 import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
@@ -29,6 +30,7 @@ class Crossword extends React.Component {
     this.state = {
       isLoading: true,
       direction: 'across',
+      error: false,
     };
 
     this.clickHandler = this.clickHandler.bind(this);
@@ -46,8 +48,12 @@ class Crossword extends React.Component {
 
         Object.assign(this, { name, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
 
-        this.setState({ cells, isLoading: false });
-      });
+        this.setState({ cells });
+      })
+      .catch(() => {
+        this.setState({ error: true });
+      })
+      .finally(() => this.setState({ isLoading: false }));
   }
 
   reset() {
@@ -74,11 +80,11 @@ class Crossword extends React.Component {
     let { direction } = this.state;
     const { cells } = this.state;
     const currentCell = cells[row][column];
-    if (currentCell.number &&
-        !currentCell.highlighted &&
-        !cellIsStartingWord({ cell: currentCell, direction }) &&
-        cellContainsOtherDirection({ currentCell, direction }) &&
-        cellIsStartingWord({ cell: currentCell, direction: toggleDirection(direction) })) {
+    if (currentCell.number
+        && !currentCell.highlighted
+        && !cellIsStartingWord({ cell: currentCell, direction })
+        && cellContainsOtherDirection({ currentCell, direction })
+        && cellIsStartingWord({ cell: currentCell, direction: toggleDirection(direction) })) {
       direction = toggleDirection(direction);
     }
     if (!currentCell[direction] || currentCell.selected) {
@@ -181,7 +187,8 @@ class Crossword extends React.Component {
       }
     }
 
-    const entries = this.state.cells.map(row => row.map(cell => cell && cell.text));
+    const { cells } = this.state;
+    const entries = cells.map((row) => row.map((cell) => cell && cell.text));
     localStorage.setItem(`kryzz-${this.crosswordId}`, JSON.stringify(entries));
 
   }
@@ -211,15 +218,14 @@ class Crossword extends React.Component {
     const array = [];
 
     cells
-      .map(row =>
-        row.forEach((cell) => {
-          if (cell && cell[direction] && cell[direction].includes(selection)) {
-            array.push(cell);
-          }
-        }));
+      .map((row) => row.forEach((cell) => {
+        if (cell && cell[direction] && cell[direction].includes(selection)) {
+          array.push(cell);
+        }
+      }));
 
     let nextCell;
-    const currentIndex = array.findIndex(cell => cell.selected);
+    const currentIndex = array.findIndex((cell) => cell.selected);
     if (currentIndex > -1 && currentIndex < array.length) {
       const nextIndex = currentIndex + dir;
       nextCell = array[nextIndex];
@@ -259,14 +265,21 @@ class Crossword extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, error } = this.state;
+
+    if (error) {
+      return (
+        <Redirect to="/" />
+      );
+    }
+
     return (
       <div className="crossword">
         <h3>{this.name ? this.name : 'Loading crossword' }</h3>
         <div className="crossword-container">
           { isLoading ? <LoadingIndicator /> : this.renderCrossword() }
         </div>
-        <button onClick={this.reset} className={isLoading ? 'hidden' : ''}>Reset</button>
+        <button onClick={this.reset} type="submit" className={isLoading ? 'hidden' : ''}>Reset</button>
       </div>
     );
   }

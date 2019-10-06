@@ -38,10 +38,15 @@ const getCrosswords = async () => {
 };
 
 const getCrossword = async (id) => {
-  const collection = await getCrosswordsCollection();
-  const crossword = await collection.findOne({ _id: new ObjectId(id) });
-  closeClient();
-  return { crossword };
+  try {
+    const collection = await getCrosswordsCollection();
+    const crossword = await collection.findOne({ _id: new ObjectId(id) });
+    closeClient();
+    return { crossword };
+  } catch (e) {
+    console.log('****', e);
+    return { crossword: undefined };
+  }
 };
 
 const handleError = (err, callback) => {

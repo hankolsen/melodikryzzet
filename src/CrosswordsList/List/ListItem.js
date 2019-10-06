@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const ListItem = (props) => {
-  const { id, name } = props.crossword;
+  const { crossword: { id, name } } = props;
 
   return (
     <div className="list__list-item">

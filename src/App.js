@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import Crossword from './Crossword/Crossword';
-import CrosswordsList from './CrosswordsList';
+import CrosswordsListView from './CrosswordsList/CrosswordsListView';
 
 
 const App = () => (
@@ -13,10 +13,10 @@ const App = () => (
     </header>
     <div className="content">
       <Switch>
-        <Route exact path="/" component={CrosswordsList} />
+        <Route exact path="/" component={CrosswordsListView} />
         <Redirect from="/crossword/" to="/" exact />
         <Route path="/crossword/:id" component={Crossword} />
-        <Route component={CrosswordsList} />
+        <Redirect to="/" />
       </Switch>
     </div>
   </div>
