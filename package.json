@@ -3,8 +3,6 @@
   "license": "ISC",
   "version": "2.0.0",
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "mongodb": "^3.6.3",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
