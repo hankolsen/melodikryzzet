@@ -7,3 +7,12 @@ I got annyoed by the fact that the official app didn't consider words in an angl
 My solution automatically detect the next letter in the word and adjuts the direction of typing.
 
 Demo at https://www.melodikryzzet.se/
+
+# Setup
+Requires `netlify-cli`. Use `brew install netlify-cli` to install it.
+
+Copy `.env.example` to `.env` and add the settings for you MongoDB.
+
+Start with `netlify dev`.
+
+
