@@ -12,5 +12,4 @@ const Separators = ({ separators }) => separators
     />
   ));
 
-
 export default Separators;
