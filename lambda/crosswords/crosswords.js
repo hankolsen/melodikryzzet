@@ -1,4 +1,4 @@
-import { MongoClient, ObjectId } from 'mongodb';
+const { MongoClient, ObjectId } = require('mongodb');
 
 require('dotenv').config();
 
@@ -67,7 +67,7 @@ const handleSuccess = (data, callback) => {
   });
 };
 
-exports.handler = async (event, context, callback) => {
+const handler = async (event, context, callback) => {
   const { path } = event;
   const [, id] = path.match(/\/crosswords\/(.*)/) || [];
 
@@ -83,3 +83,5 @@ exports.handler = async (event, context, callback) => {
     return handleError(err, callback);
   }
 };
+
+module.exports = { handler };
