@@ -18,7 +18,10 @@ const headers = {
 };
 
 const getCrosswordsCollection = async () => {
-  client = await MongoClient.connect(uri, { useNewUrlParser: true });
+  client = await MongoClient.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
   return client.db(DB_NAME).collection(CROSSWORD_COLLECTION_NAME);
 };
 
