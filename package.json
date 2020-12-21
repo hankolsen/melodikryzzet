@@ -1,5 +1,6 @@
 {
   "name": "melodikryzzet",
+  "license": "ISC",
   "version": "2.0.0",
   "dependencies": {
     "dotenv": "^8.1.0",
@@ -13,7 +14,6 @@
   "scripts": {
     "start": "run-p start:**",
     "start:app": "react-scripts start",
-    "build": "run-p build:**",
     "build:app": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
