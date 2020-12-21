@@ -4,17 +4,16 @@ import PropTypes from 'prop-types';
 import Line from './Line';
 
 const Separator = (props) => {
-
   const { direction, position, separator, locations } = props;
-
 
   switch (separator) {
     case ',':
-      return <Line position={position} locations={locations} direction={direction} />;
+      return (
+        <Line position={position} locations={locations} direction={direction} />
+      );
     default:
       return null;
   }
-
 };
 
 Separator.propTypes = {

@@ -17,12 +17,10 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-
 const getCrosswordsCollection = async () => {
   client = await MongoClient.connect(uri, { useNewUrlParser: true });
   return client.db(DB_NAME).collection(CROSSWORD_COLLECTION_NAME);
 };
-
 
 const closeClient = () => {
   client.close();
@@ -32,7 +30,7 @@ const getCrosswords = async () => {
   const collection = await getCrosswordsCollection();
   const data = await collection.find({}).toArray();
   // eslint-disable-next-line no-underscore-dangle
-  const crosswords = data.map(entry => ({ name: entry.name, id: entry._id }));
+  const crosswords = data.map((entry) => ({ name: entry.name, id: entry._id }));
   closeClient();
   return { crosswords };
 };
@@ -44,7 +42,6 @@ const getCrossword = async (id) => {
     closeClient();
     return { crossword };
   } catch (e) {
-    console.log('****', e);
     return { crossword: undefined };
   }
 };
@@ -70,13 +67,11 @@ const handleSuccess = (data, callback) => {
   });
 };
 
-
 exports.handler = async (event, context, callback) => {
   const { path } = event;
   const [, id] = path.match(/\/crosswords\/(.*)/) || [];
 
   try {
-
     if (!id) {
       const { crosswords = {} } = await getCrosswords();
       return handleSuccess({ crosswords }, callback);
@@ -84,7 +79,6 @@ exports.handler = async (event, context, callback) => {
 
     const { crossword } = await getCrossword(id);
     return handleSuccess({ crossword }, callback);
-
   } catch (err) {
     return handleError(err, callback);
   }

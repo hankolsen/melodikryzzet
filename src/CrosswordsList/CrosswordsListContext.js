@@ -6,14 +6,15 @@ const CrosswordsListContext = createContext(initialValue);
 const useCrosswordsList = () => {
   const context = useContext(CrosswordsListContext);
   if (!context) {
-    throw new Error('useCrosswordsList must be used within a CrosswordsListContext');
+    throw new Error(
+      'useCrosswordsList must be used within a CrosswordsListContext',
+    );
   }
   return context;
 };
 
 // eslint-disable-next-line react/prop-types
 const CrossWordsListProvider = ({ children }) => {
-
   const [crosswords, setCrosswords] = useState([]);
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const CrossWordsListProvider = ({ children }) => {
 
   return (
     <CrosswordsListContext.Provider value={value}>
-      { children }
+      {children}
     </CrosswordsListContext.Provider>
   );
 };

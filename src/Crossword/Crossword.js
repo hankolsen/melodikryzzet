@@ -9,13 +9,20 @@ import Cells from '../Cells/Cells';
 import CellInput from '../Cells/CellInput';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import {
-  cellContainsOtherDirection, createCrossword, cellIsStartingWord,
-  deselectAll, emptyAll, getCurrentId,
-  getInputPosition, highlightId, isIgnorableKey, isValidKey, toggleDirection,
+  cellContainsOtherDirection,
+  createCrossword,
+  cellIsStartingWord,
+  deselectAll,
+  emptyAll,
+  getCurrentId,
+  getInputPosition,
+  highlightId,
+  isIgnorableKey,
+  isValidKey,
+  toggleDirection,
 } from './crosswordHelper';
 
 class Crossword extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -44,60 +51,56 @@ class Crossword extends React.Component {
     const { match } = this.props;
     this.crosswordId = match.params.id;
     createCrossword(this.crosswordId)
-      .then(({ name, cells, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight }) => {
+      .then(
+        ({
+          name,
+          cells,
+          separators,
+          numberOfColumns,
+          numberOfRows,
+          boardWidth,
+          boardHeight,
+          inputWidth,
+          inputHeight,
+        }) => {
+          Object.assign(this, {
+            name,
+            separators,
+            numberOfColumns,
+            numberOfRows,
+            boardWidth,
+            boardHeight,
+            inputWidth,
+            inputHeight,
+          });
 
-        Object.assign(this, { name, separators, numberOfColumns, numberOfRows, boardWidth, boardHeight, inputWidth, inputHeight });
-
-        this.setState({ cells });
-      })
+          this.setState({ cells });
+        },
+      )
       .catch(() => {
         this.setState({ error: true });
       })
       .finally(() => this.setState({ isLoading: false }));
   }
 
-  reset() {
-    localStorage.removeItem(`kryzz-${this.crosswordId}`);
-    const { cells } = this.state;
-    emptyAll(cells);
-    this.setState({ cells });
-  }
+  handleArrowMove({ arrow }) {
+    const { cells, currentCell } = this.state;
+    const { row, column } = currentCell;
 
-  highlightCurrentSelection({ direction }) {
-    const { cells, currentCell, selection } = this.state;
-    return new Promise((resolve) => {
-      const id = getCurrentId({ currentCell, direction, selection });
-      this.cellInput.focus();
-      if (id) {
-        highlightId({ cells, direction, id, currentCell });
-      }
-      this.setState({ direction, selection: id }, () => resolve({ direction }));
-    });
-  }
+    /* eslint-disable no-shadow */
+    const moves = {
+      Left: (cells, row, column) => cells[row][column - 1],
+      Right: (cells, row, column) => cells[row][column + 1],
+      Up: (cells, row, column) => cells[row - 1] && cells[row - 1][column],
+      Down: (cells, row, column) => cells[row + 1] && cells[row + 1][column],
+    };
+    /* eslint-enable no-shadow */
 
-
-  clickHandler(event, row, column) {
-    let { direction } = this.state;
-    const { cells } = this.state;
-    const currentCell = cells[row][column];
-    if (currentCell.number
-        && !currentCell.highlighted
-        && !cellIsStartingWord({ cell: currentCell, direction })
-        && cellContainsOtherDirection({ currentCell, direction })
-        && cellIsStartingWord({ cell: currentCell, direction: toggleDirection(direction) })) {
-      direction = toggleDirection(direction);
+    const newCell = moves[arrow](cells, row, column);
+    if (newCell) {
+      this.moveTo(newCell);
     }
-    if (!currentCell[direction] || currentCell.selected) {
-      direction = toggleDirection(direction);
-    }
-    this.setState({ currentCell }, () => {
-      this.highlightCurrentSelection({ direction })
-        .then(({ direction: newDirection }) => {
-          this.setState({ cells, direction: newDirection, currentCell });
-        });
-    });
   }
-
 
   inputClickHandler() {
     let { direction, currentCell } = this.state;
@@ -125,24 +128,51 @@ class Crossword extends React.Component {
     }
   }
 
-
-  handleArrowMove({ arrow }) {
-    const { cells, currentCell } = this.state;
-    const { row, column } = currentCell;
-
-    /* eslint-disable no-shadow */
-    const moves = {
-      Left: (cells, row, column) => cells[row][column - 1],
-      Right: (cells, row, column) => cells[row][column + 1],
-      Up: (cells, row, column) => cells[row - 1] && cells[row - 1][column],
-      Down: (cells, row, column) => cells[row + 1] && cells[row + 1][column],
-    };
-    /* eslint-enable no-shadow */
-
-    const newCell = moves[arrow](cells, row, column);
-    if (newCell) {
-      this.moveTo(newCell);
+  clickHandler(event, row, column) {
+    let { direction } = this.state;
+    const { cells } = this.state;
+    const currentCell = cells[row][column];
+    if (
+      currentCell.number &&
+      !currentCell.highlighted &&
+      !cellIsStartingWord({ cell: currentCell, direction }) &&
+      cellContainsOtherDirection({ currentCell, direction }) &&
+      cellIsStartingWord({
+        cell: currentCell,
+        direction: toggleDirection(direction),
+      })
+    ) {
+      direction = toggleDirection(direction);
     }
+    if (!currentCell[direction] || currentCell.selected) {
+      direction = toggleDirection(direction);
+    }
+    this.setState({ currentCell }, () => {
+      this.highlightCurrentSelection({ direction }).then(
+        ({ direction: newDirection }) => {
+          this.setState({ cells, direction: newDirection, currentCell });
+        },
+      );
+    });
+  }
+
+  highlightCurrentSelection({ direction }) {
+    const { cells, currentCell, selection } = this.state;
+    return new Promise((resolve) => {
+      const id = getCurrentId({ currentCell, direction, selection });
+      this.cellInput.focus();
+      if (id) {
+        highlightId({ cells, direction, id, currentCell });
+      }
+      this.setState({ direction, selection: id }, () => resolve({ direction }));
+    });
+  }
+
+  reset() {
+    localStorage.removeItem(`kryzz-${this.crosswordId}`);
+    const { cells } = this.state;
+    emptyAll(cells);
+    this.setState({ cells });
   }
 
   inputHandler(event) {
@@ -162,15 +192,12 @@ class Crossword extends React.Component {
       return;
     }
 
-
     // Is it an arrow key?
     const [, arrow] = key.match(/Arrow(\w+)$/) || [];
-
 
     if (arrow) {
       this.handleArrowMove({ arrow });
     }
-
 
     if (isIgnorableKey(key)) {
       event.preventDefault();
@@ -190,7 +217,6 @@ class Crossword extends React.Component {
     const { cells } = this.state;
     const entries = cells.map((row) => row.map((cell) => cell && cell.text));
     localStorage.setItem(`kryzz-${this.crosswordId}`, JSON.stringify(entries));
-
   }
 
   moveTo(nextCell) {
@@ -212,17 +238,17 @@ class Crossword extends React.Component {
     this.moveToNext(-1);
   }
 
-
   moveToNext(dir = 1) {
     const { direction, cells, selection } = this.state;
     const array = [];
 
-    cells
-      .map((row) => row.forEach((cell) => {
+    cells.map((row) =>
+      row.forEach((cell) => {
         if (cell && cell[direction] && cell[direction].includes(selection)) {
           array.push(cell);
         }
-      }));
+      }),
+    );
 
     let nextCell;
     const currentIndex = array.findIndex((cell) => cell.selected);
@@ -237,7 +263,6 @@ class Crossword extends React.Component {
       this.setState({ currentCell: nextCell, cells });
       this.cellInput.focus();
     }
-
   }
 
   renderCrossword() {
@@ -245,9 +270,19 @@ class Crossword extends React.Component {
     const { left, top } = getInputPosition(currentCell);
     return (
       <div className="crossword-board">
-        <svg className="crossword__grid" viewBox={`0 0 ${this.boardWidth} ${this.boardHeight}`} fill="#222222">
-          <rect x="0" y="0" width={this.boardWidth} height={this.boardHeight} className="crossword__grid-background" />
-          { cells && <Cells cells={cells} clickHandler={this.clickHandler} /> }
+        <svg
+          className="crossword__grid"
+          viewBox={`0 0 ${this.boardWidth} ${this.boardHeight}`}
+          fill="#222222"
+        >
+          <rect
+            x="0"
+            y="0"
+            width={this.boardWidth}
+            height={this.boardHeight}
+            className="crossword__grid-background"
+          />
+          {cells && <Cells cells={cells} clickHandler={this.clickHandler} />}
           <Separators separators={this.separators} />
         </svg>
         <CellInput
@@ -258,7 +293,9 @@ class Crossword extends React.Component {
           inputHandler={this.inputHandler}
           keyUpHandler={this.keyUpHandler}
           clickHandler={this.inputClickHandler}
-          ref={(input) => { this.cellInput = input; }}
+          ref={(input) => {
+            this.cellInput = input;
+          }}
         />
       </div>
     );
@@ -268,18 +305,22 @@ class Crossword extends React.Component {
     const { isLoading, error } = this.state;
 
     if (error) {
-      return (
-        <Redirect to="/" />
-      );
+      return <Redirect to="/" />;
     }
 
     return (
       <div className="crossword">
-        <h3>{this.name ? this.name : 'Loading crossword' }</h3>
+        <h3>{this.name ? this.name : 'Loading crossword'}</h3>
         <div className="crossword-container">
-          { isLoading ? <LoadingIndicator /> : this.renderCrossword() }
+          {isLoading ? <LoadingIndicator /> : this.renderCrossword()}
         </div>
-        <button onClick={this.reset} type="submit" className={isLoading ? 'hidden' : ''}>Reset</button>
+        <button
+          onClick={this.reset}
+          type="submit"
+          className={isLoading ? 'hidden' : ''}
+        >
+          Reset
+        </button>
       </div>
     );
   }
@@ -292,6 +333,5 @@ Crossword.propTypes = {
     }).isRequired,
   }).isRequired,
 };
-
 
 export default Crossword;
