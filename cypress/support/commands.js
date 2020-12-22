@@ -45,7 +45,6 @@ Cypress.Commands.add('clickAndTypeInCell', (index, letter) => {
   cy.cellContains(index, letter);
 });
 
-
 Cypress.Commands.add('typeInCurrentCell', (letter) => {
   cy.get('.crossword__hidden-input').type(letter);
 });
