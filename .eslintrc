@@ -38,6 +38,7 @@
         "tsx": "never"
       }
     ],
+    "react/require-default-props": 0, // Introduced when upgrading to eslint 7 + other deps
     "max-len": [1, 120],
     "object-curly-newline": [0],
     "padded-blocks": 0,

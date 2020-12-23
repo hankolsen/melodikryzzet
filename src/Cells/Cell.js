@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CellRectangle from './CellRectangle';
-import CellText from './CellText';
+import CellRectangle from './CellRectangle/CellRectangle';
+import CellText from './CellText/CellText';
 import ArrowAcross from './ArrowAcross';
 import ArrowDown from './ArrowDown';
 import CellLabel from './CellLabel/CellLabel';
