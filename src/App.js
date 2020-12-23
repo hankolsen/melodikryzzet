@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
 import Crossword from './Crossword/Crossword';
+import { CrosswordProvider } from './Crossword/CrosswordContext';
 import CrosswordsListView from './CrosswordsList/CrosswordsListView';
 
 const App = () => (
@@ -16,7 +17,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={CrosswordsListView} />
         <Redirect from="/crossword/" to="/" exact />
-        <Route path="/crossword/:id" component={Crossword} />
+        <Route path="/crossword/:id" component={() => <CrosswordProvider><Crossword /></CrosswordProvider>} />
         <Redirect to="/" />
       </Switch>
     </div>

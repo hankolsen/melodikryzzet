@@ -2,8 +2,8 @@ import React, { useEffect, useRef } from 'react';
 
 type Props = {
   clickHandler: () => void;
-  inputHandler: () => void;
-  keyUpHandler: () => void;
+  inputHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  keyUpHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   left: number;
   width: number;
   height: number;
