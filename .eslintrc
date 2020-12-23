@@ -5,7 +5,8 @@
     "jest": true
   },
   "extends": [
-    "airbnb"
+    "airbnb",
+    "plugin:cypress/recommended"
   ],
   "rules": {
     "max-len": [1, 120],
