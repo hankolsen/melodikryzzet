@@ -6,7 +6,7 @@ import './Crossword.css';
 import { Redirect } from 'react-router-dom';
 import Separators from '../Separators/Separators';
 import Cells from '../Cells/Cells';
-import CellInput from '../Cells/CellInput';
+import CellInput from '../Cells/CellInput/CellInput';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import {
   cellContainsOtherDirection,
@@ -38,6 +38,7 @@ class Crossword extends React.Component {
       isLoading: true,
       direction: 'across',
       error: false,
+      showInput: false,
     };
 
     this.clickHandler = this.clickHandler.bind(this);
@@ -147,6 +148,7 @@ class Crossword extends React.Component {
     if (!currentCell[direction] || currentCell.selected) {
       direction = toggleDirection(direction);
     }
+    this.setState({ showInput: true });
     this.setState({ currentCell }, () => {
       this.highlightCurrentSelection({ direction }).then(
         ({ direction: newDirection }) => {
@@ -160,7 +162,6 @@ class Crossword extends React.Component {
     const { cells, currentCell, selection } = this.state;
     return new Promise((resolve) => {
       const id = getCurrentId({ currentCell, direction, selection });
-      this.cellInput.focus();
       if (id) {
         highlightId({ cells, direction, id, currentCell });
       }
@@ -231,7 +232,6 @@ class Crossword extends React.Component {
     }
     highlightId({ cells, direction, id: selection, currentCell: nextCell });
     this.setState({ cells, selection, currentCell: nextCell, direction });
-    this.cellInput.focus();
   }
 
   moveToPrevious() {
@@ -261,12 +261,11 @@ class Crossword extends React.Component {
       deselectAll(cells);
       nextCell.selected = true;
       this.setState({ currentCell: nextCell, cells });
-      this.cellInput.focus();
     }
   }
 
   renderCrossword() {
-    const { cells, currentCell = {} } = this.state;
+    const { cells, currentCell = {}, showInput } = this.state;
     const { left, top } = getInputPosition(currentCell);
     return (
       <div className="crossword-board">
@@ -285,18 +284,17 @@ class Crossword extends React.Component {
           {cells && <Cells cells={cells} clickHandler={this.clickHandler} />}
           <Separators separators={this.separators} />
         </svg>
-        <CellInput
-          top={top}
-          left={left}
-          width={this.inputWidth}
-          height={this.inputHeight}
-          inputHandler={this.inputHandler}
-          keyUpHandler={this.keyUpHandler}
-          clickHandler={this.inputClickHandler}
-          ref={(input) => {
-            this.cellInput = input;
-          }}
-        />
+        {showInput && (
+          <CellInput
+            top={top}
+            left={left}
+            width={this.inputWidth}
+            height={this.inputHeight}
+            inputHandler={this.inputHandler}
+            keyUpHandler={this.keyUpHandler}
+            clickHandler={this.inputClickHandler}
+          />
+        )}
       </div>
     );
   }

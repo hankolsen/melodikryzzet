@@ -13,8 +13,12 @@ describe('Dashboard test', () => {
   });
 
   it('should handle mouse clicks', () => {
-    // Typing a letter should highlight the entire row
+    // The "input cell" should not be available on first render
+    cy.get('.crossword__hidden-input-wrapper').should('not.exist');
     cy.clickCell(0, { force: true });
+    // When a cell is selected, the "input cell" should appear
+    cy.get('.crossword__hidden-input-wrapper').should('be.visible');
+    // A selected cell should highlight the entire row
     cy.hasHighlighted(11);
     cy.cellIsHighlighted(0);
     cy.cellIsHighlighted(10);
