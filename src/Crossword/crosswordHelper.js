@@ -1,4 +1,4 @@
-import { CELL_HEIGHT, CELL_WIDTH } from '../config';
+import { CELL_HEIGHT, CELL_WIDTH } from 'config';
 
 let boardHeight;
 let boardWidth;

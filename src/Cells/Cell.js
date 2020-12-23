@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import CellRectangle from './CellRectangle';
 import CellText from './CellText';
-import CellLabel from './CellLabel';
 import ArrowAcross from './ArrowAcross';
 import ArrowDown from './ArrowDown';
+import CellLabel from './CellLabel/CellLabel';
 
 const Cell = ({ row, number = '', column, letter = '', arrow = '', clickHandler, highlighted, selected }) => (
   <g onClick={(e) => clickHandler(e, row, column)}>

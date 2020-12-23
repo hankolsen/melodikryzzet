@@ -6,9 +6,38 @@
   },
   "extends": [
     "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
     "plugin:cypress/recommended"
   ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
+    }
+  },
+  "parserOptions": {
+    "project": "./tsconfig.eslint.json",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "testing-library", "jest-dom"],
   "rules": {
+    "react/prop-types": ["off"],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "max-len": [1, 120],
     "object-curly-newline": [0],
     "padded-blocks": 0,
@@ -18,10 +47,14 @@
     "operator-linebreak": 0,
     "function-paren-newline": 0,
     "react/jsx-one-expression-per-line": 0,
-    "jsx-a11y/anchor-is-valid": [ "error", {
-      "components": [ "Link" ],
-      "specialLink": [ "hrefLeft", "hrefRight" ],
-      "aspects": [ "invalidHref", "preferButton" ]
-    }]
+    "@typescript-eslint/no-shadow": 0, // Already available in eslint
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ]
   }
 }
