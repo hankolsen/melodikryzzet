@@ -2,7 +2,7 @@ describe('Dashboard test', () => {
   it('loads the dashboard', () => {
     cy.visit('/');
     cy.contains('Choose crossword');
-    cy.get('.list-item__button').should('have.length', 5);
+    cy.get('.list-item__button').should('have.length', 6);
   });
 
   it('loads a crossword', () => {
