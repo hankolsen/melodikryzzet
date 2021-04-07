@@ -16,6 +16,9 @@ const dehighlightAll = (cells) => {
 };
 
 const deselectAll = (cells) => {
+  if (!cells) {
+    return;
+  }
   cells.forEach((row) =>
     row.forEach((cell) => {
       if (cell) {
@@ -175,13 +178,6 @@ const createCrossword = (crosswordId) =>
       .catch((e) => reject(e)),
   );
 
-const getInputPosition = ({ row = 0, column = 0 }) => {
-  const top = (row / numberOfRows) * 100 || 0; // (((row * CELL_HEIGHT) + 2) / boardHeight) * 100 || 0;
-  const left = (column / numberOfColumns) * 100 || 0;
-
-  return { left, top };
-};
-
 const isValidKey = (key) => key.match(/^[a-zåäö]{1}$/i) || key === 'Backspace';
 
 const isIgnorableKey = (key) => key === 'Tab' || !isValidKey(key);
@@ -224,6 +220,11 @@ const cellIsStartingWord = ({ cell, direction }) =>
   cell[direction] &&
   cell[direction].find((id) => id.startsWith(cell.number));
 
+const cellIsStartingWordInOtherDirection = ({ cell, direction }) => {
+  const otherDirection = direction === 'across' ? 'down' : 'across';
+  return cellIsStartingWord({ cell, direction: otherDirection });
+};
+
 const cellContainsOtherDirection = ({ currentCell, direction }) =>
   (direction === 'across' && currentCell.down) ||
   (direction === 'down' && currentCell.across);
@@ -232,9 +233,8 @@ export {
   createCrossword,
   cellContainsOtherDirection,
   cellIsStartingWord,
-  deselectAll,
+  cellIsStartingWordInOtherDirection,
   emptyAll,
-  getInputPosition,
   getCurrentId,
   highlightId,
   isIgnorableKey,

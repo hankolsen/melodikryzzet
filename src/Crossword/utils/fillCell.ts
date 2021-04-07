@@ -1,4 +1,4 @@
-import { CellType } from './Crossword.types';
+import { CellType } from '../Crossword.types';
 
 type Props = {
   cells: CellType[][];

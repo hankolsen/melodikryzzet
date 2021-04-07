@@ -1,6 +1,6 @@
-import { CELL_HEIGHT, CELL_WIDTH } from '../config';
-import { CellType } from './Crossword.types';
-import { toggleDirection } from './crosswordHelper';
+import { CELL_HEIGHT, CELL_WIDTH } from '../../config';
+import { CellType } from '../Crossword.types';
+import { toggleDirection } from '../crosswordHelper';
 import fillCell from './fillCell';
 
 type Entry = {
@@ -123,8 +123,6 @@ const createCrossword = (crosswordId: string): Promise<CrosswordType> =>
           CELL_WIDTH * numberOfColumns + numberOfColumns + 1 || 0;
         const boardHeight = CELL_HEIGHT * numberOfRows + numberOfRows + 1 || 0;
         const { name } = crossword;
-        console.log('cells', cells);
-        // eslint-disable-next-line max-len
         resolve({
           name,
           cells,

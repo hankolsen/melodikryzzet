@@ -1,8 +1,19 @@
 export type CellType = {
-  across: string[];
+  [direction in Direction]: string[];
+} & {
   column: number;
-  down: string[];
   number: number;
   row: number;
-  text: string;
+  highlighted?: boolean;
+  selected?: boolean;
+  text?: string;
+};
+
+export enum Direction {
+  across = 'across',
+  down = 'down',
+}
+
+export type Selection = {
+
 };

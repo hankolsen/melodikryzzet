@@ -17,7 +17,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={CrosswordsListView} />
         <Redirect from="/crossword/" to="/" exact />
-        <Route path="/crossword/:id" component={() => <CrosswordProvider><Crossword /></CrosswordProvider>} />
+        <Route path="/crossword/:crosswordId" component={() => <CrosswordProvider><Crossword /></CrosswordProvider>} />
         <Redirect to="/" />
       </Switch>
     </div>
