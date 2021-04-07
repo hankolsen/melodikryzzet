@@ -17,6 +17,7 @@ type CrosswordContextType = {
   boardHeight: number,
   clickHandler: (row: number, column: number) => void;
   cells?: CellType[][];
+  crosswordId: string;
   currentCell: CellType;
   inputWidth: number;
   inputHeight: number;
@@ -27,6 +28,7 @@ type CrosswordContextType = {
   inputClickHandler: () => void;
   inputHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   keyUpHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  reset: () => void;
   separators?: unknown[];
   showInput: boolean;
 };
@@ -62,11 +64,14 @@ const CrosswordProvider: FunctionComponent = ({ children }) => {
     dispatch({ type: 'click_cell', row, column });
   };
 
-  const inputHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {};
+  const inputHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    dispatch({ type: 'on_input', event });
+  };
   const keyUpHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {};
   const inputClickHandler = () => {
     dispatch({ type: 'click_input' });
   };
+  const reset = () => dispatch({ type: 'reset' });
 
   useEffect(() => {
     dispatch({ type: 'load' });
@@ -92,6 +97,7 @@ const CrosswordProvider: FunctionComponent = ({ children }) => {
     clickHandler,
     cells,
     currentCell,
+    crosswordId,
     inputWidth,
     inputHeight,
     isLoading,
@@ -103,6 +109,7 @@ const CrosswordProvider: FunctionComponent = ({ children }) => {
     keyUpHandler,
     separators,
     showInput,
+    reset,
   };
 
   return (

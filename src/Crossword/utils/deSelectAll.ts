@@ -1,16 +1,16 @@
 import { CellType } from '../Crossword.types';
 
-const deHighlightAll = (cells?: CellType[][]) => {
+const deSelectAll = (cells?: CellType[][]) => {
   if (!cells) {
     return;
   }
   cells.forEach((row) =>
     row.forEach((cell) => {
       if (cell) {
-        cell.highlighted = false;
+        cell.selected = false;
       }
     }),
   );
 };
 
-export default deHighlightAll;
+export default deSelectAll;

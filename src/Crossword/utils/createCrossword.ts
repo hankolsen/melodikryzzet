@@ -1,11 +1,11 @@
 import { CELL_HEIGHT, CELL_WIDTH } from '../../config';
-import { CellType } from '../Crossword.types';
-import { toggleDirection } from '../crosswordHelper';
+import { CellType, Direction } from '../Crossword.types';
 import fillCell from './fillCell';
+import toggleDirection from './toggleDirection';
 
 type Entry = {
   id: string;
-  direction: 'across' | 'down';
+  direction: Direction;
   group: string[];
   length: number;
   position: { x: number; y: number };
@@ -23,6 +23,7 @@ export type CrosswordType = {
   boardHeight: number;
   inputWidth: number;
   inputHeight: number;
+  crosswordId: string;
 };
 
 type CrosswordResponse = {
@@ -124,6 +125,7 @@ const createCrossword = (crosswordId: string): Promise<CrosswordType> =>
         const boardHeight = CELL_HEIGHT * numberOfRows + numberOfRows + 1 || 0;
         const { name } = crossword;
         resolve({
+          crosswordId,
           name,
           cells,
           separators,

@@ -1,25 +1,26 @@
+import React, { useEffect, useRef } from 'react';
 import { useCrossword } from 'Crossword/CrosswordContext';
 import useInputPosition from 'Crossword/utils/useInputPosition';
-import React, { useEffect, useRef } from 'react';
 
-type Props = {
-  clickHandler: () => void;
-  inputHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  keyUpHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-};
-
-const CellInput = ({
-  clickHandler,
-  inputHandler,
-  keyUpHandler,
-}: Props) => {
+const CellInput = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { inputWidth, inputHeight } = useCrossword();
+  const {
+    inputClickHandler,
+    inputHandler,
+    keyUpHandler,
+    inputWidth,
+    inputHeight,
+    showInput,
+  } = useCrossword();
   const { left, top } = useInputPosition();
 
   useEffect(() => {
     inputRef.current?.focus();
   });
+
+  if (!showInput) {
+    return null;
+  }
 
   return (
     <div
@@ -42,7 +43,7 @@ const CellInput = ({
         className="crossword__hidden-input"
         onKeyUp={keyUpHandler}
         onInput={inputHandler}
-        onClick={clickHandler}
+        onClick={inputClickHandler}
         ref={inputRef}
       />
     </div>

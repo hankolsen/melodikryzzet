@@ -28,16 +28,6 @@ const deselectAll = (cells) => {
   );
 };
 
-const emptyAll = (cells) => {
-  cells.map((row) =>
-    row.forEach((column) => {
-      if (column) {
-        column.text = '';
-      }
-    }),
-  );
-};
-
 /* eslint-disable no-confusing-arrow */
 const toggleDirection = (direction) =>
   direction === 'across' ? 'down' : 'across';
@@ -234,7 +224,6 @@ export {
   cellContainsOtherDirection,
   cellIsStartingWord,
   cellIsStartingWordInOtherDirection,
-  emptyAll,
   getCurrentId,
   highlightId,
   isIgnorableKey,
