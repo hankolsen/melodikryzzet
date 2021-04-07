@@ -6,12 +6,13 @@ import {
   getCurrentId,
 } from './crosswordHelper';
 import { CrosswordType } from './utils/createCrossword';
-import deHighlightAll from './utils/deHighlightAll';
 import deSelectAll from './utils/deSelectAll';
 import emptyAll from './utils/emptyAll';
-import highlightSelection from './utils/highLightSelection';
+import highlightCurrentSelection from './utils/highlightCurrentSelection';
+import isArrowKey from './utils/isArrowKey';
+import isIgnorableKey from './utils/isIgnorableKey';
 import isValidKey from './utils/isValidKey';
-import moveToNext from './utils/moveToNext';
+import { moveToNext } from './utils/move';
 import toggleDirection from './utils/toggleDirection';
 
 type CrosswordState = {
@@ -27,29 +28,11 @@ type CrosswordAction =
   | { type: 'click_cell'; row: number; column: number }
   | { type: 'click_input' }
   | { type: 'on_input'; event: React.KeyboardEvent<HTMLInputElement> }
+  | { type: 'key_up'; event: React.KeyboardEvent<HTMLInputElement> }
   | { type: 'reset' }
   | { type: 'crossword_loaded'; crossword: CrosswordType }
   | { type: 'crossword_load_failed'; err: any }
   | { type: 'load' };
-
-const highlightCurrentSelection = ({
-  cells,
-  currentCell,
-  direction,
-  id,
-}: {
-  cells: CellType[][];
-  currentCell: CellType;
-  direction: Direction;
-  id?: string;
-}) => {
-  if (id) {
-    deHighlightAll(cells);
-    deSelectAll(cells);
-    currentCell.selected = true;
-    highlightSelection(cells, direction, id);
-  }
-};
 
 const crosswordReducer = (
   state: CrosswordState,
@@ -66,20 +49,40 @@ const crosswordReducer = (
       emptyAll(cells);
       return { ...state, crossword };
     }
+    case 'key_up': {
+      const { event } = action;
+      const { key, metaKey } = event;
+      if (isIgnorableKey(key) || metaKey) {
+        event.preventDefault();
+        return state;
+      }
+
+      if (isArrowKey(key)) {
+        return state;
+      }
+
+      return state;
+    }
     case 'on_input': {
       const { value } = action.event.target as HTMLInputElement;
-      if (isValidKey(value)) {
-        currentCell.text = value.toUpperCase();
-        const nextCell = moveToNext({ cells, direction, selection, currentCell });
-        deSelectAll(cells);
-        nextCell.selected = true;
-        return {
-          ...state,
-          crossword,
-          currentCell: nextCell,
-        };
+      if (!isValidKey(value)) {
+        return state;
       }
-      return state;
+
+      currentCell.text = value.toUpperCase();
+      const nextCell = moveToNext({
+        cells,
+        direction,
+        selection,
+        currentCell,
+      });
+      deSelectAll(cells);
+      nextCell.selected = true;
+      return {
+        ...state,
+        crossword,
+        currentCell: nextCell,
+      };
     }
     case 'click_input': {
       if (currentCell) {

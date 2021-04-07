@@ -13,8 +13,8 @@ import crosswordReducer from './crosswordReducer';
 import createCrossword, { CrosswordType } from './utils/createCrossword';
 
 type CrosswordContextType = {
-  boardWidth: number,
-  boardHeight: number,
+  boardWidth: number;
+  boardHeight: number;
   clickHandler: (row: number, column: number) => void;
   cells?: CellType[][];
   crosswordId: string;
@@ -67,10 +67,9 @@ const CrosswordProvider: FunctionComponent = ({ children }) => {
   const inputHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     dispatch({ type: 'on_input', event });
   };
-  const keyUpHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {};
-  const inputClickHandler = () => {
-    dispatch({ type: 'click_input' });
-  };
+  const keyUpHandler = (event: React.KeyboardEvent<HTMLInputElement>) =>
+    dispatch({ type: 'key_up', event });
+  const inputClickHandler = () => dispatch({ type: 'click_input' });
   const reset = () => dispatch({ type: 'reset' });
 
   useEffect(() => {
@@ -119,4 +118,4 @@ const CrosswordProvider: FunctionComponent = ({ children }) => {
   );
 };
 
-export { CrosswordProvider, useCrossword };
+export { CrosswordProvider, useCrossword, CrosswordContext };
