@@ -17,11 +17,13 @@ jobs:
     env:
       SKIP_PREFLIGHT_CHECK: true
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with: 
-          node-version: ${{ matrix.node }}
-      - name: Install dependencies
-        run: yarn
-      - name: Run tests
-        run: yarn test:ci
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with: 
+        node-version: ${{ matrix.node }}
+    - name: Install dependencies
+      uses: bahmutov/npm-install@v1
+      with: 
+        install-command: yarn
+    - name: Run tests
+      run: yarn test:ci
