@@ -22,7 +22,8 @@
     "eject": "react-scripts eject",
     "eslint": "eslint --ext .js,.ts,.tsx .",
     "cypress:open": "cypress open",
-    "tsc": "tsc -p ."
+    "tsc": "tsc -p .",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",
@@ -41,6 +42,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
     "netlify-lambda": "^2.0.2",
     "prettier": "^2.2.1",
     "ts-jest": "^26.4.4"
