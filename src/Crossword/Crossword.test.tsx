@@ -6,13 +6,13 @@ import { CrosswordContext, CrosswordContextType } from './CrosswordContext';
 
 describe('Crossword test', () => {
   it('should show a loading message and spinner when fetching the crossword', () => {
-    render(
+    const { container } = render(
       <CrosswordContext.Provider value={{ isLoading: true } as any}>
         <Crossword />
       </CrosswordContext.Provider>,
     );
     screen.getByText(/loading crossword/i);
-    expect(screen).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   it('should show a crossword when fetching is done', () => {
@@ -34,12 +34,12 @@ describe('Crossword test', () => {
       name: 'Tema Covers',
     };
 
-    render(
+    const { container } = render(
       <CrosswordContext.Provider value={value}>
         <Crossword />
       </CrosswordContext.Provider>,
     );
     screen.getByText(/tema covers/i);
-    expect(screen).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

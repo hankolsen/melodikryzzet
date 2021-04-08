@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListItem test should render a list item 1`] = `
+<div>
+  <div>
+    <div
+      class="list__list-item"
+    >
+      <a
+        class="list-item__button"
+        href="/crossword/abc-123"
+      >
+        The Crossowrd to rule them all
+      </a>
+    </div>
+  </div>
+</div>
+`;

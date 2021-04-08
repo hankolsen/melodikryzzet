@@ -21,5 +21,6 @@ describe('ListItem test', () => {
     expect(container.querySelector('a')?.getAttribute('href')).toBe(
       '/crossword/abc-123',
     );
+    expect(container).toMatchSnapshot();
   });
 });

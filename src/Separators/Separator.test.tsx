@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { Direction } from 'Crossword/Crossword.types';
-import { render, screen } from 'test/test-utils';
+import { render } from 'test/test-utils';
 import Separator from './Separator';
 
 describe('Separator test', () => {
@@ -31,6 +31,6 @@ describe('Separator test', () => {
       </svg>,
     );
     expect(container.querySelector('line')).toBeInTheDocument();
-    expect(screen).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });
