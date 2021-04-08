@@ -3,9 +3,11 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SKIP_PREFLIGHT_CHECK: true
     steps:
     - uses: actions/checkout@v2
     - name: Install modules
       run: yarn
     - name: Run tests
-      run: SKIP_PREFLIGHT_CHECK=true && yarn test:nowatch
+      run: yarn test:nowatch
