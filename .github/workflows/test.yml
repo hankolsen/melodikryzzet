@@ -38,3 +38,4 @@ jobs:
         with:
           build: yarn build
           start: netlify dev 
+          wait-on: 'http://localhost:8888'
