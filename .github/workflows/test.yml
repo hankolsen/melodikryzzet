@@ -27,3 +27,15 @@ jobs:
         install-command: yarn
     - name: Run tests
       run: yarn test:ci
+  cypress-run:
+    runs-on: ubuntu-latest
+    env:
+      SKIP_PREFLIGHT_CHECK: true
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: netlify dev 
+          wait-on: 'http://localhost:8888'
