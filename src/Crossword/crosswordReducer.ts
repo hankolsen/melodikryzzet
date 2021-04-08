@@ -3,8 +3,10 @@ import clickCellReducer from './reducers/clickCellReducer';
 import clickInputReducer from './reducers/clickInputReducer';
 import onInputReducer from './reducers/onInputReducer';
 import resetReducer from './reducers/resetReducer';
+import deSelectAll from './utils/deSelectAll';
 import isArrowKey from './utils/isArrowKey';
 import isIgnorableKey from './utils/isIgnorableKey';
+import { moveToPrevious } from './utils/move';
 
 const crosswordReducer = (
   state: CrosswordState,
@@ -15,6 +17,9 @@ const crosswordReducer = (
       return resetReducer(state);
     }
     case 'key_up': {
+      const { direction, selection, crossword } = state;
+      let { currentCell } = state;
+      const { cells = [[]], crosswordId } = crossword ?? {};
       const { event } = action;
       const { key, metaKey } = event;
       if (isIgnorableKey(key) || metaKey) {
@@ -26,7 +31,24 @@ const crosswordReducer = (
         return state;
       }
 
-      return state;
+      if (key === 'Backspace') {
+        if (currentCell.text) {
+          currentCell.text = '';
+        } else {
+          currentCell = moveToPrevious({
+            currentCell,
+            direction,
+            cells,
+            selection,
+          });
+        }
+      }
+      deSelectAll(cells);
+      currentCell.selected = true;
+      const entries = cells.map((row) => row.map((cell) => cell && cell.text));
+      localStorage.setItem(`kryzz-${crosswordId}`, JSON.stringify(entries));
+
+      return { ...state, currentCell };
     }
     case 'on_input':
       return onInputReducer(state, action.event);
@@ -40,12 +62,13 @@ const crosswordReducer = (
       return {
         ...state,
         isLoading: false,
-        ...action.crossword,
+        crossword: action.crossword,
       };
     case 'crossword_load_failed':
       return {
         ...state,
         isLoading: false,
+        crossword: undefined,
       };
     default:
       return state;
