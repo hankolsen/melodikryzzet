@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* istanbul ignore file */
 import React, {
   createContext,
   FunctionComponent,
@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 
 import { CellType, Direction, SeparatorType } from './Crossword.types';
 import crosswordReducer from './crosswordReducer';
-import createCrossword, { CrosswordType } from './utils/createCrossword';
+import createCrossword from './utils/createCrossword';
 
 export type CrosswordContextType = {
   boardWidth: number;

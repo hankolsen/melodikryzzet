@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React from 'react';
 import { CrossWordsListProvider } from './CrosswordsListContext';
 import CrosswordsList from './CrosswordsList';
