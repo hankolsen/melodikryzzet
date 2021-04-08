@@ -1,6 +1,6 @@
 import { CrosswordState } from 'Crossword/crosswordReducer.types';
 import deSelectAll from 'Crossword/utils/deSelectAll';
-import isArrowKey from 'Crossword/utils/isArrowKey';
+import getArrowKey from 'Crossword/utils/getArrowKey';
 import isIgnorableKey from 'Crossword/utils/isIgnorableKey';
 import handleArrowKey from './handleArrowKey';
 import handleBackspaceKey from './handleBackspaceKey';
@@ -18,7 +18,7 @@ const keyUpReducer = (
     return state;
   }
 
-  const arrow = isArrowKey(key);
+  const arrow = getArrowKey(key);
   let newState;
   if (arrow) {
     newState = handleArrowKey({ state, arrow });
