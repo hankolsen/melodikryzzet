@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "👇": "We must explicitly add all js (and ts) in the project! If they shouldn't be linted they must be added to .eslintignore",
+  "include": ["src", "cypress/**/*", "lambda",
+    "src/test"
+  ]
+}

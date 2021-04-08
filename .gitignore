@@ -5,6 +5,8 @@ node_modules/
 
 # testing
 /coverage
+/cypress/screenshots
+/cypress/videos
 
 # production
 build
@@ -22,3 +24,4 @@ yarn-error.log*
 .netlify
 .history
 .eslintcache
+.vscode

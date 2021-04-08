@@ -1,18 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import CellRectangle from './CellRectangle';
-import CellText from './CellText';
-import CellLabel from './CellLabel';
+import CellRectangle from './CellRectangle/CellRectangle';
+import CellText from './CellText/CellText';
 import ArrowAcross from './ArrowAcross';
 import ArrowDown from './ArrowDown';
+import CellLabel from './CellLabel/CellLabel';
 
-const Cell = ({ row, number = '', column, letter = '', arrow = '', clickHandler, highlighted, selected }) => (
-  <g onClick={(e) => clickHandler(e, row, column)}>
-    <CellRectangle column={column} row={row} selected={selected} highlighted={highlighted} />
-    { number ? <CellLabel column={column} row={row} number={number} /> : null }
-    { arrow && arrow === 'across' ? <ArrowAcross column={column} row={row} /> : null }
-    { arrow && arrow === 'down' ? <ArrowDown column={column} row={row} /> : null }
+const Cell = ({
+  row,
+  number = '',
+  column,
+  letter = '',
+  arrow = '',
+  clickHandler,
+  highlighted,
+  selected,
+}) => (
+  <g onClick={() => clickHandler(row, column)}>
+    <CellRectangle
+      column={column}
+      row={row}
+      selected={selected}
+      highlighted={highlighted}
+    />
+    {number ? <CellLabel column={column} row={row} number={number} /> : null}
+    {arrow && arrow === 'across' ? (
+      <ArrowAcross column={column} row={row} />
+    ) : null}
+    {arrow && arrow === 'down' ? <ArrowDown column={column} row={row} /> : null}
     <CellText row={row} column={column} text={letter} />
   </g>
 );

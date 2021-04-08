@@ -2,7 +2,14 @@ import React from 'react';
 import './LoadingIndicator.css';
 
 const LoadingIndicator = () => (
-  <svg className="loadingindicator__wrapper" width="360" height="360" viewBox="0 0 360 360" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    className="loadingindicator__wrapper"
+    width="360"
+    height="360"
+    viewBox="0 0 360 360"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <g transform="translate(0)">
       <rect id="background" x="0" y="0" />
       <rect className="square" id="rect-11" x="8" y="8" />
