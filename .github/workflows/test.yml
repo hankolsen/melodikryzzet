@@ -1,4 +1,4 @@
-name: Tests
+name: melodikryzzet-tests
 
 on: 
   push:
@@ -26,3 +26,21 @@ jobs:
         install-command: yarn
     - name: Run tests
       run: yarn test:ci
+  
+  cypress-run:
+    runs-on: ubuntu-latest
+    env:
+      SKIP_PREFLIGHT_CHECK: true
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      CROSSWORD_COLLECTION_NAME: ${{ secrets.CROSSWORD_COLLECTION_NAME }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: netlify dev 
+          wait-on: 'http://localhost:8888'
