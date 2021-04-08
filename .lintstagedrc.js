@@ -1,7 +1,7 @@
 module.exports = {
-  '*.+(ts|tsx)': [
+  '*.+(ts|tsx)': [() => 'tsc -p . --noEmit'],
+  '*.+(js|ts|tsx)': [
     'eslint',
-    () => 'tsc -p . --noEmit',
     'yarn test --watchAll=false --bail --findRelatedTests',
   ],
   '*.+(json|js|ts|tsx)': ['prettier --write'],
