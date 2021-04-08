@@ -8,11 +8,11 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { CellType, Direction } from './Crossword.types';
+import { CellType, Direction, SeparatorType } from './Crossword.types';
 import crosswordReducer from './crosswordReducer';
 import createCrossword, { CrosswordType } from './utils/createCrossword';
 
-type CrosswordContextType = {
+export type CrosswordContextType = {
   boardWidth: number;
   boardHeight: number;
   clickHandler: (row: number, column: number) => void;
@@ -29,7 +29,7 @@ type CrosswordContextType = {
   inputHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   keyUpHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   reset: () => void;
-  separators?: unknown[];
+  separators?: SeparatorType[];
   showInput: boolean;
 };
 

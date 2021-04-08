@@ -1,5 +1,5 @@
 import { CELL_HEIGHT, CELL_WIDTH } from '../../config';
-import { CellType, Direction } from '../Crossword.types';
+import { CellType, Direction, SeparatorType } from '../Crossword.types';
 import fillCell from './fillCell';
 import toggleDirection from './toggleDirection';
 
@@ -16,7 +16,7 @@ type Entry = {
 export type CrosswordType = {
   name: string;
   cells: CellType[][];
-  separators?: unknown[];
+  separators?: SeparatorType[];
   numberOfColumns: number;
   numberOfRows: number;
   boardWidth: number;
@@ -45,7 +45,7 @@ const createCrossword = (crosswordId: string): Promise<CrosswordType> =>
         }
         const numberOfColumns = crossword.size.width;
         const numberOfRows = crossword.size.height;
-        const separators: unknown[] = [];
+        const separators: SeparatorType[] = [];
 
         const cells = Array(numberOfRows)
           .fill(null)

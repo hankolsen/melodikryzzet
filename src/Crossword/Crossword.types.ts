@@ -14,6 +14,14 @@ export enum Direction {
   down = 'down',
 }
 
-export type Selection = {
+export type Selection = {};
 
+export type Position = { x: number; y: number };
+
+export type SeparatorType = {
+  direction: Direction;
+  position: Position;
+  separator: string;
+  locations: number[];
+  id: string;
 };
