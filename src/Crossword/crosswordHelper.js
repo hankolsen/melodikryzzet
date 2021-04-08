@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { CELL_HEIGHT, CELL_WIDTH } from 'config';
 
 let boardHeight;
