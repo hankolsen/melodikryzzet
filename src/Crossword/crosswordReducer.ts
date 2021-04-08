@@ -1,8 +1,4 @@
 import { CellType, Direction } from './Crossword.types';
-import {
-  cellContainsOtherDirection,
-  cellIsStartingWordInOtherDirection,
-} from './crosswordHelper';
 import { CrosswordType } from './utils/createCrossword';
 import deSelectAll from './utils/deSelectAll';
 import emptyAll from './utils/emptyAll';
@@ -14,6 +10,8 @@ import getCurrentId from './utils/getCurrentId';
 import cellIsStartingWord from './utils/cellIsStartingWord';
 import { moveToNext } from './utils/move';
 import toggleDirection from './utils/toggleDirection';
+import cellContainsOtherDirection from './utils/cellContainsOtherDirection';
+import cellIsStartingWordInOtherDirection from './utils/cellIsStartingWordInOtherDirection';
 
 type CrosswordState = {
   crossword?: CrosswordType;
