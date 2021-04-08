@@ -1,4 +1,4 @@
-import isValidKey from "./isValidKey";
+import isValidKey from './isValidKey';
 
 describe('isValidKey test', () => {
   it('should consider letters and backspace as valid', () => {
