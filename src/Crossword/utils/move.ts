@@ -1,4 +1,6 @@
 import { CellType, Direction } from 'Crossword/Crossword.types';
+import highlightId from './highlightId';
+import toggleDirection from './toggleDirection';
 
 type Props = {
   direction: Direction;
@@ -41,4 +43,22 @@ const moveToNext = ({ direction, cells, selection, currentCell }: Props) =>
 const moveToPrevious = ({ direction, cells, selection, currentCell }: Props) =>
   move({ direction, cells, selection, currentCell, dir: -1 });
 
-export { moveToNext, moveToPrevious };
+type MoveToProps = {
+  cells: CellType[][];
+  direction: Direction;
+  selection: string;
+  nextCell: CellType;
+};
+const moveTo = ({ cells, direction, selection, nextCell }: MoveToProps) => {
+  if (!nextCell[direction] || !nextCell[direction].includes(selection)) {
+    direction = toggleDirection(direction);
+    if (!nextCell[direction] || !nextCell[direction].length) {
+      direction = toggleDirection(direction);
+    }
+    [selection] = nextCell[direction];
+  }
+  highlightId({ cells, direction, id: selection, currentCell: nextCell });
+  return { cells, selection, currentCell: nextCell, direction };
+};
+
+export { moveToNext, moveToPrevious, moveTo };

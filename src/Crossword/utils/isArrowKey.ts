@@ -1,6 +1,6 @@
 const isArrowKey = (key: string) => {
   const [, arrow] = key.match(/Arrow(\w+)$/) || [];
-  return Boolean(arrow);
+  return arrow;
 };
 
 export default isArrowKey;
