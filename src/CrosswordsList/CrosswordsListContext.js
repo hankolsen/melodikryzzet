@@ -29,6 +29,7 @@ const CrossWordsListProvider = ({ children }) => {
       .then(({ crosswords }) => {
         setCrosswords(crosswords);
       })
+      // eslint-disable-next-line no-console
       .catch((error) => console.log(`Error ${error}`));
   }, []);
 

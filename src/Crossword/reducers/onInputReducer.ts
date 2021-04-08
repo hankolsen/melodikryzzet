@@ -1,6 +1,6 @@
-import { isValidKey } from 'Crossword/crosswordHelper';
 import { CrosswordState } from 'Crossword/crosswordReducer.types';
 import deSelectAll from 'Crossword/utils/deSelectAll';
+import isValidKey from 'Crossword/utils/isValidKey';
 import { moveToNext } from 'Crossword/utils/move';
 
 const onInputReducer = (

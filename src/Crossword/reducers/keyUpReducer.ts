@@ -1,7 +1,7 @@
-import { isIgnorableKey } from 'Crossword/crosswordHelper';
 import { CrosswordState } from 'Crossword/crosswordReducer.types';
 import deSelectAll from 'Crossword/utils/deSelectAll';
 import isArrowKey from 'Crossword/utils/isArrowKey';
+import isIgnorableKey from 'Crossword/utils/isIgnorableKey';
 import handleArrowKey from './handleArrowKey';
 import handleBackspaceKey from './handleBackspaceKey';
 
