@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 export type CellType = {
   [direction in Direction]: string[];
 } & {
