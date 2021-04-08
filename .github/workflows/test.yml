@@ -18,8 +18,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
-        with: 
-          node-version: ${{ matrix.node }}
+      with: 
+        node-version: ${{ matrix.node }}
     - name: Install dependencies
       - uses: bahmutov/npm-install@v1
         with: 
