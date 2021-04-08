@@ -21,7 +21,7 @@ jobs:
       with: 
         node-version: ${{ matrix.node }}
     - name: Install dependencies
-      - uses: bahmutov/npm-install@v1
+      uses: bahmutov/npm-install@v1
         with: 
           install-command: yarn
     - name: Run tests
