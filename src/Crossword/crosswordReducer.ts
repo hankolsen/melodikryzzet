@@ -1,9 +1,7 @@
 import { CellType, Direction } from './Crossword.types';
 import {
-  cellIsStartingWord,
   cellContainsOtherDirection,
   cellIsStartingWordInOtherDirection,
-  getCurrentId,
 } from './crosswordHelper';
 import { CrosswordType } from './utils/createCrossword';
 import deSelectAll from './utils/deSelectAll';
@@ -12,6 +10,8 @@ import highlightCurrentSelection from './utils/highlightCurrentSelection';
 import isArrowKey from './utils/isArrowKey';
 import isIgnorableKey from './utils/isIgnorableKey';
 import isValidKey from './utils/isValidKey';
+import getCurrentId from './utils/getCurrentId';
+import cellIsStartingWord from './utils/cellIsStartingWord';
 import { moveToNext } from './utils/move';
 import toggleDirection from './utils/toggleDirection';
 

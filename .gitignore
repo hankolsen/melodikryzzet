@@ -24,3 +24,4 @@ yarn-error.log*
 .netlify
 .history
 .eslintcache
+.vscode
