@@ -1,6 +1,6 @@
 # Melodikryzzet
 [![melodikryzzet-tests](https://github.com/hankolsen/melodikryzzet/actions/workflows/test.yml/badge.svg)](https://github.com/hankolsen/melodikryzzet/actions/workflows/test.yml)
-[![Coverage Status](https://coveralls.io/repos/github/hankolsen/melodikryzzet/badge.svg)](https://coveralls.io/github/hankolsen/melodikryzzet)
+[![Coverage Status](https://coveralls.io/repos/github/hankolsen/melodikryzzet/badge.svg?branch=master)](https://coveralls.io/github/hankolsen/melodikryzzet?branch=master)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
