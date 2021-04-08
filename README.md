@@ -1,5 +1,5 @@
 # Melodikryzzet
-![Tests](https://github.com/hankolsen/melodikryzzet/actions/workflows/main.yml/badge.svg)
+[![melodikryzzet-tests](https://github.com/hankolsen/melodikryzzet/actions/workflows/test.yml/badge.svg)](https://github.com/hankolsen/melodikryzzet/actions/workflows/test.yml)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
