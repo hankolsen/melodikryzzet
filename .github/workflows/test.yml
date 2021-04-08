@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - 'master'
-      - 'github-action'
-    pull_request:
+  pull_request:
+
 
 jobs:
   test:
