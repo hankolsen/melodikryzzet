@@ -29,6 +29,8 @@ jobs:
       run: yarn test:ci
   cypress-run:
     runs-on: ubuntu-latest
+    env:
+      SKIP_PREFLIGHT_CHECK: true
     steps:
       - uses: actions/checkout@v2
       - name: Cypress run
