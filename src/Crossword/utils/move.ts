@@ -29,7 +29,7 @@ const move = ({
 
   let nextCell = currentCell;
   const currentIndex = array.findIndex((cell) => cell.selected);
-  if (currentIndex > -1 && currentIndex < array.length) {
+  if (currentIndex + dir > -1 && currentIndex + dir < array.length) {
     const nextIndex = currentIndex + dir;
     nextCell = array[nextIndex];
   }
