@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { CrosswordAction, CrosswordState } from './crosswordReducer.types';
 import clickCellReducer from './reducers/clickCellReducer';
 import clickInputReducer from './reducers/clickInputReducer';

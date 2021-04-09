@@ -1,8 +1,11 @@
 import React from 'react';
 import { Switch, Route, Redirect, Link } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import Crossword from './Crossword/Crossword';
 import { CrosswordProvider } from './Crossword/CrosswordContext';
 import CrosswordsListView from './CrosswordsList/CrosswordsListView';
+
+const queryClient = new QueryClient();
 
 const App = () => (
   <div className="App">
@@ -14,12 +17,21 @@ const App = () => (
       </h1>
     </header>
     <div className="content">
-      <Switch>
-        <Route exact path="/" component={CrosswordsListView} />
-        <Redirect from="/crossword/" to="/" exact />
-        <Route path="/crossword/:crosswordId" component={() => <CrosswordProvider><Crossword /></CrosswordProvider>} />
-        <Redirect to="/" />
-      </Switch>
+      <QueryClientProvider client={queryClient}>
+        <Switch>
+          <Route exact path="/" component={CrosswordsListView} />
+          <Redirect from="/crossword/" to="/" exact />
+          <Route
+            path="/crossword/:crosswordId"
+            component={() => (
+              <CrosswordProvider>
+                <Crossword />
+              </CrosswordProvider>
+            )}
+          />
+          <Redirect to="/" />
+        </Switch>
+      </QueryClientProvider>
     </div>
   </div>
 );

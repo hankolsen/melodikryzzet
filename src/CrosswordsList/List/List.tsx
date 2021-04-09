@@ -3,7 +3,7 @@ import ListItem from './ListItem';
 import './List.css';
 
 type Props = {
-  crosswords: {
+  crosswords?: {
     id: string;
     name: string;
   }[];
@@ -11,7 +11,7 @@ type Props = {
 
 const List = ({ crosswords }: Props) => (
   <div className="list">
-    {crosswords.map((crossword) => (
+    {crosswords?.map((crossword) => (
       <ListItem crossword={crossword} key={crossword.id} />
     ))}
   </div>

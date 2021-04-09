@@ -1,5 +1,4 @@
 import React from 'react';
-import '@testing-library/jest-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { screen, render } from 'test/test-utils';
 import ListItem from './ListItem';

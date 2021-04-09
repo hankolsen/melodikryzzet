@@ -1,5 +1,4 @@
 import React from 'react';
-import '@testing-library/jest-dom';
 import { render } from 'test/test-utils';
 import CellRectangle from 'Cells/CellRectangle/CellRectangle';
 

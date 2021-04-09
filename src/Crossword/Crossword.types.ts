@@ -26,3 +26,12 @@ export type SeparatorType = {
   locations: number[];
   id: string;
 };
+
+export type CrosswordListItem = {
+  name: string;
+  id: string;
+};
+
+export type CrosswordListResponse = {
+  crosswords: CrosswordListItem[];
+};
