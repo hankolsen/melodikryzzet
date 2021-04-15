@@ -15,6 +15,17 @@ const Provider: FunctionComponent = ({ children }) => (
   </BrowserRouter>
 );
 
+const SVGProvider: FunctionComponent = ({ children }) => (
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <svg>{children}</svg>
+    </QueryClientProvider>
+  </BrowserRouter>
+);
+
+const renderWithSvg = (ui: ReactElement, options?: RenderOptions) =>
+  render(ui, { wrapper: SVGProvider, ...options });
+
 const customRender = (ui: ReactElement, options?: RenderOptions) =>
   render(ui, { wrapper: Provider, ...options });
 
@@ -22,4 +33,4 @@ const customRender = (ui: ReactElement, options?: RenderOptions) =>
 export * from '@testing-library/react';
 
 // override render method
-export { customRender as render };
+export { customRender as render, renderWithSvg };

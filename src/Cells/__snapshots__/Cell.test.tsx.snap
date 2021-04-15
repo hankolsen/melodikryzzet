@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell test should render a Cell with a down arrow 1`] = `
+<div>
+  <svg>
+    <g
+      data-testid="cell"
+    >
+      <rect
+        class="crossword__cell  "
+        height="31"
+        width="31"
+        x="1"
+        y="1"
+      />
+      <g>
+        <line
+          stroke="black"
+          stroke-width="1"
+          x1="29"
+          x2="29"
+          y1="4"
+          y2="11"
+        />
+        <line
+          stroke="black"
+          stroke-width="1"
+          x1="29"
+          x2="22"
+          y1="4"
+          y2="4"
+        />
+        <path
+          d="M27,11 L31,11 L29,16 z"
+          fill="#000"
+        />
+      </g>
+      <text
+        class="crossword__cell-text"
+        text-anchor="middle"
+        x="15.5"
+        y="25"
+      />
+    </g>
+  </svg>
+</div>
+`;
+
+exports[`Cell test should render a Cell with a letter, a number, and an across arrow 1`] = `
+<div>
+  <svg>
+    <g
+      data-testid="cell"
+    >
+      <rect
+        class="crossword__cell  "
+        height="31"
+        width="31"
+        x="1"
+        y="1"
+      />
+      <text
+        class="crossword__cell-number"
+        x="2"
+        y="10"
+      >
+        3
+      </text>
+      <g>
+        <line
+          stroke="black"
+          stroke-width="1"
+          x1="5"
+          x2="5"
+          y1="22"
+          y2="29"
+        />
+        <line
+          stroke="black"
+          stroke-width="1"
+          x1="5"
+          x2="12"
+          y1="29"
+          y2="29"
+        />
+        <path
+          d="M12,27 L12,31 L17,29 z"
+          fill="#000"
+        />
+      </g>
+      <text
+        class="crossword__cell-text"
+        text-anchor="middle"
+        x="15.5"
+        y="25"
+      >
+        l
+      </text>
+    </g>
+  </svg>
+</div>
+`;
+
+exports[`Cell test should render an empty Cell 1`] = `
+<div>
+  <svg>
+    <g
+      data-testid="cell"
+    >
+      <rect
+        class="crossword__cell  "
+        height="31"
+        width="31"
+        x="1"
+        y="1"
+      />
+      <text
+        class="crossword__cell-text"
+        text-anchor="middle"
+        x="15.5"
+        y="25"
+      />
+    </g>
+  </svg>
+</div>
+`;

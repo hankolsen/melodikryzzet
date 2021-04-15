@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import CellRectangle from './CellRectangle/CellRectangle';
 import CellText from './CellText/CellText';
@@ -7,17 +6,27 @@ import ArrowAcross from './ArrowAcross';
 import ArrowDown from './ArrowDown';
 import CellLabel from './CellLabel/CellLabel';
 
+type Props = {
+  arrow?: string;
+  clickHandler: (row: number, column: number) => void;
+  column: number;
+  highlighted?: boolean;
+  letter?: string;
+  number?: number;
+  row: number;
+  selected?: boolean;
+};
 const Cell = ({
   row,
-  number = '',
+  number,
   column,
-  letter = '',
-  arrow = '',
+  letter,
+  arrow,
   clickHandler,
   highlighted,
   selected,
-}) => (
-  <g onClick={() => clickHandler(row, column)}>
+}: Props) => (
+  <g onClick={() => clickHandler(row, column)} data-testid="cell">
     <CellRectangle
       column={column}
       row={row}
@@ -32,27 +41,5 @@ const Cell = ({
     <CellText row={row} column={column} text={letter} />
   </g>
 );
-
-Cell.defaultProps = {
-  number: '',
-  letter: '',
-  arrow: '',
-};
-
-Cell.defaultProps = {
-  highlighted: false,
-  selected: false,
-};
-
-Cell.propTypes = {
-  row: PropTypes.number.isRequired,
-  column: PropTypes.number.isRequired,
-  number: PropTypes.number,
-  letter: PropTypes.string,
-  arrow: PropTypes.string,
-  clickHandler: PropTypes.func.isRequired,
-  highlighted: PropTypes.bool,
-  selected: PropTypes.bool,
-};
 
 export default Cell;
