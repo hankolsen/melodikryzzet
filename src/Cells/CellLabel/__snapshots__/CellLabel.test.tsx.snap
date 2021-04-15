@@ -2,16 +2,14 @@
 
 exports[`CellLabel test should render correctly 1`] = `
 <div>
-  <div>
-    <svg>
-      <text
-        class="crossword__cell-number"
-        x="34"
-        y="42"
-      >
-        8
-      </text>
-    </svg>
-  </div>
+  <svg>
+    <text
+      class="crossword__cell-number"
+      x="34"
+      y="42"
+    >
+      8
+    </text>
+  </svg>
 </div>
 `;

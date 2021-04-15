@@ -8,6 +8,7 @@ export type CellType = {
   highlighted?: boolean;
   selected?: boolean;
   text?: string;
+  arrow?: string;
 };
 
 export enum Direction {

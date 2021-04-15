@@ -2,64 +2,56 @@
 
 exports[`CellLabel test should empty rectangle 1`] = `
 <div>
-  <div>
-    <svg>
-      <rect
-        class="crossword__cell  "
-        height="31"
-        width="31"
-        x="33"
-        y="33"
-      />
-    </svg>
-  </div>
+  <svg>
+    <rect
+      class="crossword__cell  "
+      height="31"
+      width="31"
+      x="33"
+      y="33"
+    />
+  </svg>
 </div>
 `;
 
 exports[`CellLabel test should render highlighted and selected rectangle 1`] = `
 <div>
-  <div>
-    <svg>
-      <rect
-        class="crossword__cell crossword__cell--highlighted crossword__cell--selected"
-        height="31"
-        width="31"
-        x="33"
-        y="33"
-      />
-    </svg>
-  </div>
+  <svg>
+    <rect
+      class="crossword__cell crossword__cell--highlighted crossword__cell--selected"
+      height="31"
+      width="31"
+      x="33"
+      y="33"
+    />
+  </svg>
 </div>
 `;
 
 exports[`CellLabel test should render highlighted rectangle 1`] = `
 <div>
-  <div>
-    <svg>
-      <rect
-        class="crossword__cell crossword__cell--highlighted "
-        height="31"
-        width="31"
-        x="33"
-        y="33"
-      />
-    </svg>
-  </div>
+  <svg>
+    <rect
+      class="crossword__cell crossword__cell--highlighted "
+      height="31"
+      width="31"
+      x="33"
+      y="33"
+    />
+  </svg>
 </div>
 `;
 
 exports[`CellLabel test should render selected rectangle 1`] = `
 <div>
-  <div>
-    <svg>
-      <rect
-        class="crossword__cell  crossword__cell--selected"
-        height="31"
-        width="31"
-        x="33"
-        y="33"
-      />
-    </svg>
-  </div>
+  <svg>
+    <rect
+      class="crossword__cell  crossword__cell--selected"
+      height="31"
+      width="31"
+      x="33"
+      y="33"
+    />
+  </svg>
 </div>
 `;
