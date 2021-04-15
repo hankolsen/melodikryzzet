@@ -3,13 +3,16 @@ import React, { FunctionComponent, ReactElement } from 'react';
 import '@testing-library/jest-dom';
 import { render, RenderOptions } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter } from 'react-router-dom';
 
 const queryClient = new QueryClient();
 
 const Provider: FunctionComponent = ({ children }) => (
-  <QueryClientProvider client={queryClient}>
-    <div>{children}</div>
-  </QueryClientProvider>
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <div>{children}</div>
+    </QueryClientProvider>
+  </BrowserRouter>
 );
 
 const customRender = (ui: ReactElement, options?: RenderOptions) =>
