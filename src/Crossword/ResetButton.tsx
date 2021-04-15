@@ -3,8 +3,13 @@ import { useCrossword } from './CrosswordContext';
 
 const ResetButton = () => {
   const { isLoading, reset } = useCrossword();
+
+  if (isLoading) {
+    return null;
+  }
+
   return (
-    <button onClick={reset} type="submit" className={isLoading ? 'hidden' : ''}>
+    <button onClick={reset} type="submit">
       Reset
     </button>
   );

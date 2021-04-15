@@ -31,7 +31,6 @@ exports[`Crossword test should show a crossword when fetching is done 1`] = `
         </div>
       </div>
       <button
-        class=""
         type="submit"
       >
         Reset

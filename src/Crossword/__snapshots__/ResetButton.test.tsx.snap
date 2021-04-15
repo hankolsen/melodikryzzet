@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResetButton test should hide button while loading 1`] = `
+<div>
+  <div />
+</div>
+`;
+
+exports[`ResetButton test should render a button 1`] = `
+<div>
+  <div>
+    <button
+      type="submit"
+    >
+      Reset
+    </button>
+  </div>
+</div>
+`;

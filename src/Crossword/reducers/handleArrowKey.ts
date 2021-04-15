@@ -9,7 +9,7 @@ type Props = {
 const handleArrowKey = ({ state, arrow }: Props) => {
   const { crossword, currentCell, selection, direction } = state;
   const { cells = [[]] } = crossword ?? {};
-  const { row, column } = currentCell;
+  const { row, column } = currentCell ?? {};
 
   const moves: {
     [arrow: string]: (
@@ -27,6 +27,10 @@ const handleArrowKey = ({ state, arrow }: Props) => {
     Down: (cells: CellType[][], row: number, column: number) =>
       cells[row + 1] && cells[row + 1][column],
   };
+
+  if (!moves[arrow]) {
+    return state;
+  }
 
   const newCell: CellType = moves[arrow](cells, row, column);
 

@@ -8,8 +8,9 @@ type Props = {
 const cellIsStartingWord = ({ cell, direction }: Props) =>
   Boolean(
     cell &&
+      cell.number &&
       cell[direction] &&
-      cell[direction].find((id) => id.startsWith(cell.number.toString())),
+      cell[direction].find((id) => id.startsWith(cell.number!.toString())),
   );
 
 export default cellIsStartingWord;
