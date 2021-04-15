@@ -2,8 +2,6 @@ import keyUpReducer from './keyUpReducer';
 import { CrosswordState } from '../crosswordReducer.types';
 import handleArrowKey from './handleArrowKey';
 import handleBackspaceKey from './handleBackspaceKey';
-import { CellType, Direction } from '../Crossword.types';
-import { CrosswordType } from '../utils/createCrossword';
 
 jest.mock('./handleArrowKey');
 const mockHandleArrowKey = handleArrowKey as jest.Mock;
@@ -38,7 +36,12 @@ describe('keyUpReducer test', () => {
   });
 
   it('should handle backspace key', () => {
-    const state = {} as CrosswordState;
+    const state = ({
+      crossword: {
+        // Add cell(s) with text here to add test coverage
+        cells: [[{ text: 'A' }, { text: '' }]],
+      },
+    } as unknown) as CrosswordState;
     const event: React.KeyboardEvent<HTMLInputElement> = {
       key: 'Backspace',
     } as React.KeyboardEvent<HTMLInputElement>;
@@ -48,46 +51,28 @@ describe('keyUpReducer test', () => {
     expect(mockHandleArrowKey).not.toHaveBeenCalled();
   });
 
-  it('should handle letter key', () => {
-    const firstCell: CellType = {
-      column: 0,
-      row: 0,
-      across: ['1-across'],
-      down: [],
-      highlighted: true,
-      selected: true,
-      number: 1,
-      text: '',
-    };
-    const secondCell: CellType = {
-      column: 1,
-      row: 0,
-      across: ['1-across'],
-      down: [],
-      highlighted: true,
-      selected: false,
-      text: '',
-    };
-    const state: CrosswordState = {
-      crossword: {
-        crosswordId: 'abc',
-        cells: [[firstCell, secondCell]],
-      } as CrosswordType,
-      direction: Direction.across,
-      selection: '1-across',
-      currentCell: firstCell,
-    } as CrosswordState;
+  it('should handle ignorable key', () => {
+    const state = {} as CrosswordState;
+    const mockPreventDefault = jest.fn();
+    const event: React.KeyboardEvent<HTMLInputElement> = ({
+      key: '!',
+      preventDefault: mockPreventDefault,
+    } as unknown) as React.KeyboardEvent<HTMLInputElement>;
 
+    expect(keyUpReducer(state, event)).toStrictEqual(state);
+    expect(mockPreventDefault).toHaveBeenCalledTimes(1);
+    expect(mockHandleBackspaceKey).not.toHaveBeenCalled();
+    expect(mockHandleArrowKey).not.toHaveBeenCalled();
+  });
+
+  it('should handle normal key', () => {
+    const state = {} as CrosswordState;
     const event: React.KeyboardEvent<HTMLInputElement> = {
       key: 'a',
     } as React.KeyboardEvent<HTMLInputElement>;
 
-    const setItemSpy = jest.spyOn(global.Storage.prototype, 'setItem');
-
-    keyUpReducer(state, event);
+    expect(keyUpReducer(state, event)).toStrictEqual(state);
     expect(mockHandleBackspaceKey).not.toHaveBeenCalled();
     expect(mockHandleArrowKey).not.toHaveBeenCalled();
-    expect(setItemSpy).toHaveBeenCalledTimes(1);
-    expect(setItemSpy).toHaveBeenCalledWith('kryzz-abc', '[["",""]]');
   });
 });

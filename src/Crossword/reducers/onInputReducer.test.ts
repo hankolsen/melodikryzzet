@@ -15,6 +15,8 @@ describe('onInputReducer test', () => {
   });
 
   it('should handle keyboard input', () => {
+    const setItemSpy = jest.spyOn(global.Storage.prototype, 'setItem');
+    const pressedKey = 'a';
     const firstCell: CellType = {
       column: 0,
       row: 0,
@@ -37,6 +39,7 @@ describe('onInputReducer test', () => {
     const state: CrosswordState = {
       crossword: {
         cells: [[firstCell, secondCell]],
+        crosswordId: 'abc-123',
       } as CrosswordType,
       direction: Direction.across,
       selection: '1-across',
@@ -44,7 +47,7 @@ describe('onInputReducer test', () => {
     } as CrosswordState;
     const event = ({
       target: {
-        value: 'a',
+        value: pressedKey,
       },
     } as unknown) as React.KeyboardEvent<HTMLInputElement>;
     expect(onInputReducer(state, event)).toStrictEqual({
@@ -54,7 +57,12 @@ describe('onInputReducer test', () => {
         selected: true,
       },
     });
-    expect(firstCell.text).toBe('A');
+    expect(firstCell.text).toBe(pressedKey.toUpperCase());
     expect(firstCell.selected).toBe(false);
+    expect(setItemSpy).toHaveBeenCalledTimes(1);
+    expect(setItemSpy).toHaveBeenCalledWith(
+      'kryzz-abc-123',
+      `[["${pressedKey.toUpperCase()}",""]]`,
+    );
   });
 });

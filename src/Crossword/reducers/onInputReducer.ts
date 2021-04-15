@@ -8,7 +8,7 @@ const onInputReducer = (
   event: React.KeyboardEvent<HTMLInputElement>,
 ) => {
   const { crossword, direction, currentCell, selection } = state;
-  const { cells = [[]] } = crossword ?? {};
+  const { cells = [[]], crosswordId } = crossword ?? {};
 
   const { value } = event.target as HTMLInputElement;
   if (!isValidKey(value)) {
@@ -24,6 +24,8 @@ const onInputReducer = (
   });
   deSelectAll(cells);
   nextCell.selected = true;
+  const entries = cells.map((row) => row.map((cell) => cell && cell.text));
+  localStorage.setItem(`kryzz-${crosswordId}`, JSON.stringify(entries));
   return {
     ...state,
     crossword,

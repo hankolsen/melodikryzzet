@@ -38,11 +38,9 @@ const keyUpReducer = (
     localStorage.setItem(`kryzz-${crosswordId}`, JSON.stringify(entries));
     return { ...state, currentCell };
   }
-  if (isIgnorableKey(key) || metaKey) {
+  if (isIgnorableKey(key)) {
     event.preventDefault();
   }
-  const entries = cells.map((row) => row.map((cell) => cell && cell.text));
-  localStorage.setItem(`kryzz-${crosswordId}`, JSON.stringify(entries));
 
   return state;
 };
