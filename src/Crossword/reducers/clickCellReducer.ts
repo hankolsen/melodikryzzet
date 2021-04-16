@@ -14,7 +14,7 @@ const clickCellReducer = (
   const { crossword } = state;
   let { direction } = state;
   const { cells = [[]] } = crossword ?? {};
-  const currentCell = cells[row][column];
+  const currentCell = cells[row][column] ?? {};
 
   if (
     currentCell.number &&
