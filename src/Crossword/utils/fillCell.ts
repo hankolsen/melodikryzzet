@@ -1,4 +1,4 @@
-import { CellType } from '../Crossword.types';
+import { CellType, Direction } from '../Crossword.types';
 
 type Props = {
   cells: CellType[][];
@@ -7,7 +7,7 @@ type Props = {
   index: number;
   number: number;
   id: string;
-  direction: 'across' | 'down';
+  direction: Direction;
   text: string;
   hasTurn?: number[];
 };
