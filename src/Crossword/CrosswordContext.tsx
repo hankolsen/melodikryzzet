@@ -7,31 +7,11 @@ import React, {
   useReducer,
 } from 'react';
 import { useParams } from 'react-router-dom';
-
-import { CellType, Direction, SeparatorType } from './Crossword.types';
+import { AxiosError } from 'axios';
+import { CellType, CrosswordContextType, Direction } from './Crossword.types';
 import crosswordReducer from './crosswordReducer';
 import createCrossword from './utils/createCrossword';
-
-export type CrosswordContextType = {
-  boardWidth: number;
-  boardHeight: number;
-  clickHandler: (row: number, column: number) => void;
-  cells?: CellType[][];
-  crosswordId: string;
-  currentCell: CellType;
-  inputWidth: number;
-  inputHeight: number;
-  isLoading: boolean;
-  name?: string;
-  numberOfColumns?: number;
-  numberOfRows?: number;
-  inputClickHandler: () => void;
-  inputHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  keyUpHandler: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  reset: () => void;
-  separators?: SeparatorType[];
-  showInput: boolean;
-};
+import useSingleCrossword from './useSingleCrossword';
 
 const CrosswordContext = createContext<CrosswordContextType | undefined>(
   undefined,
@@ -47,17 +27,17 @@ const useCrossword = () => {
 
 const CrosswordProvider: FunctionComponent = ({ children }) => {
   const initialState = {
-    isLoading: true,
     crossword: undefined,
     showInput: false,
     selection: '',
     currentCell: { row: 0, column: 0 } as CellType,
     direction: Direction.across,
+    error: undefined,
   };
-  const [
-    { crossword, isLoading, currentCell, showInput },
-    dispatch,
-  ] = useReducer(crosswordReducer, initialState);
+  const [{ crossword, currentCell, showInput }, dispatch] = useReducer(
+    crosswordReducer,
+    initialState,
+  );
   const { crosswordId } = useParams<{ crosswordId: string }>();
 
   const clickHandler = (row: number, column: number) => {
@@ -67,17 +47,25 @@ const CrosswordProvider: FunctionComponent = ({ children }) => {
   const inputHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     dispatch({ type: 'on_input', event });
   };
+
   const keyUpHandler = (event: React.KeyboardEvent<HTMLInputElement>) =>
     dispatch({ type: 'key_up', event });
+
   const inputClickHandler = () => dispatch({ type: 'click_input' });
+
   const reset = () => dispatch({ type: 'reset' });
 
+  const { data, isLoading, error } = useSingleCrossword(crosswordId);
+
   useEffect(() => {
-    dispatch({ type: 'load' });
-    createCrossword(crosswordId)
-      .then((crossword) => dispatch({ type: 'crossword_loaded', crossword }))
-      .catch((err) => dispatch({ type: 'crossword_load_failed', err }));
-  }, [crosswordId]);
+    if (data) {
+      const crossword = createCrossword({
+        crossword: data.crossword,
+        crosswordId,
+      });
+      dispatch({ type: 'crossword_loaded', crossword });
+    }
+  }, [crosswordId, data]);
 
   const {
     cells,
@@ -89,7 +77,8 @@ const CrosswordProvider: FunctionComponent = ({ children }) => {
     inputHeight = 0,
     name,
     separators,
-  } = crossword || {};
+  } = crossword ?? {};
+
   const value: CrosswordContextType = {
     boardWidth,
     boardHeight,
@@ -109,6 +98,7 @@ const CrosswordProvider: FunctionComponent = ({ children }) => {
     separators,
     showInput,
     reset,
+    error: error as AxiosError,
   };
 
   return (

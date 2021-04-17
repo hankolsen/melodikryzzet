@@ -1,7 +1,6 @@
 import handleArrowKey from './handleArrowKey';
 import { CrosswordState } from '../crosswordReducer.types';
-import { CrosswordType } from '../utils/createCrossword';
-import { CellType, Direction } from '../Crossword.types';
+import { CellType, CrosswordType, Direction } from '../Crossword.types';
 
 describe('handleArrowKey test', () => {
   let selection: string;

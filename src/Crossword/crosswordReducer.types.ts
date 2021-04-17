@@ -1,9 +1,7 @@
-import { CellType, Direction } from './Crossword.types';
-import { CrosswordType } from './utils/createCrossword';
+import { CellType, CrosswordType, Direction } from './Crossword.types';
 
 export type CrosswordState = {
   crossword?: CrosswordType;
-  isLoading: boolean;
   showInput: boolean;
   currentCell: CellType;
   selection: string;
@@ -16,6 +14,4 @@ export type CrosswordAction =
   | { type: 'on_input'; event: React.KeyboardEvent<HTMLInputElement> }
   | { type: 'key_up'; event: React.KeyboardEvent<HTMLInputElement> }
   | { type: 'reset' }
-  | { type: 'crossword_loaded'; crossword: CrosswordType }
-  | { type: 'crossword_load_failed'; err: any }
-  | { type: 'load' };
+  | { type: 'crossword_loaded'; crossword: CrosswordType };

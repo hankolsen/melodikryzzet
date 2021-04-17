@@ -7,8 +7,15 @@ import './Crossword.css';
 import ResetButton from './ResetButton';
 
 const Crossword = () => {
-  const { isLoading, name } = useCrossword();
+  const { isLoading, name, error } = useCrossword();
 
+  if (error) {
+    return (
+      <div>
+        <h1>{error.message}</h1>
+      </div>
+    );
+  }
   if (isLoading) {
     return (
       <div className="crossword">

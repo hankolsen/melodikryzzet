@@ -167,3 +167,15 @@ exports[`Crossword test should show a loading message and spinner when fetching 
   </div>
 </div>
 `;
+
+exports[`Crossword test should show an error message if fetching fails 1`] = `
+<div>
+  <div>
+    <div>
+      <h1>
+        An error occurred
+      </h1>
+    </div>
+  </div>
+</div>
+`;

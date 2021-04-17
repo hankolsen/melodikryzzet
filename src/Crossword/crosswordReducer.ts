@@ -21,19 +21,10 @@ const crosswordReducer = (
       return clickInputReducer(state);
     case 'click_cell':
       return clickCellReducer(state, action.row, action.column);
-    case 'load':
-      return { ...state, isLoading: true };
     case 'crossword_loaded':
       return {
         ...state,
-        isLoading: false,
         crossword: action.crossword,
-      };
-    case 'crossword_load_failed':
-      return {
-        ...state,
-        isLoading: false,
-        crossword: undefined,
       };
     default:
       return state;
