@@ -1,9 +1,7 @@
 # Melodikryzzet
 [![melodikryzzet-tests](https://github.com/hankolsen/melodikryzzet/actions/workflows/test.yml/badge.svg)](https://github.com/hankolsen/melodikryzzet/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/hankolsen/melodikryzzet/badge.svg?branch=master)](https://coveralls.io/github/hankolsen/melodikryzzet?branch=master)
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 A React app for creating and sharing crossword puzzles.
 
 The inspiration for the project came from the idea of creating my own version of Melodikrysset (https://sverigesradio.se/melodikrysset), a Swedish radio show that has been running for at least 50 years.
@@ -31,6 +29,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center"><a href="https://github.com/hankolsen"><img src="https://avatars.githubusercontent.com/u/1008390?v=4?s=100" width="100px;" alt=""/><br /><sub><b>hankolsen</b></sub></a><br /><a href="https://github.com/hankolsen/melodikryzzet/commits?author=hankolsen" title="Code">💻</a> <a href="#design-hankolsen" title="Design">🎨</a> <a href="#example-hankolsen" title="Examples">💡</a> <a href="#ideas-hankolsen" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-hankolsen" title="Maintenance">🚧</a> <a href="https://github.com/hankolsen/melodikryzzet/commits?author=hankolsen" title="Tests">⚠️</a></td>
     <td align="center"><a href="http://hoier.se/"><img src="https://avatars.githubusercontent.com/u/5670416?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Johannes Höier</b></sub></a><br /><a href="#example-dacre" title="Examples">💡</a></td>
   </tr>
 </table>
