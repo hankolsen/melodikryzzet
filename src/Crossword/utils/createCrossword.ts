@@ -83,8 +83,8 @@ const createCrossword = ({ crossword, crosswordId }: Props) => {
 
   const inputWidth = 100 / numberOfColumns;
   const inputHeight = 100 / numberOfRows;
-  const boardWidth = CELL_WIDTH * numberOfColumns + numberOfColumns + 1 || 0;
-  const boardHeight = CELL_HEIGHT * numberOfRows + numberOfRows + 1 || 0;
+  const boardWidth = CELL_WIDTH * numberOfColumns + numberOfColumns + 1;
+  const boardHeight = CELL_HEIGHT * numberOfRows + numberOfRows + 1;
   const { name } = crossword;
 
   return {
