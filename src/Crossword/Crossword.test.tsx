@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen } from 'test/test-utils';
 import Crossword from './Crossword';
-import { CellType } from './Crossword.types';
-import { CrosswordContext, CrosswordContextType } from './CrosswordContext';
+import { CellType, CrosswordContextType } from './Crossword.types';
+import { CrosswordContext } from './CrosswordContext';
 
 describe('Crossword test', () => {
   it('should show a loading message and spinner when fetching the crossword', () => {
@@ -12,6 +12,21 @@ describe('Crossword test', () => {
       </CrosswordContext.Provider>,
     );
     screen.getByText(/loading crossword/i);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should show an error message if fetching fails', () => {
+    const { container } = render(
+      <CrosswordContext.Provider
+        value={
+          { isError: true, error: { message: 'An error occurred' } } as any
+        }
+      >
+        <Crossword />
+      </CrosswordContext.Provider>,
+    );
+    expect(screen.getByText(/an error occurred/i)).toBeInTheDocument();
+    expect(screen.queryByText(/tema covers/i)).not.toBeInTheDocument();
     expect(container).toMatchSnapshot();
   });
 

@@ -1,7 +1,6 @@
 import onInputReducer from './onInputReducer';
 import { CrosswordState } from '../crosswordReducer.types';
-import { CellType, Direction } from '../Crossword.types';
-import { CrosswordType } from '../utils/createCrossword';
+import { CellType, CrosswordType, Direction } from '../Crossword.types';
 
 describe('onInputReducer test', () => {
   it('should reject invalid keyboard input', () => {

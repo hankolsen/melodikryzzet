@@ -1,6 +1,6 @@
 import { CrosswordState } from '../crosswordReducer.types';
-import { CrosswordType } from '../utils/createCrossword';
 import resetReducer from './resetReducer';
+import { CrosswordType } from '../Crossword.types';
 
 describe('resetReducer test', () => {
   it('should handle empty input', () => {
