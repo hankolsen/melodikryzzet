@@ -15,6 +15,7 @@ const Separators = ({ separators }: Props) => {
       {separators.map(({ direction, position, separator, locations, id }) => (
         <Separator
           key={`${id}-${separator}`}
+          id={id}
           direction={direction}
           position={position}
           separator={separator}
