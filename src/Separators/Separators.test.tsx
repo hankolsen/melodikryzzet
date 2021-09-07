@@ -27,13 +27,13 @@ describe('Separators test', () => {
     expect(container.childNodes.length).toBe(1);
   });
 
-  it('should a single separator', () => {
+  it('should render a single separator', () => {
     const separators: SeparatorType[] = [
       {
         direction: Direction.across,
         separator: ',',
-        position: { x: 0, y: 0 },
-        locations: [0],
+        position: { x: 3, y: 8 },
+        locations: [2],
         id: '1',
       },
     ];
@@ -45,22 +45,23 @@ describe('Separators test', () => {
     );
 
     expect(container.querySelector('line')).toBeInTheDocument();
+    expect(container).toMatchSnapshot();
   });
 
-  it('should a multiple separators', () => {
+  it('should render two separators', () => {
     const separators: SeparatorType[] = [
       {
         direction: Direction.across,
         separator: ',',
         position: { x: 5, y: 2 },
-        locations: [0],
+        locations: [2],
         id: '1',
       },
       {
         direction: Direction.down,
         separator: ',',
         position: { x: 2, y: 6 },
-        locations: [0],
+        locations: [3],
         id: '2',
       },
     ];
@@ -73,5 +74,28 @@ describe('Separators test', () => {
 
     expect(container.querySelector('line')).toBeInTheDocument();
     expect(container.querySelectorAll('line').length).toBe(2);
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render multiple separators', () => {
+    const separators: SeparatorType[] = [
+      {
+        direction: Direction.across,
+        separator: ',',
+        position: { x: 5, y: 2 },
+        locations: [2, 4, 7],
+        id: '1',
+      },
+    ];
+
+    const { container } = render(
+      <svg>
+        <Separators separators={separators} />
+      </svg>,
+    );
+
+    expect(container.querySelector('line')).toBeInTheDocument();
+    expect(container.querySelectorAll('line').length).toBe(3);
+    expect(container).toMatchSnapshot();
   });
 });

@@ -7,10 +7,10 @@ exports[`Separator test should render a line 1`] = `
       <line
         stroke="black"
         stroke-width="4"
-        x1="0"
-        x2="11"
-        y1="15.5"
-        y2="15.5"
+        x1="122.5"
+        x2="133.5"
+        y1="111.5"
+        y2="111.5"
       />
     </svg>
   </div>

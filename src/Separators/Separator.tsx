@@ -8,13 +8,29 @@ type Props = {
   position: Position;
   separator: string;
   locations: number[];
+  id: string;
 };
 
-const Separator = ({ direction, position, separator, locations }: Props) => {
+const Separator = ({
+  direction,
+  position,
+  separator,
+  locations,
+  id,
+}: Props) => {
   switch (separator) {
     case ',':
       return (
-        <Line position={position} locations={locations} direction={direction} />
+        <>
+          {locations.map((location) => (
+            <Line
+              key={`${id}-${location}`}
+              position={position}
+              location={location}
+              direction={direction}
+            />
+          ))}
+        </>
       );
     default:
       return null;

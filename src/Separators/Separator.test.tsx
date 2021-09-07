@@ -5,13 +5,14 @@ import { render } from 'test/test-utils';
 import Separator from './Separator';
 
 describe('Separator test', () => {
-  it('should not render anything for non-existion separator', () => {
+  it('should not render anything for non-existing separator', () => {
     const { container } = render(
       <svg>
         <Separator
           direction={Direction.across}
-          position={{ x: 0, y: 0 }}
-          locations={[0]}
+          position={{ x: 3, y: 4 }}
+          locations={[2]}
+          id="2"
           separator="."
         />
       </svg>,
@@ -24,8 +25,9 @@ describe('Separator test', () => {
       <svg>
         <Separator
           direction={Direction.across}
-          position={{ x: 0, y: 0 }}
-          locations={[0]}
+          position={{ x: 2, y: 3 }}
+          locations={[2]}
+          id="3"
           separator=","
         />
       </svg>,
