@@ -30,7 +30,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/hankolsen"><img src="https://avatars.githubusercontent.com/u/1008390?v=4?s=100" width="100px;" alt=""/><br /><sub><b>hankolsen</b></sub></a><br /><a href="https://github.com/hankolsen/melodikryzzet/commits?author=hankolsen" title="Code">💻</a> <a href="#design-hankolsen" title="Design">🎨</a> <a href="#example-hankolsen" title="Examples">💡</a> <a href="#ideas-hankolsen" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-hankolsen" title="Maintenance">🚧</a> <a href="https://github.com/hankolsen/melodikryzzet/commits?author=hankolsen" title="Tests">⚠️</a></td>
-    <td align="center"><a href="http://hoier.se/"><img src="https://avatars.githubusercontent.com/u/5670416?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Johannes Höier</b></sub></a><br /><a href="#example-dacre" title="Examples">💡</a></td>
+    <td align="center"><a href="http://hoier.se/"><img src="https://avatars.githubusercontent.com/u/5670416?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Johannes Höier</b></sub></a><br /><a href="#example-dacre" title="Examples">💡</a> <a href="https://github.com/hankolsen/melodikryzzet/issues?q=author%3Adacre" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
