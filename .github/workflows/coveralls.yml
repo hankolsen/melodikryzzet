@@ -10,8 +10,8 @@ jobs:
       SKIP_PREFLIGHT_CHECK: true
 
     steps:
-      - uses: actions/checkout@v1
-      
+      - uses: actions/checkout@v2
+
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
@@ -19,11 +19,11 @@ jobs:
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
-        with: 
+        with:
           install-command: yarn
-      
+
       - name: Make test coverage
-        run: 
+        run:
           yarn test:coverage
 
       - name: Coveralls
