@@ -1,6 +1,6 @@
 name: melodikryzzet-tests
 
-on: 
+on:
   push:
     branches:
       - 'master'
@@ -9,31 +9,31 @@ on:
 jobs:
   test:
     name: 'Node ${{ matrix.node }}'
-    
+
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
-        node: [12, 14]
-    
+        node: [14, 16]
+
     env:
       SKIP_PREFLIGHT_CHECK: true
-    
+
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
-        with: 
+        with:
           node-version: ${{ matrix.node }}
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
-        with: 
+        with:
           install-command: yarn
 
       - name: Run tests
         run: yarn test:ci
-  
+
   cypress-run:
     runs-on: ubuntu-latest
 
@@ -48,9 +48,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: netlify dev 
+          start: netlify dev
           wait-on: 'http://localhost:8888'
