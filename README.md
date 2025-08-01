@@ -1,4 +1,5 @@
 # Melodikryzzet
+
 [![melodikryzzet-tests](https://github.com/hankolsen/melodikryzzet/actions/workflows/test.yml/badge.svg)](https://github.com/hankolsen/melodikryzzet/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/hankolsen/melodikryzzet/badge.svg?branch=master)](https://coveralls.io/github/hankolsen/melodikryzzet?branch=master)
 
@@ -12,13 +13,12 @@ My solution automatically detect the next letter in the word and adjuts the dire
 Demo at https://www.melodikryzzet.se/
 
 # Setup
+
 Requires `netlify-cli`. Use `brew install netlify-cli` to install it.
 
 Copy `.env.example` to `.env` and add the settings for you MongoDB.
 
 Start with `netlify dev`.
-
-
 
 ## Contributors ✨
 

@@ -1,27 +1,30 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+test-results
+node_modules
 
-# dependencies
-node_modules/
-
-# testing
-/coverage
-/cypress/screenshots
-/cypress/videos
-
-# production
-build
-
-# misc
-.DS_Store
-.env
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-*.iml
-.idea
+# Output
+.output
+.vercel
 .netlify
-.history
-.eslintcache
-.vscode
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# SQLite
+*.db
+
+*storybook.log
+storybook-static

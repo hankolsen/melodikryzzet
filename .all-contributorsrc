@@ -1,40 +1,28 @@
 {
-  "files": [
-    "README.md"
-  ],
-  "imageSize": 100,
-  "commit": false,
-  "contributors": [
-    {
-      "login": "hankolsen",
-      "name": "hankolsen",
-      "avatar_url": "https://avatars.githubusercontent.com/u/1008390?v=4",
-      "profile": "https://github.com/hankolsen",
-      "contributions": [
-        "code",
-        "design",
-        "example",
-        "ideas",
-        "maintenance",
-        "test"
-      ]
-    },
-    {
-      "login": "dacre",
-      "name": "Johannes Höier",
-      "avatar_url": "https://avatars.githubusercontent.com/u/5670416?v=4",
-      "profile": "http://hoier.se/",
-      "contributions": [
-        "example",
-        "bug"
-      ]
-    }
-  ],
-  "contributorsPerLine": 7,
-  "projectName": "melodikryzzet",
-  "projectOwner": "hankolsen",
-  "repoType": "github",
-  "repoHost": "https://github.com",
-  "skipCi": true,
-  "commitConvention": "none"
+	"files": ["README.md"],
+	"imageSize": 100,
+	"commit": false,
+	"contributors": [
+		{
+			"login": "hankolsen",
+			"name": "hankolsen",
+			"avatar_url": "https://avatars.githubusercontent.com/u/1008390?v=4",
+			"profile": "https://github.com/hankolsen",
+			"contributions": ["code", "design", "example", "ideas", "maintenance", "test"]
+		},
+		{
+			"login": "dacre",
+			"name": "Johannes Höier",
+			"avatar_url": "https://avatars.githubusercontent.com/u/5670416?v=4",
+			"profile": "http://hoier.se/",
+			"contributions": ["example", "bug"]
+		}
+	],
+	"contributorsPerLine": 7,
+	"projectName": "melodikryzzet",
+	"projectOwner": "hankolsen",
+	"repoType": "github",
+	"repoHost": "https://github.com",
+	"skipCi": true,
+	"commitConvention": "none"
 }

@@ -1,0 +1,29 @@
+<script lang="ts">
+	import { CELL_WIDTH } from '$lib/constants';
+
+	type Props = {
+		row: number;
+		column: number;
+	};
+
+	const { row, column }: Props = $props();
+
+	const lineLength = 7;
+	const strokeWidth = 1;
+
+	const vx1 = column * (CELL_WIDTH + 1) + 5;
+	const vx2 = vx1;
+	const vy1 = (row + 1) * (CELL_WIDTH + 1) - 10;
+	const vy2 = vy1 + lineLength;
+
+	const hx1 = vx1;
+	const hx2 = hx1 + lineLength;
+	const hy1 = vy2;
+	const hy2 = hy1;
+</script>
+
+<g>
+	<line x1={vx1} y1={vy1} x2={vx2} y2={vy2} stroke-width={strokeWidth} stroke="black" />
+	<line x1={hx1} y1={hy1} x2={hx2} y2={hy2} stroke-width={strokeWidth} stroke="black" />
+	<path d={`M${hx2},${hy2 - 2} L${hx2},${hy2 + 2} L${hx2 + 5},${hy2} z`} fill="#000" />
+</g>
