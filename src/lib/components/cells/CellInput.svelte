@@ -109,7 +109,12 @@
 				direction,
 				selection
 			});
-			return { ...newState };
+			if (newState) {
+				crosswordState.selection = newState.selection;
+				crosswordState.currentCell = newState.currentCell;
+				crosswordState.direction = newState.direction;
+			}
+			return;
 		}
 
 		if (key === 'Backspace') {
@@ -124,7 +129,7 @@
 			const entries = cells.map((row) => row.map((cell) => cell && cell.text));
 			localStorage.setItem(`kryzz-${crosswordState.crosswordId}`, JSON.stringify(entries));
 			crosswordState.currentCell = currentCell;
-			return;
+			crosswordState.direction = direction;
 		}
 		if (isIgnorableKey(key)) {
 			e.preventDefault();

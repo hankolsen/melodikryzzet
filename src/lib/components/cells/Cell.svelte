@@ -54,6 +54,7 @@
 			selection: crosswordState.selection
 		});
 
+		crosswordState.direction = direction;
 		crosswordState.currentCell = currentCell;
 		crosswordState.showInput = true;
 		crosswordState.selection = id;
