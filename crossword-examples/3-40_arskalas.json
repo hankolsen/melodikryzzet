@@ -1,0 +1,118 @@
+{
+	"name": "40-årskalas",
+	"slug": "40-arskalas",
+	"size": {
+		"width": 9,
+		"height": 9
+	},
+	"entries": [
+		{
+			"direction": "across",
+			"length": 2,
+			"position": {
+				"x": 2,
+				"y": 0
+			}
+		},
+		{
+			"direction": "down",
+			"length": 11,
+			"position": {
+				"x": 2,
+				"y": 0
+			},
+			"turns": [9]
+		},
+		{
+			"direction": "across",
+			"length": 3,
+			"position": {
+				"x": 6,
+				"y": 0
+			}
+		},
+		{
+			"direction": "down",
+			"length": 4,
+			"position": {
+				"x": 6,
+				"y": 0
+			}
+		},
+		{
+			"direction": "across",
+			"length": 5,
+			"position": {
+				"x": 0,
+				"y": 1
+			}
+		},
+		{
+			"direction": "down",
+			"length": 6,
+			"position": {
+				"x": 0,
+				"y": 1
+			}
+		},
+		{
+			"direction": "down",
+			"length": 3,
+			"position": {
+				"x": 4,
+				"y": 1
+			}
+		},
+		{
+			"direction": "across",
+			"length": 12,
+			"position": {
+				"x": 0,
+				"y": 3
+			},
+			"turns": [9]
+		},
+		{
+			"direction": "down",
+			"length": 7,
+			"position": {
+				"x": 5,
+				"y": 3
+			},
+			"turns": [4]
+		},
+		{
+			"direction": "across",
+			"length": 6,
+			"position": {
+				"x": 5,
+				"y": 5
+			},
+			"turns": [2, 5]
+		},
+		{
+			"direction": "across",
+			"length": 5,
+			"position": {
+				"x": 0,
+				"y": 8
+			}
+		},
+		{
+			"direction": "across",
+			"length": 4,
+			"position": {
+				"x": 0,
+				"y": 5
+			}
+		},
+		{
+			"direction": "down",
+			"length": 2,
+			"position": {
+				"x": 7,
+				"y": 3
+			}
+		}
+	]
+}

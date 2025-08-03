@@ -4,6 +4,13 @@
 	import { highlightCurrentSelection } from '$lib/utils/highlightCurrentSelection';
 	import { cellContainsOtherDirection } from '$lib/utils/cellContainsOtherDirection';
 	import { getCrosswordContext } from '$lib/contexts/CrosswordContext.svelte';
+	import { isValidKey } from '$lib/utils/isValidKey';
+	import { deSelectAll } from '$lib/utils/deSelectAll';
+	import { moveToNext } from '$lib/utils/move';
+	import { getArrowKey } from '$lib/utils/getArrowKey';
+	import { handleArrowKey } from '$lib/utils/handleArrowKey.svelte';
+	import { isIgnorableKey } from '$lib/utils/isIgnorableKey';
+	import { handleBackspaceKey } from '$lib/utils/handleBackspaceKey';
 
 	const crosswordState = getCrosswordContext();
 
@@ -58,6 +65,71 @@
 			crosswordState.currentCell = currentCell;
 		}
 	};
+
+	const inputHandler = (
+		e: Event & {
+			currentTarget: EventTarget & HTMLInputElement;
+		}
+	) => {
+		const { value } = e.currentTarget;
+		if (!isValidKey(value)) {
+			return;
+		}
+
+		currentCell.text = value.toUpperCase();
+		const nextCell = moveToNext({
+			cells,
+			direction,
+			selection,
+			currentCell
+		});
+		deSelectAll(cells);
+		nextCell.selected = true;
+		const entries = cells.map((row) => row.map((cell) => cell && cell.text));
+		localStorage.setItem(`kryzz-${crosswordState.crosswordId}`, JSON.stringify(entries));
+		crosswordState.currentCell = nextCell;
+		e.currentTarget.value = '';
+	};
+
+	const keyUpHandler = (e: KeyboardEvent) => {
+		const { key, metaKey } = e;
+
+		if (key === 'Shift' || metaKey) {
+			return;
+		}
+
+		const arrow = getArrowKey(key);
+		let newState;
+		if (arrow) {
+			newState = handleArrowKey({
+				arrow,
+				row: currentCell.row,
+				column: currentCell.column,
+				cells,
+				direction,
+				selection
+			});
+			return { ...newState };
+		}
+
+		if (key === 'Backspace') {
+			currentCell = handleBackspaceKey({
+				currentCell,
+				direction,
+				cells,
+				selection
+			});
+			deSelectAll(cells);
+			currentCell.selected = true;
+			const entries = cells.map((row) => row.map((cell) => cell && cell.text));
+			localStorage.setItem(`kryzz-${crosswordState.crosswordId}`, JSON.stringify(entries));
+			crosswordState.currentCell = currentCell;
+			return;
+		}
+		if (isIgnorableKey(key)) {
+			e.preventDefault();
+		}
+	};
 </script>
 
 {#if crosswordState.showInput}
@@ -76,6 +148,8 @@
 			autocorrect="off"
 			class="crossword__hidden-input"
 			onclick={clickHandler}
+			oninput={inputHandler}
+			onkeyup={keyUpHandler}
 		/>
 	</div>
 {/if}

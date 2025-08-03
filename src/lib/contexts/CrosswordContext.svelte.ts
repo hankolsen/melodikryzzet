@@ -51,7 +51,8 @@ class CrosswordContext {
 			inputWidth = 0,
 			inputHeight = 0,
 			name,
-			separators
+			separators,
+			crosswordId
 		} = crossword;
 
 		this.cells = cells;
@@ -63,5 +64,6 @@ class CrosswordContext {
 		this.inputHeight = inputHeight;
 		this.name = name ?? '';
 		this.separators = separators;
+		this.crosswordId = crosswordId;
 	}
 }

@@ -1,4 +1,4 @@
-type Entry = {
+export type Entry = {
 	id: string;
 	direction: Direction;
 	group: string[];
