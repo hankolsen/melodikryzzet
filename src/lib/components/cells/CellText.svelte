@@ -16,9 +16,9 @@
 <text {x} {y} class="crossword__cell-text" text-anchor="middle">{text} </text>
 
 <style>
-  .crossword__cell-text {
-    font-family: 'Indie Flower', cursive;
-    font-size: 1.5rem;
-    -webkit-font-smoothing: subpixel-antialiased;
-  }
+	.crossword__cell-text {
+		font-family: 'Indie Flower', cursive;
+		font-size: 1.5rem;
+		-webkit-font-smoothing: subpixel-antialiased;
+	}
 </style>

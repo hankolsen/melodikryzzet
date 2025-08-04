@@ -1,12 +1,18 @@
 <script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
-	import '$lib/styles/styles.css'
+	import '$lib/styles/styles.css';
 
 	let { children } = $props();
 </script>
 
 <svelte:head>
-	<link rel="preload" as="font" href="/fonts/IndieFlower-Regular.woff2" type="font/woff2" crossorigin="anonymous">
+	<link
+		rel="preload"
+		as="font"
+		href="/fonts/IndieFlower-Regular.woff2"
+		type="font/woff2"
+		crossorigin="anonymous"
+	/>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
