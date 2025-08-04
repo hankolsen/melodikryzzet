@@ -107,4 +107,8 @@
 			width: 30.0625rem;
 		}
 	}
+
+	.crossword__grid {
+		display: block;
+	}
 </style>

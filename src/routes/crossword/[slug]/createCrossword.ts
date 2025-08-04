@@ -8,19 +8,25 @@ import {
 import { createEmptyCells } from './createEmptyCells';
 import { fillCell } from './fillCell';
 import { toggleDirection } from './toggleDirection';
+import type { Cookies } from '@sveltejs/kit';
 
 type Props = {
 	crossword: CrosswordResponse['crossword'];
 	crosswordId: string;
+	cookies: Cookies;
 };
 
-export const createCrossword = ({ crossword, crosswordId }: Props): CrosswordContextType => {
+export const createCrossword = ({
+	crossword,
+	crosswordId,
+	cookies
+}: Props): CrosswordContextType => {
 	const { width: numberOfColumns, height: numberOfRows } = crossword.size;
 	const separators: SeparatorType[] = [];
 
 	const cells = createEmptyCells(numberOfRows, numberOfColumns);
 
-	const userData = undefined; //JSON.parse(localStorage.getItem(`kryzz-${crosswordId}`) || 'null');
+	const userData = JSON.parse(cookies.get(`kryzz-${crosswordId}`) ?? '""');
 
 	crossword.entries.sort((a, b) => a.position.y - b.position.y || a.position.x - b.position.x);
 
