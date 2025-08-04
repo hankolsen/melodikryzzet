@@ -59,7 +59,21 @@
 			<CellInput />
 		</div>
 	</div>
+	<button type="button" popovertarget="deleteDialog" popovertargetaction="show">Reset</button>
 </div>
+
+<dialog id="deleteDialog" popover>
+	<p>Vill du verkligen rensa hela korsordet?</p>
+	<form method="POST" action="?/reset">
+		<input type="hidden" name="crosswordId" value={crossword.crosswordId} />
+		<div class="buttons">
+			<button type="button" popovertarget="deleteDialog" popovertargetaction="hide">Avbryt</button>
+			<button class="danger-button" popovertarget="deleteDialog" popovertargetaction="hide"
+				>Rensa</button
+			>
+		</div>
+	</form>
+</dialog>
 
 <style>
 	.crossword {
@@ -94,6 +108,7 @@
 
 	.crossword-board {
 		width: 100%;
+		margin-block-end: 2rem;
 		position: relative;
 		box-shadow:
 			0 2px 2px 0 rgba(0, 0, 0, 0.14),
@@ -110,5 +125,74 @@
 
 	.crossword__grid {
 		display: block;
+	}
+
+	dialog p {
+		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	}
+
+	[popover] {
+		max-width: 32em;
+		border-radius: 0.25em;
+		border: none;
+		padding: 1em;
+	}
+
+	[popover]::backdrop {
+		background: rgba(0, 0, 0, 0.3);
+	}
+
+	[popover]:popover-open {
+		animation: intro 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	@keyframes intro {
+		from {
+			transform: scale(0.95);
+		}
+		to {
+			transform: scale(1);
+		}
+	}
+
+	[popover]:popover-open::backdrop {
+		animation: outro 0.2s ease-out;
+	}
+
+	@keyframes outro {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	.buttons {
+		display: flex;
+		justify-content: flex-end;
+		gap: 1rem;
+	}
+
+	button {
+		border: none;
+		height: 36px;
+		min-width: 88px;
+		color: rgba(0, 0, 0, 0.78);
+		font-size: 14px;
+		text-transform: uppercase;
+		cursor: pointer;
+		padding: 0 16px;
+		border-radius: 1px;
+
+		letter-spacing: 0.01em;
+		font-weight: 500;
+		transition:
+			box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+			background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+	}
+
+	button.danger-button {
+		color: red;
 	}
 </style>
