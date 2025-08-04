@@ -1,8 +1,16 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { createCrossword } from './createCrossword';
 import { type CrosswordResponse, Direction, type Entry } from '$lib/types';
+import { vi } from 'vitest';
+import type { Cookies } from '@sveltejs/kit';
+
+const cookies = vi.fn() as unknown as Cookies;
 
 describe('createCrossword test', () => {
+	afterEach(() => {
+		vi.restoreAllMocks();
+	});
+
 	it('should create an empty crossword', () => {
 		const crossword: CrosswordResponse['crossword'] = {
 			size: {
@@ -12,7 +20,7 @@ describe('createCrossword test', () => {
 			entries: [] as Entry[]
 		} as CrosswordResponse['crossword'];
 		const crosswordId = 'abc-123';
-		expect(createCrossword({ crossword, crosswordId })).toStrictEqual({
+		expect(createCrossword({ crossword, crosswordId, cookies })).toStrictEqual({
 			cells: [
 				[null, null],
 				[null, null]
@@ -25,7 +33,7 @@ describe('createCrossword test', () => {
 			crosswordId,
 			currentCell: {
 				column: 0,
-				row: 0,
+				row: 0
 			},
 			showInput: false,
 			name: undefined,
@@ -71,7 +79,7 @@ describe('createCrossword test', () => {
 			]
 		} as CrosswordResponse['crossword'];
 		const crosswordId = 'abc-123';
-		expect(createCrossword({ crossword, crosswordId })).toStrictEqual({
+		expect(createCrossword({ crossword, crosswordId, cookies })).toStrictEqual({
 			cells: [
 				[
 					{
@@ -132,7 +140,7 @@ describe('createCrossword test', () => {
 			],
 			currentCell: {
 				column: 0,
-				row: 0,
+				row: 0
 			},
 			showInput: false,
 			crosswordId,
