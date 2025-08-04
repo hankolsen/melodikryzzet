@@ -13,15 +13,19 @@
 	const lineLength = 11;
 	const strokeWidth = 4;
 	if (direction === 'across') {
+		const getX2 = () => x1 + lineLength;
+		const getY2 = () => y1;
 		x1 = (position.x + location) * (CELL_WIDTH + 1) - lineLength / 2;
-		x2 = x1 + lineLength;
+		x2 = getX2();
 		y1 += position.y * (CELL_WIDTH + 1);
-		y2 = y1;
+		y2 = getY2();
 	} else {
+		const getX2 = () => x1;
+		const getY2 = () => y1 + lineLength;
 		x1 = position.x * (CELL_WIDTH + 1) + CELL_WIDTH / 2 + 1;
-		x2 = x1;
+		x2 = getX2();
 		y1 = (position.y + location) * (CELL_WIDTH + 1) - lineLength / 2 + 1;
-		y2 = y1 + lineLength;
+		y2 = getY2();
 	}
 </script>
 
