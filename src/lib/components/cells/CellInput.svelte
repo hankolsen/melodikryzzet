@@ -11,6 +11,7 @@
 	import { handleArrowKey } from '$lib/utils/handleArrowKey.svelte';
 	import { isIgnorableKey } from '$lib/utils/isIgnorableKey';
 	import { handleBackspaceKey } from '$lib/utils/handleBackspaceKey';
+	import Cookies from 'js-cookie';
 
 	const crosswordState = getCrosswordContext();
 
@@ -86,7 +87,7 @@
 		deSelectAll(cells);
 		nextCell.selected = true;
 		const entries = cells.map((row) => row.map((cell) => cell && cell.text));
-		localStorage.setItem(`kryzz-${crosswordState.crosswordId}`, JSON.stringify(entries));
+		Cookies.set(`kryzz-${crosswordState.crosswordId}`, JSON.stringify(entries));
 		crosswordState.currentCell = nextCell;
 		e.currentTarget.value = '';
 	};
@@ -127,7 +128,7 @@
 			deSelectAll(cells);
 			currentCell.selected = true;
 			const entries = cells.map((row) => row.map((cell) => cell && cell.text));
-			localStorage.setItem(`kryzz-${crosswordState.crosswordId}`, JSON.stringify(entries));
+			Cookies.set(`kryzz-${crosswordState.crosswordId}`, JSON.stringify(entries));
 			crosswordState.currentCell = currentCell;
 			crosswordState.direction = direction;
 		}
