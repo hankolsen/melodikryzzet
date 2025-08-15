@@ -74,9 +74,10 @@
 	) => {
 		const { value } = e.currentTarget;
 		if (!isValidKey(value)) {
+			e.preventDefault();
+			e.stopPropagation();
 			return;
 		}
-
 		currentCell.text = value.toUpperCase();
 		const nextCell = moveToNext({
 			cells,
@@ -92,7 +93,7 @@
 		e.currentTarget.value = '';
 	};
 
-	const keyUpHandler = (e: KeyboardEvent) => {
+	const keyDownHandler = (e: KeyboardEvent) => {
 		const { key, metaKey } = e;
 
 		if (key === 'Shift' || metaKey) {
@@ -155,7 +156,7 @@
 			class="crossword__hidden-input"
 			onclick={clickHandler}
 			oninput={inputHandler}
-			onkeyup={keyUpHandler}
+			onkeydown={keyDownHandler}
 		/>
 	</div>
 {/if}
