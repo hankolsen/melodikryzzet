@@ -1,0 +1,99 @@
+import { CELL_HEIGHT, CELL_WIDTH } from '$lib/constants';
+import {
+	type CellType,
+	type CrosswordCollection,
+	type CrosswordContextType,
+	type SeparatorType
+} from '$lib/types';
+import { createEmptyCells } from './createEmptyCells';
+import { fillCell } from './fillCell';
+import { toggleDirection } from './toggleDirection';
+import type { WithId } from 'mongodb';
+
+type Props = {
+	crossword: WithId<CrosswordCollection>; // CrosswordResponse['crossword'];
+	userData?: string[][] | undefined;
+};
+
+export const createCrossword = ({ crossword, userData }: Props): CrosswordContextType => {
+	const { width: numberOfColumns, height: numberOfRows } = crossword.size;
+	const separators: SeparatorType[] = [];
+
+	const cells = createEmptyCells(numberOfRows, numberOfColumns);
+
+	crossword.entries.sort((a, b) => a.position.y - b.position.y || a.position.x - b.position.x);
+
+	let number = 1;
+	const numbers: { [key: string]: number } = {};
+	crossword.entries.forEach(({ direction, position, length, separatorLocations, turns }) => {
+		let column = position.x;
+		let row = position.y;
+		let walkingDirection = direction;
+		let turnIndex = 0;
+		if (numbers[`${column},${row}`]) {
+			number = numbers[`${column},${row}`];
+		}
+		const id = `${number}-${direction}`;
+		numbers[`${column},${row}`] = number;
+		Array.from(Array(length)).forEach((_, i) => {
+			const text = (userData && userData[row][column]) ?? '';
+			fillCell({
+				cells,
+				row,
+				column,
+				index: i,
+				number,
+				id,
+				direction,
+				text,
+				hasTurn: turns
+			});
+
+			if (turns && turns.length && turns[turnIndex] - 1 === i) {
+				walkingDirection = toggleDirection(walkingDirection);
+				cells[row][column].arrow = walkingDirection;
+				turnIndex += 1;
+			}
+
+			if (walkingDirection === 'across') {
+				column += 1;
+			} else {
+				row += 1;
+			}
+		});
+
+		Object.entries(separatorLocations || {}).forEach(([separator, locations]) => {
+			if (locations && locations.length) {
+				separators.push({
+					direction,
+					position,
+					separator,
+					locations,
+					id
+				});
+			}
+		});
+		number += 1;
+	});
+
+	const inputWidth = 100 / numberOfColumns;
+	const inputHeight = 100 / numberOfRows;
+	const boardWidth = CELL_WIDTH * numberOfColumns + numberOfColumns + 1;
+	const boardHeight = CELL_HEIGHT * numberOfRows + numberOfRows + 1;
+	const { name } = crossword;
+
+	return {
+		crosswordId: crossword._id.toString(),
+		name,
+		cells,
+		separators,
+		numberOfColumns,
+		numberOfRows,
+		boardWidth,
+		boardHeight,
+		inputWidth,
+		inputHeight,
+		showInput: false,
+		currentCell: { row: 0, column: 0 } as CellType
+	};
+};
