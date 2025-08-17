@@ -12,9 +12,7 @@
 
 	let { data }: Props = $props();
 
-	const crossword = $state(data.crossword);
-
-	createCrosswordContext(crossword);
+	const crosswordContext = createCrosswordContext(data.crossword);
 
 	const keydown = (event: KeyboardEvent) => {
 		if (event.metaKey || event.key === 'Shift') {
@@ -26,7 +24,7 @@
 <svelte:window onkeydown={keydown} />
 
 <div class="crossword">
-	<h2>{crossword?.name}</h2>
+	<h2>{crosswordContext.name}</h2>
 	<div class="crossword-container">
 		<CrosswordBoard />
 		<Hint />
