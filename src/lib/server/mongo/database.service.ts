@@ -1,4 +1,4 @@
-import { type Collection, Db, MongoClient } from 'mongodb';
+import { type Collection, type Db, MongoClient } from 'mongodb';
 import { env } from '$env/dynamic/private';
 import type { CrosswordCollection } from '$lib/types';
 
