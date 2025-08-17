@@ -6,6 +6,8 @@
 </script>
 
 <svelte:head>
+	<meta name="description" content="Melodikryzzet" />
+
 	<link
 		rel="preload"
 		as="font"

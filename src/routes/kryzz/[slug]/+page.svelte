@@ -114,7 +114,7 @@
 
 <dialog id="deleteDialog" popover>
 	<form method="POST" action="?/reset">
-		<p>Vill du verkligen rensa hela korsordet?</p>
+		<p>Vill du verkligen rensa hela kryzzet?</p>
 		<input type="hidden" name="crosswordId" value={crossword.crosswordId} />
 		<div class="buttons">
 			<button type="button" popovertarget="deleteDialog" popovertargetaction="hide">Avbryt</button>
@@ -159,7 +159,6 @@
 
 	.crossword-board {
 		width: 100%;
-		margin-block-end: 2rem;
 		position: relative;
 		box-shadow:
 			0 2px 2px 0 rgba(0, 0, 0, 0.14),
@@ -262,6 +261,7 @@
 
 	.hint {
 		min-height: 24px;
+		margin-block-end: 1rem;
 	}
 
 	.hint > p {

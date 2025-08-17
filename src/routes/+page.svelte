@@ -9,7 +9,7 @@
 	const { crosswords } = $derived(data);
 </script>
 
-<h2>Choose crossword</h2>
+<h2>Välj kryzz</h2>
 {#if crosswords}
 	<ul>
 		{#each crosswords as crossword (crossword.slug)}

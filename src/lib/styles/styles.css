@@ -5,3 +5,10 @@
 	font-style: normal;
 	font-weight: 400;
 }
+
+body {
+	margin: 0;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-weight: 200;
+	letter-spacing: 0.05em;
+}
