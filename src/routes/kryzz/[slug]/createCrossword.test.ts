@@ -20,8 +20,8 @@ describe('createCrossword test', () => {
 		} as WithId<CrosswordCollection>;
 		expect(createCrossword({ crossword })).toStrictEqual({
 			cells: [
-				[null, null],
-				[null, null]
+				[undefined, undefined],
+				[undefined, undefined]
 			],
 			inputWidth: 50,
 			inputHeight: 50,
@@ -89,7 +89,7 @@ describe('createCrossword test', () => {
 						number: 1,
 						text: ''
 					},
-					{ across: ['1-across'], column: 1, row: 0, number: null, text: '' },
+					{ across: ['1-across'], column: 1, row: 0, number: undefined, text: '' },
 					{
 						across: ['1-across'],
 						down: ['2-down'],
@@ -100,14 +100,14 @@ describe('createCrossword test', () => {
 					}
 				],
 				[
-					{ down: ['1-down'], column: 0, row: 1, number: null, text: '' },
+					{ down: ['1-down'], column: 0, row: 1, number: undefined, text: '' },
 					{ across: ['3-across'], column: 1, row: 1, number: 3, text: '' },
 					{
 						across: ['3-across'],
 						down: ['2-down'],
 						column: 2,
 						row: 1,
-						number: null,
+						number: undefined,
 						text: ''
 					}
 				],
@@ -117,11 +117,11 @@ describe('createCrossword test', () => {
 						arrow: 'across',
 						column: 0,
 						row: 2,
-						number: null,
+						number: undefined,
 						text: ''
 					},
-					{ down: ['1-down'], column: 1, row: 2, number: null, text: '' },
-					null
+					{ down: ['1-down'], column: 1, row: 2, number: undefined, text: '' },
+					undefined
 				]
 			],
 			inputWidth: 33.333333333333336,

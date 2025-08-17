@@ -35,34 +35,32 @@ export const createCrossword = ({ crossword, userData }: Props): CrosswordContex
 		}
 		const id = `${number}-${direction}`;
 		numbers[`${column},${row}`] = number;
-		Array(length)
-			.fill(null)
-			.forEach((_, i) => {
-				const text = (userData && userData[row][column]) ?? '';
-				fillCell({
-					cells,
-					row,
-					column,
-					index: i,
-					number,
-					id,
-					direction,
-					text,
-					hasTurn: turns
-				});
-
-				if (turns && turns.length && turns[turnIndex] - 1 === i) {
-					walkingDirection = toggleDirection(walkingDirection);
-					cells[row][column].arrow = walkingDirection;
-					turnIndex += 1;
-				}
-
-				if (walkingDirection === 'across') {
-					column += 1;
-				} else {
-					row += 1;
-				}
+		Array.from(Array(length)).forEach((_, i) => {
+			const text = (userData && userData[row][column]) ?? '';
+			fillCell({
+				cells,
+				row,
+				column,
+				index: i,
+				number,
+				id,
+				direction,
+				text,
+				hasTurn: turns
 			});
+
+			if (turns && turns.length && turns[turnIndex] - 1 === i) {
+				walkingDirection = toggleDirection(walkingDirection);
+				cells[row][column].arrow = walkingDirection;
+				turnIndex += 1;
+			}
+
+			if (walkingDirection === 'across') {
+				column += 1;
+			} else {
+				row += 1;
+			}
+		});
 
 		Object.entries(separatorLocations || {}).forEach(([separator, locations]) => {
 			if (locations && locations.length) {

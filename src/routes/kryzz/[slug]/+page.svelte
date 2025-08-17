@@ -260,12 +260,11 @@
 
 	.hint {
 		min-height: 24px;
-		margin-block-end: 1rem;
+		margin-block: 1rem;
 	}
 
 	.hint > p {
 		margin: 0;
-		margin-block-end: 0.25rem;
 		text-align: center;
 	}
 
