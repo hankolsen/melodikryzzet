@@ -43,21 +43,20 @@
 	};
 
 	let showError = $derived(isCorrect === false);
+
+	const windowClickHandler = () => {
+		isCorrect = undefined;
+		showMessage = false;
+	};
 </script>
 
-<svelte:window onkeydown={keydown} />
+<svelte:window onkeydown={keydown} onclick={windowClickHandler} />
 
 <div class="crossword">
 	<h2>{crossword?.name}</h2>
-	<div
-		class="crossword-container"
-		onclick={() => {
-			isCorrect = undefined;
-			showMessage = false;
-		}}
-	>
+	<div class="crossword-container">
 		<div class="crossword-board">
-			<svg class="crossword__grid" viewBox={`0 0 ${boardWidth} ${boardHeight}`} fill="#222222">
+			<svg class="crossword__grid" viewBox={`0 0 ${boardWidth} ${boardHeight}`}>
 				<rect
 					x="0"
 					y="0"
