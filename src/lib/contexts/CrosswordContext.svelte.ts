@@ -10,7 +10,9 @@ import {
 const KEY = Symbol('CrosswordContext');
 
 export const createCrosswordContext = (crossword: CrosswordContextType) => {
-	setContext<CrosswordContext>(KEY, new CrosswordContext(crossword));
+	const context = new CrosswordContext(crossword);
+	setContext<CrosswordContext>(KEY, context);
+	return context;
 };
 
 export const getCrosswordContext = () => {
@@ -33,6 +35,7 @@ class CrosswordContext {
 	numberOfColumns: number = $state(0);
 	numberOfRows: number = $state(0);
 	separators?: SeparatorType[] = $state([]);
+	isFull = $derived(this.cells.every((row) => row.every((cell) => (cell ? cell.text : true))));
 
 	position: { left: number; top: number } = $derived.by(() => {
 		const { row = 0, column = 0 } = this.currentCell;

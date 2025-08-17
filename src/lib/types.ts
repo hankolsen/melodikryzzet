@@ -16,6 +16,7 @@ export type CrosswordCollection = {
 	};
 	entries: Entry[];
 	slug: string;
+	answer?: string[][];
 };
 
 ////////////////////////

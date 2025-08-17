@@ -1,10 +1,14 @@
 <script lang="ts">
 	import Cell from '$lib/components/cells/Cell.svelte';
+	import { Confetti } from 'svelte-confetti';
+	import '@oddbird/popover-polyfill';
 
 	import type { PageData } from './$types';
 	import Separators from '$lib/components/cells/Separators.svelte';
 	import CellInput from '$lib/components/cells/CellInput.svelte';
 	import { createCrosswordContext } from '$lib/contexts/CrosswordContext.svelte';
+	import { enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	type Props = {
 		data: PageData;
@@ -13,8 +17,10 @@
 	let { data }: Props = $props();
 
 	const crossword = $state(data.crossword);
+	let isCorrect: boolean | undefined = $state();
+	let showMessage = $state(false);
 
-	createCrosswordContext(crossword);
+	const crosswordContext = createCrosswordContext(crossword);
 
 	const { boardHeight, boardWidth, cells, separators } = $derived(crossword);
 
@@ -23,13 +29,33 @@
 			return;
 		}
 	};
+
+	const onCheckSolve: SubmitFunction = () => {
+		if (!crosswordContext.isFull) {
+			showMessage = true;
+			return;
+		}
+		return ({ result }) => {
+			if (result.type === 'success') {
+				isCorrect = result?.data?.correct;
+			}
+		};
+	};
+
+	let showError = $derived(isCorrect === false);
 </script>
 
 <svelte:window onkeydown={keydown} />
 
 <div class="crossword">
 	<h2>{crossword?.name}</h2>
-	<div class="crossword-container">
+	<div
+		class="crossword-container"
+		onclick={() => {
+			isCorrect = undefined;
+			showMessage = false;
+		}}
+	>
 		<div class="crossword-board">
 			<svg class="crossword__grid" viewBox={`0 0 ${boardWidth} ${boardHeight}`} fill="#222222">
 				<rect
@@ -58,13 +84,37 @@
 			</svg>
 			<CellInput />
 		</div>
+		<div class="hint">
+			{#if showError}
+				<p class="error">Nope, inte riktigt rätt än</p>
+			{/if}
+			{#if showMessage}
+				<p class="message">Du måste fylla i hela kryzzet först</p>
+			{/if}
+		</div>
+		<div class="form-buttons">
+			<form method="POST" action="?/submit" use:enhance={onCheckSolve} style="position: relative;">
+				<input type="hidden" name="crosswordId" value={crossword.crosswordId} />
+				<button>Rätta</button>
+				{#if isCorrect}
+					<div class="confetti">
+						<Confetti infinite y={[1, 2]} x={[-1, 1]} amount={100} cone />
+					</div>
+				{/if}
+			</form>
+			<button
+				class="danger-button"
+				type="button"
+				popovertarget="deleteDialog"
+				popovertargetaction="show">Rensa</button
+			>
+		</div>
 	</div>
-	<button type="button" popovertarget="deleteDialog" popovertargetaction="show">Reset</button>
 </div>
 
 <dialog id="deleteDialog" popover>
-	<p>Vill du verkligen rensa hela korsordet?</p>
 	<form method="POST" action="?/reset">
+		<p>Vill du verkligen rensa hela korsordet?</p>
 		<input type="hidden" name="crosswordId" value={crossword.crosswordId} />
 		<div class="buttons">
 			<button type="button" popovertarget="deleteDialog" popovertargetaction="hide">Avbryt</button>
@@ -102,6 +152,7 @@
 	.crossword-container {
 		display: flex;
 		justify-content: center;
+		flex-direction: column;
 		position: relative;
 		width: 100%;
 	}
@@ -168,7 +219,7 @@
 		}
 	}
 
-	.buttons {
+	#deleteDialog .buttons {
 		display: flex;
 		justify-content: flex-end;
 		gap: 1rem;
@@ -193,6 +244,33 @@
 	}
 
 	button.danger-button {
+		color: red;
+	}
+
+	.confetti {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		pointer-events: none;
+	}
+
+	.form-buttons {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.hint {
+		min-height: 24px;
+	}
+
+	.hint > p {
+		margin: 0;
+		margin-block-end: 0.25rem;
+		text-align: center;
+	}
+
+	.error {
 		color: red;
 	}
 </style>

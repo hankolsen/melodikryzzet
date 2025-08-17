@@ -2,6 +2,7 @@ import type { PageServerLoad } from './$types';
 import { collections } from '$lib/server/mongo/database.service';
 import { createCrossword } from './createCrossword';
 import { type Actions, error } from '@sveltejs/kit';
+import { ObjectId } from 'mongodb';
 
 export const load = (async ({ params, cookies }) => {
 	const slug = params.slug;
@@ -24,5 +25,30 @@ export const actions = {
 			return;
 		}
 		cookies.delete(`kryzz-${crowsswordId}`, { path: '/' });
+	},
+	submit: async ({ cookies, request }) => {
+		const formData = await request.formData();
+		const crosswordId = formData.get('crosswordId');
+		if (!crosswordId) {
+			return;
+		}
+		const cookieContent = cookies.get(`kryzz-${crosswordId}`);
+		if (!cookieContent) {
+			return;
+		}
+		const data = await collections.crosswords?.findOne({
+			_id: new ObjectId(crosswordId.toString())
+		});
+
+		if (!data || !data.answer) {
+			error(404);
+		}
+
+		const answer = data.answer;
+		const entry: string[][] = JSON.parse(cookieContent);
+		const correct = entry.every((row, y) =>
+			row.every((cell, x) => (cell ? answer[y][x] === cell : true))
+		);
+		return { correct };
 	}
 } satisfies Actions;
