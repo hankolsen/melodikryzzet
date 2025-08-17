@@ -12,3 +12,17 @@ body {
 	font-weight: 200;
 	letter-spacing: 0.05em;
 }
+
+h2 {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-weight: 200;
+	letter-spacing: 0.1em;
+	color: #222;
+	font-size: 1.5rem;
+}
+
+@media (min-width: 46.25rem) {
+	h2 {
+		font-size: 2rem;
+	}
+}

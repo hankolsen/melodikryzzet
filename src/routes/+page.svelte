@@ -20,18 +20,8 @@
 
 <style>
 	h2 {
-		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-		color: #222;
-
 		text-align: center;
-		font-weight: 200;
 		letter-spacing: 0.05em;
-	}
-
-	@media (min-width: 46.25rem) {
-		h2 {
-			font-size: 2rem;
-		}
 	}
 
 	ul {
