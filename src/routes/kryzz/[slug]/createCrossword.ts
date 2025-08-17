@@ -1,33 +1,25 @@
 import { CELL_HEIGHT, CELL_WIDTH } from '$lib/constants';
 import {
 	type CellType,
+	type CrosswordCollection,
 	type CrosswordContextType,
-	type CrosswordResponse,
 	type SeparatorType
 } from '$lib/types';
 import { createEmptyCells } from './createEmptyCells';
 import { fillCell } from './fillCell';
 import { toggleDirection } from './toggleDirection';
-import type { Cookies } from '@sveltejs/kit';
+import type { WithId } from 'mongodb';
 
 type Props = {
-	crossword: CrosswordResponse['crossword'];
-	crosswordId: string;
-	cookies: Cookies;
+	crossword: WithId<CrosswordCollection>; // CrosswordResponse['crossword'];
+	userData?: string[][] | undefined;
 };
 
-export const createCrossword = ({
-	crossword,
-	crosswordId,
-	cookies
-}: Props): CrosswordContextType => {
+export const createCrossword = ({ crossword, userData }: Props): CrosswordContextType => {
 	const { width: numberOfColumns, height: numberOfRows } = crossword.size;
 	const separators: SeparatorType[] = [];
 
 	const cells = createEmptyCells(numberOfRows, numberOfColumns);
-
-	const cookieContent = cookies.get(`kryzz-${crosswordId}`);
-	const userData = cookieContent ? JSON.parse(cookieContent) : undefined;
 
 	crossword.entries.sort((a, b) => a.position.y - b.position.y || a.position.x - b.position.x);
 
@@ -93,7 +85,7 @@ export const createCrossword = ({
 	const { name } = crossword;
 
 	return {
-		crosswordId,
+		crosswordId: crossword._id.toString(),
 		name,
 		cells,
 		separators,

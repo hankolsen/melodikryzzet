@@ -1,10 +1,7 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createCrossword } from './createCrossword';
-import { type CrosswordResponse, Direction, type Entry } from '$lib/types';
-import { vi } from 'vitest';
-import type { Cookies } from '@sveltejs/kit';
-
-const cookies = vi.fn() as unknown as Cookies;
+import { type CrosswordCollection, Direction, type Entry } from '$lib/types';
+import { ObjectId, type WithId } from 'mongodb';
 
 describe('createCrossword test', () => {
 	afterEach(() => {
@@ -12,15 +9,16 @@ describe('createCrossword test', () => {
 	});
 
 	it('should create an empty crossword', () => {
-		const crossword: CrosswordResponse['crossword'] = {
+		const crosswordId = new ObjectId();
+		const crossword = {
 			size: {
 				width: 2,
 				height: 2
 			},
-			entries: [] as Entry[]
-		} as CrosswordResponse['crossword'];
-		const crosswordId = 'abc-123';
-		expect(createCrossword({ crossword, crosswordId, cookies })).toStrictEqual({
+			entries: [] as Entry[],
+			_id: crosswordId
+		} as WithId<CrosswordCollection>;
+		expect(createCrossword({ crossword })).toStrictEqual({
 			cells: [
 				[null, null],
 				[null, null]
@@ -30,7 +28,7 @@ describe('createCrossword test', () => {
 			numberOfColumns: 2,
 			numberOfRows: 2,
 			separators: [],
-			crosswordId,
+			crosswordId: crosswordId.toString(),
 			currentCell: {
 				column: 0,
 				row: 0
@@ -43,7 +41,9 @@ describe('createCrossword test', () => {
 	});
 
 	it('should create a crossword', () => {
-		const crossword: CrosswordResponse['crossword'] = {
+		const crosswordId = new ObjectId();
+		const crossword = {
+			_id: crosswordId,
 			size: {
 				width: 3,
 				height: 3
@@ -77,9 +77,8 @@ describe('createCrossword test', () => {
 					separatorLocations: { ',': [1] }
 				}
 			]
-		} as CrosswordResponse['crossword'];
-		const crosswordId = 'abc-123';
-		expect(createCrossword({ crossword, crosswordId, cookies })).toStrictEqual({
+		} as WithId<CrosswordCollection>;
+		expect(createCrossword({ crossword })).toStrictEqual({
 			cells: [
 				[
 					{
@@ -143,7 +142,7 @@ describe('createCrossword test', () => {
 				row: 0
 			},
 			showInput: false,
-			crosswordId,
+			crosswordId: crosswordId.toString(),
 			name: 'Kryzzet',
 			boardWidth: 97,
 			boardHeight: 97

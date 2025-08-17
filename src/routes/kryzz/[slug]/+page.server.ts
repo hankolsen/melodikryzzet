@@ -13,7 +13,10 @@ export const load = (async ({ params, cookies }) => {
 		error(404);
 	}
 
-	const crossword = createCrossword({ crossword: data, crosswordId: data._id.toString(), cookies });
+	const cookieContent = cookies.get(`kryzz-${data._id}`);
+	const userData: string[][] | undefined = cookieContent ? JSON.parse(cookieContent) : undefined;
+
+	const crossword = createCrossword({ crossword: data, userData });
 	return { crossword };
 }) satisfies PageServerLoad;
 
