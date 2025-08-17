@@ -13,7 +13,7 @@
 {#if crosswords}
 	<ul>
 		{#each crosswords as crossword (crossword.slug)}
-			<li><a href="/crossword/{crossword.slug}">{crossword.name}</a></li>
+			<li><a href="/kryzz/{crossword.slug}">{crossword.name}</a></li>
 		{/each}
 	</ul>
 {/if}
