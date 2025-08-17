@@ -1,14 +1,12 @@
 <script lang="ts">
-	import Cell from '$lib/components/cells/Cell.svelte';
 	import { Confetti } from 'svelte-confetti';
 	import '@oddbird/popover-polyfill';
 
 	import type { PageData } from './$types';
-	import Separators from '$lib/components/cells/Separators.svelte';
-	import CellInput from '$lib/components/cells/CellInput.svelte';
 	import { createCrosswordContext } from '$lib/contexts/CrosswordContext.svelte';
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import CrosswordBoard from '$lib/components/crossword/CrosswordBoard.svelte';
 
 	type Props = {
 		data: PageData;
@@ -21,8 +19,6 @@
 	let showMessage = $state(false);
 
 	const crosswordContext = createCrosswordContext(crossword);
-
-	const { boardHeight, boardWidth, cells, separators } = $derived(crossword);
 
 	const keydown = (event: KeyboardEvent) => {
 		if (event.metaKey || event.key === 'Shift') {
@@ -55,34 +51,7 @@
 <div class="crossword">
 	<h2>{crossword?.name}</h2>
 	<div class="crossword-container">
-		<div class="crossword-board">
-			<svg class="crossword__grid" viewBox={`0 0 ${boardWidth} ${boardHeight}`}>
-				<rect
-					x="0"
-					y="0"
-					width={boardWidth}
-					height={boardHeight}
-					class="crossword__grid-background"
-				/>
-				{#each cells as row, y (y)}
-					{#each row as cell, x (x)}
-						{#if cell}
-							<Cell
-								row={y}
-								column={x}
-								number={cell.number}
-								letter={cell.text}
-								highlighted={cell.highlighted}
-								selected={cell.selected}
-								arrow={cell.arrow}
-							/>
-						{/if}
-					{/each}
-				{/each}
-				<Separators {separators} />
-			</svg>
-			<CellInput />
-		</div>
+		<CrosswordBoard />
 		<div class="hint">
 			{#if showError}
 				<p class="error">Nope, inte riktigt rätt än</p>
@@ -156,24 +125,10 @@
 		width: 100%;
 	}
 
-	.crossword-board {
-		width: 100%;
-		position: relative;
-		box-shadow:
-			0 2px 2px 0 rgba(0, 0, 0, 0.14),
-			0 3px 1px -2px rgba(0, 0, 0, 0.12),
-			0 1px 5px 0 rgba(0, 0, 0, 0.2);
-	}
-
 	@media (min-width: 46.25em) {
-		.crossword-board,
 		.crossword-container {
 			width: 30.0625rem;
 		}
-	}
-
-	.crossword__grid {
-		display: block;
 	}
 
 	dialog p {
