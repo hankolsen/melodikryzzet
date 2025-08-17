@@ -2,7 +2,7 @@ import { type Collection, type Db, MongoClient } from 'mongodb';
 import { env } from '$env/dynamic/private';
 import type { CrosswordCollection } from '$lib/types';
 
-const { DB_USERNAME, DB_PASSWORD, DB_NAME, CROSSWORD_COLLECTION_NAME } = env;
+const { DB_USERNAME, DB_PASSWORD, DB_NAME, CROSSWORD_COLLECTION_NAME = '' } = env;
 
 const uri = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@melodikryzzcluster.gmnfi.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=MelodikryzzCluster`;
 
