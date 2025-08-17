@@ -20,5 +20,7 @@
 		font-family: 'Indie Flower', cursive;
 		font-size: 1.5rem;
 		-webkit-font-smoothing: subpixel-antialiased;
+		font-weight: 700;
+		color: #222;
 	}
 </style>
