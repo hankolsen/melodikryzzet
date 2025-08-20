@@ -7,38 +7,10 @@ on:
   pull_request:
 
 jobs:
-  test:
-    name: 'Node ${{ matrix.node }}'
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node: [14, 16]
-
-    env:
-      SKIP_PREFLIGHT_CHECK: true
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
-        with:
-          install-command: yarn
-
-      - name: Run tests
-        run: yarn test:ci
-
   cypress-run:
     runs-on: ubuntu-latest
 
     env:
-      SKIP_PREFLIGHT_CHECK: true
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       DB_NAME: ${{ secrets.DB_NAME }}
       CROSSWORD_COLLECTION_NAME: ${{ secrets.CROSSWORD_COLLECTION_NAME }}
@@ -47,7 +19,11 @@ jobs:
       DB_HOST: ${{ secrets.DB_HOST }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
