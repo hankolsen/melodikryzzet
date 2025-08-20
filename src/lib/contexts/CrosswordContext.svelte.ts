@@ -2,7 +2,6 @@ import { getContext, setContext } from 'svelte';
 import {
 	type CellType,
 	type CrosswordContextType,
-	type CrosswordType,
 	Direction,
 	type SeparatorType
 } from '$lib/types';
@@ -20,7 +19,6 @@ export const getCrosswordContext = () => {
 };
 
 class CrosswordContext {
-	crossword?: CrosswordType = $state(undefined);
 	showInput: boolean = $state(false);
 	currentCell: CellType = $state({ row: 0, column: 0 } as CellType);
 	selection: string = $state('');
