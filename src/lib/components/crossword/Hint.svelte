@@ -3,6 +3,8 @@
 	import { enhance } from '$app/forms';
 	import { getCrosswordContext } from '$lib/contexts/CrosswordContext.svelte';
 	import Confetti from 'svelte-confetti';
+	import { isPolyfilled } from '@oddbird/popover-polyfill/fn';
+	import { browser } from '$app/environment';
 
 	const crosswordContext = getCrosswordContext();
 	let showMessage = $state(false);
@@ -61,9 +63,13 @@
 		<input type="hidden" name="crosswordId" value={crosswordContext.crosswordId} />
 		<div class="buttons">
 			<button type="button" popovertarget="deleteDialog" popovertargetaction="hide">Avbryt</button>
-			<button class="danger-button" popovertarget="deleteDialog" popovertargetaction="hide"
-				>Rensa</button
-			>
+			{#if browser && isPolyfilled()}
+				<button class="danger-button">Rensa</button>
+			{:else}
+				<button class="danger-button" popovertarget="deleteDialog" popovertargetaction="hide"
+					>Rensa</button
+				>
+			{/if}
 		</div>
 	</form>
 </dialog>
