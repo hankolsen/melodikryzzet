@@ -11,19 +11,28 @@
 	const lineLength = 7;
 	const strokeWidth = 1;
 
-	const vx1 = column * (CELL_WIDTH + 1) + 5;
-	const vx2 = vx1;
-	const vy1 = (row + 1) * (CELL_WIDTH + 1) - 10;
-	const vy2 = vy1 + lineLength;
+	const verticalCoords = $derived.by(() => {
+		const x1 = column * (CELL_WIDTH + 1) + 5;
+		const x2 = x1;
+		const y1 = (row + 1) * (CELL_WIDTH + 1) - 10;
+		const y2 = y1 + lineLength;
+		return { x1, y1, x2, y2 };
+	});
 
-	const hx1 = vx1;
-	const hx2 = hx1 + lineLength;
-	const hy1 = vy2;
-	const hy2 = hy1;
+	const horizontalCoords = $derived.by(() => {
+		const x1 = verticalCoords.x1;
+		const x2 = x1 + lineLength;
+		const y1 = verticalCoords.y2;
+		const y2 = y1;
+		return { x1, y1, x2, y2 };
+	});
 </script>
 
 <g>
-	<line x1={vx1} y1={vy1} x2={vx2} y2={vy2} stroke-width={strokeWidth} stroke="black" />
-	<line x1={hx1} y1={hy1} x2={hx2} y2={hy2} stroke-width={strokeWidth} stroke="black" />
-	<path d={`M${hx2},${hy2 - 2} L${hx2},${hy2 + 2} L${hx2 + 5},${hy2} z`} fill="#000" />
+	<line {...verticalCoords} stroke-width={strokeWidth} stroke="black" />
+	<line {...horizontalCoords} stroke-width={strokeWidth} stroke="black" />
+	<path
+		d={`M${horizontalCoords.x2},${horizontalCoords.y2 - 2} L${horizontalCoords.x2},${horizontalCoords.y2 + 2} L${horizontalCoords.x2 + 5},${horizontalCoords.y2} z`}
+		fill="#000"
+	/>
 </g>

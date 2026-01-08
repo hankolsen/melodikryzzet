@@ -8,8 +8,8 @@ import {
 
 const KEY = Symbol('CrosswordContext');
 
-export const createCrosswordContext = (crossword: CrosswordContextType) => {
-	const context = new CrosswordContext(crossword);
+export const createCrosswordContext = (getCrossword: () => CrosswordContextType) => {
+	const context = new CrosswordContext(getCrossword());
 	setContext<CrosswordContext>(KEY, context);
 	return context;
 };

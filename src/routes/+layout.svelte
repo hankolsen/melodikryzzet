@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import favicon from '$lib/assets/favicon.svg';
 	import '$lib/styles/styles.css';
 
@@ -19,7 +20,7 @@
 </svelte:head>
 
 <header>
-	<h1><a href="/">Melodi<span>kryzzet</span></a></h1>
+	<h1><a href={resolve('/')}>Melodi<span>kryzzet</span></a></h1>
 </header>
 
 <div class="content">

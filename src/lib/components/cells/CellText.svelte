@@ -9,8 +9,9 @@
 
 	const { column, row, text }: Props = $props();
 
-	const x = CELL_WIDTH / 2 + column * (CELL_WIDTH + 1);
-	const y = row * (CELL_HEIGHT + 1) + 25; // Magic number to align the text vertically...
+	const x = $derived(CELL_WIDTH / 2 + column * (CELL_WIDTH + 1));
+	// 25 is just a Magic Number™ to align the text vertically...
+	const y = $derived(row * (CELL_HEIGHT + 1) + 25);
 </script>
 
 <text {x} {y} class="crossword__cell-text" text-anchor="middle">{text} </text>
