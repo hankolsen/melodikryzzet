@@ -84,6 +84,7 @@ export const createCrossword = ({ crossword, userData }: Props): CrosswordContex
 
 	return {
 		crosswordId: crossword._id.toString(),
+		hasAnswer: !!crossword.answer,
 		name,
 		cells,
 		separators,
