@@ -50,7 +50,7 @@
 		"playwright": "^1.57.0",
 		"prettier": "^3.7.4",
 		"prettier-plugin-svelte": "^3.4.1",
-		"storybook": "^9.1.0",
+		"storybook": "^9.1.17",
 		"svelte": "^5.46.1",
 		"svelte-check": "^4.3.5",
 		"svelte-confetti": "^2.3.2",
