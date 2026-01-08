@@ -12,7 +12,7 @@
 
 	let { data }: Props = $props();
 
-	const crosswordContext = createCrosswordContext(data.crossword);
+	const crosswordContext = createCrosswordContext(() => data.crossword);
 
 	const keydown = (event: KeyboardEvent) => {
 		if (event.metaKey || event.key === 'Shift') {

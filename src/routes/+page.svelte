@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { resolve } from '$app/paths';
 
 	type Props = {
 		data: PageData;
@@ -13,7 +14,7 @@
 {#if crosswords}
 	<ul>
 		{#each crosswords as crossword (crossword.slug)}
-			<li><a href="/kryzz/{crossword.slug}">{crossword.name}</a></li>
+			<li><a href={resolve(`/kryzz/${crossword.slug}`)}>{crossword.name}</a></li>
 		{/each}
 	</ul>
 {/if}

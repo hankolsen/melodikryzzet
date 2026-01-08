@@ -9,24 +9,30 @@
 	};
 
 	const { position, location, direction }: Props = $props();
-	let [x1, x2, y1, y2] = $state([0, 0, CELL_WIDTH / 2, CELL_WIDTH / 2]);
+
 	const lineLength = 11;
 	const strokeWidth = 4;
-	if (direction === 'across') {
-		const getX2 = () => x1 + lineLength;
-		const getY2 = () => y1;
-		x1 = (position.x + location) * (CELL_WIDTH + 1) - lineLength / 2;
-		x2 = getX2();
-		y1 += position.y * (CELL_WIDTH + 1);
-		y2 = getY2();
-	} else {
-		const getX2 = () => x1;
-		const getY2 = () => y1 + lineLength;
-		x1 = position.x * (CELL_WIDTH + 1) + CELL_WIDTH / 2 + 1;
-		x2 = getX2();
-		y1 = (position.y + location) * (CELL_WIDTH + 1) - lineLength / 2 + 1;
-		y2 = getY2();
-	}
+
+	const coords = $derived.by(() => {
+		let x1: number;
+		let x2: number;
+		let y1: number;
+		let y2: number;
+
+		if (direction === 'across') {
+			x1 = (position.x + location) * (CELL_WIDTH + 1) - lineLength / 2;
+			x2 = x1 + lineLength;
+			y1 = CELL_WIDTH / 2 + position.y * (CELL_WIDTH + 1);
+			y2 = y1;
+		} else {
+			x1 = position.x * (CELL_WIDTH + 1) + CELL_WIDTH / 2 + 1;
+			x2 = x1;
+			y1 = (position.y + location) * (CELL_WIDTH + 1) - lineLength / 2 + 1;
+			y2 = y1 + lineLength;
+		}
+
+		return { x1, x2, y1, y2 };
+	});
 </script>
 
-<line {x1} {y1} {x2} {y2} stroke-width={strokeWidth} stroke="black" />
+<line {...coords} stroke-width={strokeWidth} stroke="black" />
