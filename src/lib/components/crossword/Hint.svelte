@@ -10,6 +10,7 @@
 	let showMessage = $state(false);
 	let isCorrect: boolean | undefined = $state();
 	let showError = $derived(isCorrect === false);
+	let isMissing = $derived(false);
 
 	const onCheckSolve: SubmitFunction = () => {
 		if (!crosswordContext.isFull) {
@@ -17,6 +18,10 @@
 			return;
 		}
 		return ({ result }) => {
+			if (result.type === 'failure') {
+				isMissing = true;
+			}
+
 			if (result.type === 'success') {
 				isCorrect = result?.data?.correct;
 			}
@@ -26,6 +31,7 @@
 	const windowClickHandler = () => {
 		isCorrect = undefined;
 		showMessage = false;
+		isMissing = false;
 	};
 </script>
 
@@ -38,17 +44,24 @@
 	{#if showMessage}
 		<p class="message">Du måste fylla i hela kryzzet först</p>
 	{/if}
+	{#if isMissing}
+		<p class="message">Facit saknas för detta kryzz</p>
+	{/if}
 </div>
 <div class="form-buttons">
-	<form method="POST" action="?/submit" use:enhance={onCheckSolve} style="position: relative;">
-		<input type="hidden" name="crosswordId" value={crosswordContext.crosswordId} />
-		<button>Rätta</button>
-		{#if isCorrect}
-			<div class="confetti">
-				<Confetti infinite y={[1, 2]} x={[-1, 1]} amount={100} cone />
-			</div>
-		{/if}
-	</form>
+	{#if crosswordContext.hasAnswer}
+		<form method="POST" action="?/submit" use:enhance={onCheckSolve} style="position: relative;">
+			<input type="hidden" name="crosswordId" value={crosswordContext.crosswordId} />
+			<button>Rätta</button>
+			{#if isCorrect}
+				<div class="confetti">
+					<Confetti infinite y={[1, 2]} x={[-1, 1]} amount={100} cone />
+				</div>
+			{/if}
+		</form>
+	{:else}
+		&nbsp;
+	{/if}
 	<button
 		class="danger-button"
 		type="button"

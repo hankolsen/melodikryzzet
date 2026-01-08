@@ -23,6 +23,7 @@ describe('createCrossword test', () => {
 				[undefined, undefined],
 				[undefined, undefined]
 			],
+			hasAnswer: false,
 			inputWidth: 50,
 			inputHeight: 50,
 			numberOfColumns: 2,
@@ -124,6 +125,7 @@ describe('createCrossword test', () => {
 					undefined
 				]
 			],
+			hasAnswer: false,
 			inputWidth: 33.333333333333336,
 			inputHeight: 33.333333333333336,
 			numberOfColumns: 3,

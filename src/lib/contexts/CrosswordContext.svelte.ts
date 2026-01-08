@@ -27,6 +27,7 @@ class CrosswordContext {
 	boardHeight: number = $state(0);
 	cells: CellType[][] = $state([]);
 	crosswordId: string = $state('');
+	hasAnswer: boolean = $state(false);
 	inputWidth: number = $state(0);
 	inputHeight: number = $state(0);
 	name: string = $state('');
@@ -45,6 +46,7 @@ class CrosswordContext {
 	constructor(crossword: CrosswordContextType) {
 		const {
 			cells,
+			hasAnswer,
 			numberOfColumns,
 			numberOfRows,
 			boardWidth = 0,
@@ -61,6 +63,7 @@ class CrosswordContext {
 		this.numberOfRows = numberOfRows ?? 0;
 		this.boardWidth = boardWidth;
 		this.boardHeight = boardHeight;
+		this.hasAnswer = hasAnswer;
 		this.inputWidth = inputWidth;
 		this.inputHeight = inputHeight;
 		this.name = name ?? '';

@@ -83,6 +83,7 @@ export type CrosswordContextType = {
 	cells: CellType[][];
 	crosswordId: string;
 	currentCell: CellType;
+	hasAnswer: boolean;
 	inputWidth: number;
 	inputHeight: number;
 	name?: string;

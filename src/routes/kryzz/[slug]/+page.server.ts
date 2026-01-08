@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { collections } from '$lib/server/mongo/database.service';
 import { createCrossword } from './createCrossword';
-import { type Actions, error } from '@sveltejs/kit';
+import { type Actions, error, fail } from '@sveltejs/kit';
 import { ObjectId } from 'mongodb';
 
 export const load = (async ({ params, cookies }) => {
@@ -44,7 +44,7 @@ export const actions = {
 		});
 
 		if (!data || !data.answer) {
-			error(404);
+			return fail(404);
 		}
 
 		const answer = data.answer;
