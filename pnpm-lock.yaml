@@ -12,14 +12,14 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       drizzle-orm:
-        specifier: ^0.40.0
+        specifier: ^0.40.1
         version: 0.40.1(@libsql/client@0.14.0)(gel@2.1.1)
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^4.1.3
         version: 4.1.3(storybook@9.1.17(@testing-library/dom@10.4.1)(prettier@3.7.4)(vite@7.3.1(@types/node@22.17.0)))
       '@eslint/compat':
-        specifier: ^1.2.5
+        specifier: ^1.3.1
         version: 1.3.1(eslint@9.39.2)
       '@eslint/js':
         specifier: ^9.39.2
@@ -58,13 +58,13 @@ importers:
         specifier: ^3.0.6
         version: 3.0.6
       '@types/node':
-        specifier: ^22
+        specifier: ^22.17.0
         version: 22.17.0
       '@vitest/browser':
-        specifier: ^3.2.3
+        specifier: ^3.2.4
         version: 3.2.4(playwright@1.57.0)(vite@7.3.1(@types/node@22.17.0))(vitest@3.2.4)
       drizzle-kit:
-        specifier: ^0.30.2
+        specifier: ^0.30.6
         version: 0.30.6
       eslint:
         specifier: ^9.39.2
@@ -79,7 +79,7 @@ importers:
         specifier: ^3.14.0
         version: 3.14.0(eslint@9.39.2)(svelte@5.46.4)
       globals:
-        specifier: ^16.0.0
+        specifier: ^16.3.0
         version: 16.3.0
       js-cookie:
         specifier: ^3.0.5
@@ -118,7 +118,7 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@22.17.0)
       vitest:
-        specifier: ^3.2.3
+        specifier: ^3.2.4
         version: 3.2.4(@types/node@22.17.0)(@vitest/browser@3.2.4)
       vitest-browser-svelte:
         specifier: ^0.1.0
@@ -1731,8 +1731,8 @@ packages:
     resolution: {integrity: sha512-UX6sGumvvqSaXgdKGUsgZWqcUyIXZ/vZTrlRT/iobiKhGL0zL4d3osHj3uqllWJK+i+sixDS/3COVEOFbupFyw==}
     engines: {node: '>=8'}
 
-  devalue@5.6.2:
-    resolution: {integrity: sha512-nPRkjWzzDQlsejL1WVifk5rvcFi/y1onBRxjaFMjZeR9mFpqu2gmAZ9xUB9/IEanEP/vBtGeGganC/GO1fmufg==}
+  devalue@5.8.1:
+    resolution: {integrity: sha512-4CXDYRBGqN+57wVJkuXBYmpAVUSg3L6JAQa/DFqm238G73E1wuyc/JhGQJzN7vUf/CMphYau2zXbfWzDR5aTEw==}
 
   dom-accessibility-api@0.5.16:
     resolution: {integrity: sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg==}
@@ -3641,7 +3641,7 @@ snapshots:
       '@types/cookie': 0.6.0
       acorn: 8.15.0
       cookie: 0.6.0
-      devalue: 5.6.2
+      devalue: 5.8.1
       esm-env: 1.2.2
       kleur: 4.1.5
       magic-string: 0.30.21
@@ -4093,7 +4093,7 @@ snapshots:
 
   detect-libc@2.0.2: {}
 
-  devalue@5.6.2: {}
+  devalue@5.8.1: {}
 
   dom-accessibility-api@0.5.16: {}
 
@@ -4972,7 +4972,7 @@ snapshots:
       aria-query: 5.3.2
       axobject-query: 4.1.0
       clsx: 2.1.1
-      devalue: 5.6.2
+      devalue: 5.8.1
       esm-env: 1.2.2
       esrap: 2.2.1
       is-reference: 3.0.3
